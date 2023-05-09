@@ -18,10 +18,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "noImplicitAny": false,
+    "incremental": true
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

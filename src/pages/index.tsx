@@ -1,0 +1,1 @@
+export { DappList as default } from "../features/dapp/presentation";

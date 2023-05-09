@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import {api} from "../api/api";
+import { api } from "../api/api";
 
-import {dAppDataSource} from "../features/dapp/dapp_api";
-import {analyticsDataSource} from "../features/analytics/analytics_api";
-import {searchDataSource} from '../features/search';
+import { dAppDataSource } from "../features/dapp/dapp_api";
+import { analyticsDataSource } from "../features/analytics/analytics_api";
+import { searchDataSource } from '../features/search';
 
 dAppDataSource.registerEndpoints(api);
 analyticsDataSource.registerEndpoints(api);
@@ -14,7 +14,7 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer
   },
   middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
