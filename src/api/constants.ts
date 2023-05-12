@@ -1,7 +1,7 @@
 export const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
 export const API_PATH = process.env.NEXT_PUBLIC_API_PATH;
 export const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION;
-
+export const WC_PROJECT_ID = process.env.WC_PROJECT_ID;
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 // export const BASE_URL = `${API_HOST}/${API_PATH}/${API_VERSION}`;
