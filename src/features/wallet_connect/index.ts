@@ -3,7 +3,6 @@ import { FallbackTransport, recoverAddress } from "viem";
 import { Chain, Config, PublicClient, WebSocketPublicClient, configureChains, createConfig } from "wagmi";
 import { QueryClient } from '@tanstack/react-query';
 import { getWalletClient } from '@wagmi/core'
-import { ethers, Transaction } from 'ethers';
 
 
 export interface IWeb3ConnectConfig {

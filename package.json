@@ -16,7 +16,6 @@
     "@web3modal/ethereum": "^2.4.1",
     "@web3modal/react": "^2.4.1",
     "eth-sig-util": "^3.0.1",
-    "ethers": "^6.3.0",
     "next": "^13.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
