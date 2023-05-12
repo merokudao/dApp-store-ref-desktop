@@ -20,11 +20,17 @@
     "noEmit": true,
     "jsx": "preserve",
     "noImplicitAny": false,
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "src",
-    "global.d.ts"
+    "global.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
