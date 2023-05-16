@@ -24,7 +24,7 @@ function SocialButton(props) {
 function DappDetailSection(props) {
     return (
         <section className="my-6">
-            {props.title && <p className="text-[24px] leading-[32px] font-[500] mb-4">{props.title}</p>}
+            {props.title && <h1 className="text-[24px] leading-[32px] font-[500] mb-4">{props.title}</h1>}
             {props.children}
         </section>
     )

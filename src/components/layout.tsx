@@ -9,7 +9,7 @@ function NavBar(props) {
     return (
         <div className="fixed w-full flex justify-between items-center border-b border-b-[#141217] bg-canvas-color z-20 py-4 px-10">
             {/*Leading Element */}
-            <div className="flex-initial w-2/12">
+            <div className="flex-auto w-2/12">
                 <NavItem href="/" className="pr-[20px]">
                     <Image width={100} height={100} src={App.logo} alt={`${App.name} Logo`} />
                 </NavItem>
@@ -20,7 +20,7 @@ function NavBar(props) {
             {/*        {App.menu.map((e) => <NavItem href={e.href}>{e.title}</NavItem>)}*/}
             {/*</nav>*/}
         {/*  Trailing/Actions  */}
-            <div className="flex-initial w-3/12 text-right">
+            <div className="flex-auto w-3/12 text-right">
                 <Button>Connect Wallet</Button>
             </div>
         </div>
@@ -106,11 +106,36 @@ function Input(props) {
     )
 }
 
+function Hero(props) {
+    const {title, subtitle, button} = props;
+    return (
+        <>
+            <div className="relative">
+            <div className="bg-[url('/hero.png')] bg-no-repeat bg-cover">
+            <div className="flex flex-row h-[80vh] justify-center md:justify-start items-center text-center md:text-left container z-10">
+                    <div className="flex-initial md:w-1/2">
+                        <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
+                        <p  className="w-full md:w-[70%] text-[16px] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
+                        <Button>{button.text}</Button>
+                    </div>
+                </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-transparent z-0 pointer-events-none"/>
+            </div>
+        </>
+    )
+}
+
 export default function Layout(props) {
     return (
         <>
         <NavBar />
             <main className="relative top-[70px]">
+                <Hero
+                    title="There are more dApps built #OnPolygon than ever before"
+                    subtitle="The dApps in our ecosystem set the standard for privacy,security and content quality."
+                    button={{text: 'Submit Your dApp'}}
+                />
                 <article className="container">
                     <header className="flex justify-between items-center py-8 border-b border-b-border-color flex-wrap md:flex-nowrap gap-4">
                         <div className="flex-initial w-full md:w-10/12">
@@ -120,6 +145,7 @@ export default function Layout(props) {
                             <Input />
                         </div>
                     </header>
+
                     <div className="flex">
                         <aside className="hidden md:flex md:flex-initial w-3/12 border-r border-r-border-color">
                             <div className="w-full">
