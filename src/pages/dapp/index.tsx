@@ -24,7 +24,7 @@ function SocialButton(props) {
 function DappDetailSection(props) {
     return (
         <section className="my-6">
-            {props.title && <p className="text-2xl mb-4">{props.title}</p>}
+            {props.title && <p className="text-[24px] leading-[32px] font-[500] mb-4">{props.title}</p>}
             {props.children}
         </section>
     )
@@ -68,10 +68,14 @@ function DappList(props) {
                     <p className="text-5xl font-[600]">{dApp.name}</p>
                 </div>
                 <div className="flex-initial flex">
-                    <a target="_blank" href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`} className="p-4 rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-[600] text-[16px]">
-                        <span>Visit Dapp</span>
-                        <svg className="inline-block ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <a target="_blank"
+                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}
+                       className="px-[16px] py-[12px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] flex justify-center items-center">
+                        <div className="text-[14px] leading-[16px] font-[500]">Visit Dapp</div>
+                        <svg className="mx-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </svg>
                     </a>
                     <a className="p-4 font-[600] text-[14px]">
@@ -88,7 +92,7 @@ function DappList(props) {
                 </div>
             </header>
             <DappDetailSection title="About">
-                <ExpandAbleText maxLines={3}>{dApp.description}</ExpandAbleText>
+                <ExpandAbleText maxLines={3}>{dApp.description.split('\\n').map(e => <p>{e}</p>)}</ExpandAbleText>
             </DappDetailSection>
             <Divider />
             {dApp.images.screenshots?.length && (<>
