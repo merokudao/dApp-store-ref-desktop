@@ -1,8 +1,9 @@
 import Link from "next/link";
 import {useGetCategoryListQuery} from "../features/dapp/dapp_api";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, ExpandAbleText, Image} from "./index";
 import {App} from "../app/constants.js";
+import {useRouter} from "next/router";
 
 
 function NavBar(props) {
@@ -77,14 +78,30 @@ function CategoryList(props) {
 
 //TOOD: RENAME
 function Input(props) {
+    const router = useRouter();
+    const [value, setValue] = useState<string>(router.query.search || "");
+
+    useEffect(() => {
+        if (value) {
+            router.push(`/search?search=${value}`);
+        }
+    }, [value])
+    
     return (
         <div className={props.className}>
         <div className="relative">
-
-                <div className="absolute inset-3 align-middle"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.0259 13.8475L18.595 17.4158L17.4159 18.595L13.8475 15.0258C12.5198 16.0902 10.8684 16.6691 9.16669 16.6667C5.02669 16.6667 1.66669 13.3067 1.66669 9.16666C1.66669 5.02666 5.02669 1.66666 9.16669 1.66666C13.3067 1.66666 16.6667 5.02666 16.6667 9.16666C16.6691 10.8683 16.0902 12.5198 15.0259 13.8475ZM13.3542 13.2292C14.4118 12.1416 15.0024 10.6837 15 9.16666C15 5.94333 12.3892 3.33333 9.16669 3.33333C5.94335 3.33333 3.33335 5.94333 3.33335 9.16666C3.33335 12.3892 5.94335 15 9.16669 15C10.6837 15.0024 12.1416 14.4118 13.2292 13.3542L13.3542 13.2292Z" fill="white"/>
-                </svg></div>
-                <input className="w-full p-2 pl-9 bg-canvas-color border border-border-color rounded-lg" type="search" placeholder="Search dApps"/>
+                <div className="absolute w-[20px] h-[20px] top-[12px] left-[12px] align-middle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.0259 13.8475L18.595 17.4158L17.4159 18.595L13.8475 15.0258C12.5198 16.0902 10.8684 16.6691 9.16669 16.6667C5.02669 16.6667 1.66669 13.3067 1.66669 9.16666C1.66669 5.02666 5.02669 1.66666 9.16669 1.66666C13.3067 1.66666 16.6667 5.02666 16.6667 9.16666C16.6691 10.8683 16.0902 12.5198 15.0259 13.8475ZM13.3542 13.2292C14.4118 12.1416 15.0024 10.6837 15 9.16666C15 5.94333 12.3892 3.33333 9.16669 3.33333C5.94335 3.33333 3.33335 5.94333 3.33335 9.16666C3.33335 12.3892 5.94335 15 9.16669 15C10.6837 15.0024 12.1416 14.4118 13.2292 13.3542L13.3542 13.2292Z" fill="white"/>
+                    </svg>
+                </div>
+            <input value={value}
+                   onChange={(evt) => {
+                       setValue(evt.target.value);
+                   }}
+                   className="w-full p-2 pl-[48px] bg-canvas-color border border-border-color rounded-lg"
+                   type="search"
+                   placeholder="Search dApps"/>
         </div>
         </div>
     )
@@ -108,10 +125,18 @@ export default function Layout(props) {
                         <aside className="hidden md:flex md:flex-initial w-3/12 border-r border-r-border-color">
                             <div className="w-full">
                                 <div className="py-4 border-b border-b-border-color">
-                                    <svg className="inline-block mr-4" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Link href="/history">
+                                        <svg className="inline-block mr-4" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22 12.5C22 18.0228 17.5228 22.5 12 22.5M22 12.5C22 6.97715 17.5228 2.5 12 2.5M22 12.5H2M12 22.5C6.47715 22.5 2 18.0228 2 12.5M12 22.5C14.5013 19.7616 15.9228 16.208 16 12.5C15.9228 8.79203 14.5013 5.23835 12 2.5M12 22.5C9.49872 19.7616 8.07725 16.208 8 12.5C8.07725 8.79203 9.49872 5.23835 12 2.5M2 12.5C2 6.97715 6.47715 2.5 12 2.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                     <span className="text-xl">Browsing History</span>
+                                    </Link>
+                                </div>
+
+                                <div className="py-4">
+                                <Link href="/">
+                                    <span className="text-xl">All dApps</span>
+                                </Link>
                                 </div>
                                 <CategoryList />
                             </div>

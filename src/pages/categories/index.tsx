@@ -44,7 +44,7 @@ function CategoriesList(props) {
     if (!data.data.length) return <div>Missing post!</div>
     return (
         <>
-            <h1 className="text-4xl mb-8 capitalize">{router.query.categories}</h1>
+            <h1 className="text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
                 {data.data?.map((app:Dapp) => <Card dapp={app} />)}
