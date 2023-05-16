@@ -1,8 +1,6 @@
 import {useGetAppsInCategoryListQuery} from "../../features/dapp/dapp_api";
-import {Dapp} from "../../features/dapp/models/dapp";
-import {Card} from '../../features/dapp/presentation';
 import {useRouter} from "next/router";
-import {Image, PageLayout, Text} from "../../components";
+import {Image, PageLayout, Text} from "@/components";
 import {AppList} from "../../components/app_list";
 
 function CategoriesList(props) {

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
 import {Image, ExpandAbleText, PageLayout} from "../../components";
+import {AppStrings} from "../constants";
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -48,6 +49,7 @@ function DappList(props) {
     const dApp = data[0];
     const history = JSON.parse(localStorage.getItem('dApps'));
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, {[dApp.id]: dApp})));
+
     const router = useRouter();
     return (
         <PageLayout>
@@ -55,7 +57,7 @@ function DappList(props) {
                 <svg className="inline-block mr-2" width="24" height="24" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 19.5001L5 12.5001M5 12.5001L12 5.50012M5 12.5001H19" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span className="text-2xl">All dApps</span>
+                <span className="text-2xl">{AppStrings.allDapps}</span>
             </div>
             {dApp.images.banner && <div className="z-0 relative bottom-[-48px]">
                 <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
@@ -65,8 +67,8 @@ function DappList(props) {
                     <Image width={132} height={132} style={{ aspectRatio: 1 }} src={dApp.images.logo} className="rounded-lg" alt="" />
                 </div>
                 <div className="flex-auto  pt-4">
-                    <p className="uppercase my-2">{dApp.category}</p>
-                    <p className="text-5xl font-[600]">{dApp.name}</p>
+                    <p className="text-[16px] leading-[20px] uppercase my-2">{dApp.category}</p>
+                    <p className="text-[32px] leading-[38px] font-[600]">{dApp.name}</p>
                 </div>
                 <div className="flex-initial flex">
                     <a target="_blank"
@@ -92,12 +94,12 @@ function DappList(props) {
                     </a>
                 </div>
             </header>
-            <DappDetailSection title="About">
+            <DappDetailSection title={AppStrings.about}>
                 <ExpandAbleText maxLines={3}>{dApp.description.split('\\n').map(e => <p>{e}</p>)}</ExpandAbleText>
             </DappDetailSection>
             <Divider />
             {dApp.images.screenshots?.length && (<>
-                <DappDetailSection title="Gallery">
+                <DappDetailSection title={AppStrings.gallery}>
                     <div className="grid grid-cols-3 gap-4">
                         {dApp.images.screenshots?.map((e) => <img src={e || ''} alt="DApp Screenshots"/>)}
                     </div>
@@ -107,7 +109,7 @@ function DappList(props) {
             }
             <DappDetailSection>
                 <div className="flex justify-between items-center">
-                    <p className="text-2xl ">Social</p>
+                    <p className="text-2xl ">{AppStrings.social}</p>
                     <div className="flex gap-3">
                         <SocialButton />
                         <SocialButton />

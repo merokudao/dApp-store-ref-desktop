@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {Button, ExpandAbleText, Image} from "./index";
 import {App} from "../app/constants.js";
 import {useRouter} from "next/router";
+import {AppStrings} from "../pages/constants";
 
 function NavBar(props) {
     return (
@@ -21,7 +22,7 @@ function NavBar(props) {
             {/*</nav>*/}
             {/*  Trailing/Actions  */}
             <div className="flex-auto w-3/12 text-right">
-                <Button>Connect Wallet</Button>
+                <Button>{AppStrings.connectWallet}</Button>
             </div>
         </div>
     )
@@ -37,21 +38,21 @@ function ExpansionPanel(props) {
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const hasSubCategories = props.category.subCategory.length > 0;
     return (
-        <li className="pr-4">
-            <div className="flex items-center justify-between">
-                <Link href={`/categories/?categories=${props.category.category}`}>
+        <details open={isExpanded} onToggle={(evt) => console.log(evt)} className="pr-4">
+            <summary>
+                <Link  className="flex items-center justify-between" href={`/categories/?categories=${props.category.category}`}>
                     <p className="text-[20px] py-[10px] capitalize">{props.category.category}</p>
+                    {hasSubCategories &&
+                      <div onClick={() => setExpanded(!isExpanded)} className={isExpanded ? "rotate-180" : ""}>
+                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"/>
+                        </svg>
+                      </div>}
                 </Link>
-                {hasSubCategories &&
-                  <div onClick={() => setExpanded(!isExpanded)} className={isExpanded ? "rotate-180" : ""}>
-                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"/>
-                    </svg>
-                  </div>}
-            </div>
-            {isExpanded &&
-                props.category.subCategory.map((e) =>
+            </summary>
+
+            {props.category.subCategory.map((e) =>
                     (<div className="pl-5">
                         <Link href={`/categories/?categories=${props.category.category}&subCategory=${e}`}>
                             <p className="text-[16px] text-[#87868C] font-[500] py-[10px] hover:text-[#fff] capitalize">{e}</p>
@@ -59,7 +60,7 @@ function ExpansionPanel(props) {
                     </div>)
                 )
             }
-        </li>
+        </details>
     )
 }
 
@@ -105,7 +106,7 @@ function Input(props) {
                        }}
                        className="w-full p-2 pl-[48px] bg-canvas-color border border-border-color rounded-lg"
                        type="search"
-                       placeholder="Search dApps"/>
+                       placeholder={AppStrings.searchDapps} />
             </div>
         </div>
     )
@@ -132,14 +133,13 @@ export function Hero(props) {
         </>
     )
 }
-
 export function PageLayout(props) {
     return (
         <article className="container">
             <header
                 className="flex justify-between items-center py-8 border-b border-b-border-color flex-wrap md:flex-nowrap gap-4">
                 <div className="flex-initial w-full md:w-10/12">
-                    <span className="text-[42px] leading-[48px] font-[500]">All dApps</span>
+                    <span className="text-[42px] leading-[48px] font-[500]">{AppStrings.title}</span>
                 </div>
                 <div className="flex-initial w-full md:w-3/12">
                     <Input/>
@@ -158,13 +158,13 @@ export function PageLayout(props) {
                                         stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round"/>
                                 </svg>
-                                <span className="text-xl">Browsing History</span>
+                                <span className="text-xl">{AppStrings.browsingHistory}</span>
                             </Link>
                         </div>
 
                         <div className="py-4">
                             <Link href="/">
-                                <span className="text-xl">All dApps</span>
+                                <span className="text-xl">{AppStrings.allDapps}</span>
                             </Link>
                         </div>
                         <CategoryList/>
@@ -178,15 +178,18 @@ export function PageLayout(props) {
     );
 }
 
+
 export default function Layout(props) {
     return (
         <>
+            <div {...props}>
             <div className="fixed h-[70px] w-full z-20">
                 <NavBar/>
             </div>
             <main className="relative top-[70px]">
                 {props.children}
             </main>
+            </div>
         </>
     )
 }

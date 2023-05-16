@@ -1,9 +1,7 @@
-import CategoriesList from "./categories";
-import {Dapp} from "../features/dapp/models/dapp";
-import {Card} from "../features/dapp/presentation";
 import {useEffect, useState} from "react";
-import {AppList} from "../components/app_list";
-import {PageLayout} from "../components";
+
+import {PageLayout, AppList} from "@/components";
+import {AppStrings} from "../constants";
 
 export default function HistoryPage(props) {
     const [history, setHistory] = useState({});
@@ -16,7 +14,7 @@ export default function HistoryPage(props) {
     }, [])
     return (
         <PageLayout>
-            <h1 className="text-4xl mb-8 capitalize">Browsing History</h1>
+            <h1 className="text-4xl mb-8 capitalize">{AppStrings.browsingHistory}</h1>
             {props.subtitle && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{'props.subtitle'}</h2>}
             <AppList data={Object.values(history)} />
         </PageLayout>
