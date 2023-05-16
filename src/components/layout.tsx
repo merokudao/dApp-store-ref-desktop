@@ -1,19 +1,28 @@
 import Link from "next/link";
 import {useGetCategoryListQuery} from "../features/dapp/dapp_api";
 import {useState} from "react";
-import {ExpandAbleText, Image} from "./index";
-import {App, Menu} from "../app/constants.js";
+import {Button, ExpandAbleText, Image} from "./index";
+import {App} from "../app/constants.js";
 
 
 function NavBar(props) {
     return (
-        <div className="fixed w-full border-b border-b-border-color  bg-canvas-color z-20 flex pl-12">
+        <div className="fixed w-full flex justify-between items-center border-b border-b-[#141217] bg-canvas-color z-20 py-4 px-10">
+            {/*Leading Element */}
+            <div className="flex-initial w-2/12">
                 <NavItem href="/" className="pr-[20px]">
                     <Image width={100} height={100} src={App.logo} alt={`${App.name} Logo`} />
                 </NavItem>
-            <nav className="hidden md:flex md:flex-auto items-center gap-[20px] pl-[20px]">
-                    {App.menu.map((e) => <NavItem href={e.href}>{e.title}</NavItem>)}
-            </nav>
+            </div>
+            {/*<div className="flex-auto"></div>*/}
+                {/* Center */}
+            {/*<nav className="hidden md:flex md:flex-auto items-center gap-[20px] pl-[20px]">*/}
+            {/*        {App.menu.map((e) => <NavItem href={e.href}>{e.title}</NavItem>)}*/}
+            {/*</nav>*/}
+        {/*  Trailing/Actions  */}
+            <div className="flex-initial w-3/12 text-right">
+                <Button>Connect Wallet</Button>
+            </div>
         </div>
     )
 }
@@ -27,7 +36,6 @@ function ExpansionPanel(props) {
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const hasSubCategories = props.category.subCategory.length > 0;
     return (
-
             <li className="pr-4">
                 <div  className="flex items-center justify-between">
                 <Link href={`/categories/?categories=${props.category.category}`}>
@@ -43,7 +51,7 @@ function ExpansionPanel(props) {
                     props.category.subCategory.map((e) =>
                         (<div className="pl-5">
                             <Link href={`/categories/?categories=${props.category.category}&subCategory=${e}`}>
-                                <p className="text-[16px] text-[#87868C] font-[600] py-[10px] hover:text-[#fff] capitalize">{e}</p>
+                                <p className="text-[16px] text-[#87868C] font-[500] py-[10px] hover:text-[#fff] capitalize">{e}</p>
                             </Link>
                         </div>)
                     )
@@ -67,6 +75,7 @@ function CategoryList(props) {
 
 }
 
+//TOOD: RENAME
 function Input(props) {
     return (
         <div className={props.className}>
@@ -89,7 +98,7 @@ export default function Layout(props) {
                 <article className="container">
                     <header className="flex justify-between items-center py-8 border-b border-b-border-color flex-wrap md:flex-nowrap gap-4">
                         <div className="flex-initial w-full md:w-10/12">
-                            <h1 className="text-3xl">All dApps</h1>
+                            <span className="text-[42px] leading-[48px] font-[500]">All dApps</span>
                         </div>
                         <div className="flex-initial w-full md:w-3/12">
                             <Input />
