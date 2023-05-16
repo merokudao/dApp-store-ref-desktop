@@ -5,7 +5,6 @@ import {Button, ExpandAbleText, Image} from "./index";
 import {App} from "../app/constants.js";
 import {useRouter} from "next/router";
 
-
 function NavBar(props) {
     return (
         <div className="fixed w-full flex justify-between items-center border-b border-b-[#141217] bg-canvas-color z-20 py-4 px-10">

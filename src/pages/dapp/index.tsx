@@ -45,8 +45,9 @@ function DappList(props) {
     if (isLoading) return <div>Loading...</div>
     if (!data) return <div>Missing post!</div>
 
-    console.log(data[0]);
     const dApp = data[0];
+    const history = JSON.parse(localStorage.getItem('dApps'));
+    localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, {[dApp.id]: dApp})));
     const router = useRouter();
     return (
         <>
