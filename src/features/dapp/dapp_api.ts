@@ -1,5 +1,5 @@
 import {EndpointBuilder} from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import {PagedRequest, PagedResponse} from "../../models/response";
+import {CategoryListResponse, PagedRequest, PagedResponse} from "../../models/response";
 import {Dapp} from "./models/dapp";
 import {ApiEndpoints} from "../../api/constants";
 import {api} from "../../api/api";
@@ -19,19 +19,20 @@ interface IDappDataSource {
 
 
 export class DappDataSource implements IDappDataSource {
-    registerEndpoints(this,api) {
+    registerEndpoints(this, api) {
         return api.injectEndpoints({
             endpoints: (build) => ({
                 getDappList: this.getAppList(build),
                 getFeaturedList: this.getFeaturedList(build),
-                getCategories: this.getCategoryList(build),
+                getCategoryList: this.getCategoryList(build),
+                getAppsInCategoryList: this.getAppsInCategoryList(build),
             })
         });
     }
 
     getAppList(builder: EndpointBuilder<any, any, any>) {
         return builder.query<PagedResponse<Dapp>, PagedRequest>({
-            query: (args) => `${ApiEndpoints.APP_LIST}?limit=${args.limit}&page=${args.page}`,
+            query: (args) => `${ApiEndpoints.APP_LIST}?limit=${args.limit}&page=${args.page}&chainId=137`,
         });
     }
 
@@ -48,14 +49,19 @@ export class DappDataSource implements IDappDataSource {
     }
 
     getCategoryList(builder: EndpointBuilder<any, any, any>) {
-        return builder.query<PagedResponse<Dapp>, string>({
-            query: () => ApiEndpoints.CATEGORIES,
+        return builder.query<CategoryListResponse, string>({
+            query: () => `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=137`,
         });
     }
 
     getAppsInCategoryList(builder: EndpointBuilder<any, any, any>) {
         return builder.query<PagedResponse<Dapp>, Array<string>>({
-            query: (categories) => `${ApiEndpoints.CATEGORY_APPS}?categories=${categories.join(',')}`,
+            query: (params) => (
+                {
+                    url: `/api/v1/dapp/search`,
+                    params: params
+
+                }),
         });
     }
 }
@@ -63,7 +69,8 @@ export class DappDataSource implements IDappDataSource {
 export const dAppDataSource = new DappDataSource();
 
 
-
 export const {
-    useGetDappListQuery
+    useGetDappListQuery,
+    useGetCategoryListQuery,
+    useGetAppsInCategoryListQuery,
 } = dAppDataSource.registerEndpoints(api);
