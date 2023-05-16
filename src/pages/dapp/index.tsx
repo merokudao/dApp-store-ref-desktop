@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {Image, ExpandAbleText} from "../../components";
+import {Image, ExpandAbleText, PageLayout} from "../../components";
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -42,15 +42,15 @@ function DappList(props) {
     }, {
         refetchOnMountOrArgChange: false
     });
-    if (isLoading) return <div>Loading...</div>
-    if (!data) return <div>Missing post!</div>
+    if (isLoading) return <PageLayout>Loading...</PageLayout>
+    if (!data) return <PageLayout>Missing post!</PageLayout>
 
     const dApp = data[0];
     const history = JSON.parse(localStorage.getItem('dApps'));
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, {[dApp.id]: dApp})));
     const router = useRouter();
     return (
-        <>
+        <PageLayout>
             <div className="mb-6 cursor-pointer" onClick={router.back}>
                 <svg className="inline-block mr-2" width="24" height="24" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 19.5001L5 12.5001M5 12.5001L12 5.50012M5 12.5001H19" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -115,7 +115,7 @@ function DappList(props) {
                     </div>
                 </div>
             </DappDetailSection>
-        </>
+        </PageLayout>
     );
 }
 

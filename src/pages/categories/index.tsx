@@ -2,7 +2,7 @@ import {useGetAppsInCategoryListQuery} from "../../features/dapp/dapp_api";
 import {Dapp} from "../../features/dapp/models/dapp";
 import {Card} from '../../features/dapp/presentation';
 import {useRouter} from "next/router";
-import {Image, Text} from "../../components";
+import {Image, PageLayout, Text} from "../../components";
 import {AppList} from "../../components/app_list";
 
 function CategoriesList(props) {
@@ -41,21 +41,23 @@ function CategoriesList(props) {
 
     let child;
 
-    if (isLoading || isFetching) return <div>
-        <div className="bg-border-color w-[240px] h-[32px] my-4"/>
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-            {buildLoadingItems()}
+    if (isLoading || isFetching) return <PageLayout>
+        <div>
+            <div className="bg-border-color w-[240px] h-[32px] my-4"/>
+            <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+                {buildLoadingItems()}
+            </div>
         </div>
-    </div>
+    </PageLayout>
 
     child = (<AppList data={data.data}>
     </AppList>);
     return (
-    <>
+    <PageLayout>
         <h1 className="text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
         {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
         {child}
-    </>
+    </PageLayout>
     )
 }
 
