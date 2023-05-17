@@ -6,10 +6,7 @@ import { App } from "../app/constants.js";
 import { useRouter } from "next/router";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from "wagmi";
-const getAddress = () => {
-    const { address } = useAccount();
-    console.log(address);
-}
+
 
 function NavBar(props) {
 
@@ -28,7 +25,6 @@ function NavBar(props) {
             {/*</nav>*/}
             {/*  Trailing/Actions  */}
             <div className="flex-initial w-3/12 text-right">
-                <button onClick={() => { getAddress() }}>Check Wallet</button>
 
                 <ConnectButton chainStatus="none" showBalance={false} />
 

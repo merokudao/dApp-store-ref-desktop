@@ -15,9 +15,4 @@ export const wagmiConfig = createConfig({
     connectors: connectors,
     publicClient
 })
-export const getAddress = async () => {
-    const { address, } = useAccount()
-    console.log("Address:", address)
-    return address;
 
-}
