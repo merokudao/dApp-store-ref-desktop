@@ -28,8 +28,8 @@ function ExpandAbleText(props) {
 
 
 function Button(props) {
-    return <button className="py-[10px] px-[14px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-[600] text-[16px] hover:from-[#fff] hover:to-[#ddd] hover:text-black trans">
-        <div className="text-[12px] font-[500] leading-[15.6px]">{props.children}</div>
+    return <button className={"py-[10px] px-[14px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-[600] text-[16px] hover:from-[#fff] hover:to-[#ddd] hover:text-black" + ' ' + props.className}>
+        <div className="text-[12px] font-[500] leading-[15.6px] flex items-center justify-center">{props.children}</div>
         {/*<svg className="inline-block ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
         {/*    <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
         {/*</svg>*/}
@@ -45,9 +45,10 @@ export {
 export * from './layout';
 
 import Image from 'next/image';
-import {AppList} from "./app_list"
-    ;
+import {AppList} from "./app_list";
+import {Card} from './card';
 export {
     Image,
-    AppList
+    AppList,
+    Card
 };

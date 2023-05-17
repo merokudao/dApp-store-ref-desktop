@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {Image, ExpandAbleText, PageLayout} from "../../components";
+import {Image, ExpandAbleText, PageLayout, Button} from "../../components";
 import {AppStrings} from "../constants";
 
 function Divider(props) {
@@ -71,16 +71,15 @@ function DappList(props) {
                     <p className="text-[32px] leading-[38px] font-[600]">{dApp.name}</p>
                 </div>
                 <div className="flex-initial flex">
-                    <a target="_blank"
-                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}
-                       className="px-[16px] py-[12px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] flex justify-center items-center">
+                    <Button target="_blank"
+                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}>
                         <div className="text-[14px] leading-[16px] font-[500]">Visit Dapp</div>
                         <svg className="mx-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
                                   strokeLinejoin="round"/>
                         </svg>
-                    </a>
+                    </Button>
                     <a className="p-4 font-[600] text-[14px]">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

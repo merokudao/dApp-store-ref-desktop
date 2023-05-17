@@ -1,30 +1,24 @@
 import Link from "next/link";
-import {useGetCategoryListQuery} from "../features/dapp/dapp_api";
+import {useGetAppsInCategoryListQuery, useGetCategoryListQuery} from "../features/dapp/dapp_api";
 import {useEffect, useState} from "react";
 import {Button, ExpandAbleText, Image} from "./index";
 import {App} from "../app/constants.js";
 import {useRouter} from "next/router";
 import {AppStrings} from "../pages/constants";
+import {Column, Row} from "./layout/flex";
 
 function NavBar(props) {
     return (
-        <div className="flex justify-between items-center border-b border-b-[#141217] bg-canvas-color py-4 px-10">
-            {/*Leading Element */}
+        <Row center className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10">
             <div className="flex-auto w-2/12">
                 <NavItem href="/" className="pr-[20px]">
                     <Image width={100} height={100} src={App.logo} alt={`${App.name} Logo`}/>
                 </NavItem>
             </div>
-            {/*<div className="flex-auto"></div>*/}
-            {/* Center */}
-            {/*<nav className="hidden md:flex md:flex-auto items-center gap-[20px] pl-[20px]">*/}
-            {/*        {App.menu.map((e) => <NavItem href={e.href}>{e.title}</NavItem>)}*/}
-            {/*</nav>*/}
-            {/*  Trailing/Actions  */}
             <div className="flex-auto w-3/12 text-right">
                 <Button>{AppStrings.connectWallet}</Button>
             </div>
-        </div>
+        </Row>
     )
 }
 
@@ -118,14 +112,13 @@ export function Hero(props) {
         <>
             <div className="relative">
                 <div className="bg-[url('/hero.png')] bg-no-repeat bg-cover">
-                    <div
-                        className="flex flex-row h-[80vh] justify-center md:justify-start items-center text-center md:text-left container z-10">
+                    <Row className="h-[80vh] justify-center md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
                             <Button>{button.text}</Button>
                         </div>
-                    </div>
+                    </Row>
                 </div>
                 <div
                     className="absolute inset-0 bg-gradient-to-b from-transparent to-transparent z-0 pointer-events-none"/>
@@ -134,19 +127,34 @@ export function Hero(props) {
     )
 }
 export function PageLayout(props) {
+    // const limit = 9
+    // const {
+    //     data,
+    //     isFetching,
+    //     isLoading,
+    // } = useGetCategoryListQuery({
+    //     page:1,
+    //     limit:limit,
+    // },{
+    //     refetchOnMountOrArgChange:true
+    // });
+    // if (isLoading || isFetching) return <h1>Loading</h1>
+    // if (!data.data) return <h1>Error</h1>
     return (
         <article className="container">
-            <header
-                className="flex justify-between items-center py-8 border-b border-b-border-color flex-wrap md:flex-nowrap gap-4">
+            <Row
+                className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap md:flex-nowrap gap-4">
                 <div className="flex-initial w-full md:w-10/12">
-                    <span className="text-[42px] leading-[48px] font-[500]">{AppStrings.title}</span>
+                    <span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{AppStrings.title}</span>
                 </div>
                 <div className="flex-initial w-full md:w-3/12">
                     <Input/>
                 </div>
-            </header>
-
-            <div className="flex">
+            </Row>
+            {/*<Row className="overflow-scroll gap-[16px]">*/}
+            {/*    {data.data.map((e) => <Button className="flex-auto">{e.category}</Button>)}*/}
+            {/*</Row>*/}
+            <Row className="items-start justify-start">
                 <aside className="hidden md:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
                         <div className="py-4 border-b border-b-border-color">
@@ -173,7 +181,7 @@ export function PageLayout(props) {
                 <section className="flex-initial md:w-9/12 md:pl-8 md:pt-8">
                     {props.children}
                 </section>
-            </div>
+            </Row>
         </article>
     );
 }

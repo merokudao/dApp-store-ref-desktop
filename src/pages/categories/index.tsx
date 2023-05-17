@@ -1,6 +1,6 @@
 import {useGetAppsInCategoryListQuery} from "../../features/dapp/dapp_api";
 import {useRouter} from "next/router";
-import {Image, PageLayout, Text} from "@/components";
+import {Image, PageLayout, Text, Card} from "@/components";
 import {AppList} from "../../components/app_list";
 
 function CategoriesList(props) {
@@ -23,15 +23,13 @@ function CategoriesList(props) {
     const buildLoadingItems = () => {
         const _items = [];
         for (let i = 0; i < limit; i++) {
-            _items.push((
-                <div className="card p-4 w-full h-full bg-gradient-to-b from-[#141217] to-[#0E0C12] rounded-lg border border-gray-700">
-                    <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />
-                    <div className="bg-border-color h-[24px] my-4"/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                </div>
-            ))
+            _items.push(<Card>
+                <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />
+                <div className="bg-border-color h-[24px] my-4"/>
+                <div className='bg-border-color h-[12px] mb-2 w-full'/>
+                <div className='bg-border-color h-[12px] mb-2 w-full'/>
+                <div className='bg-border-color h-[12px] mb-2 w-full'/>
+            </Card>)
         }
         return _items;
     }
@@ -52,7 +50,7 @@ function CategoriesList(props) {
     </AppList>);
     return (
     <PageLayout>
-        <h1 className="text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
+        <h1 className="text-[24px] leading-[32px] lg:text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
         {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
         {child}
     </PageLayout>
