@@ -5,8 +5,10 @@ export default function Document() {
         <Html className="bg-canvas-color text-white">
             <Head />
             <body>
-            <Main />
-            <NextScript />
+
+                <Main />
+                <NextScript />
+
             </body>
         </Html>
     );
