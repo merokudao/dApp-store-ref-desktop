@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 function Text(props) {
     const element = props.as || 'p';
@@ -7,7 +7,7 @@ function Text(props) {
     return React.createElement(
         element,
         {
-            className:`${props.className} ${className}`,
+            className: `${props.className} ${className}`,
         },
         props.children
     );
