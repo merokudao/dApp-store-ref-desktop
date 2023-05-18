@@ -2,7 +2,6 @@
   "name": "dapp_webstore",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "@rainbow-me/rainbowkit": "^1.0.0",
     "@rainbow-me/rainbowkit-siwe-next-auth": "^0.2.0",

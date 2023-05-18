@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {Image, ExpandAbleText, PageLayout, Button} from "../../components";
+import {RImage as Image, ExpandAbleText, PageLayout, Button} from "../../components";
 import {AppStrings} from "../constants";
 
 function Divider(props) {

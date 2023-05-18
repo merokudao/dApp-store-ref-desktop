@@ -2,7 +2,7 @@ import {Review} from "../models/review";
 import {Dapp} from "../models/dapp";
 import {useGetDappListQuery} from "../dapp_api";
 import Link from "next/link";
-import {Image, Text, Card} from "../../../components";
+import { Card} from "../../../components";
 
 export const FeaturedList = () => {
   return <>

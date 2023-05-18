@@ -1,5 +1,5 @@
 import {Dapp} from "../features/dapp/models/dapp";
-import {Card, Image, Text} from "./index";
+import {Card, RImage as Image, Text} from "./index";
 import Link from "next/link";
 
 export function AppList(props) {
