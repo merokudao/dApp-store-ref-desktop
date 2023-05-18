@@ -1,27 +1,14 @@
+:root {
+    --font-sans: 'GeneralSans';
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-@font-face {
-    font-family: GeneralSans;
-    src: url(/assets/fonts/GeneralSans/GeneralSans-Regular.ttf);
-    font-weight: 400;
-}
-@font-face {
-    font-family: GeneralSans;
-    src: url(/assets/fonts/GeneralSans/GeneralSans-Medium.ttf);
-    font-weight: 500;
-}
-@font-face {
-    font-family: GeneralSans;
-    src: url(/assets/fonts/GeneralSans/GeneralSans-Bold.ttf);
-    font-weight: 800;
+details > summary {
+    list-style: none;
 }
 
-
-@layer base {
-    html {
-        font-family: 'GeneralSans', system-ui, sans-serif;
-    }
+details summary::marker {
+    display:none;
 }

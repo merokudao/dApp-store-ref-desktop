@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {Image, ExpandAbleText} from "../../components";
+import {Image, ExpandAbleText, PageLayout, Button} from "../../components";
+import {AppStrings} from "../constants";
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -24,7 +25,7 @@ function SocialButton(props) {
 function DappDetailSection(props) {
     return (
         <section className="my-6">
-            {props.title && <p className="text-[24px] leading-[32px] font-[500] mb-4">{props.title}</p>}
+            {props.title && <h1 className="text-[24px] leading-[32px] font-[500] mb-4">{props.title}</h1>}
             {props.children}
         </section>
     )
@@ -42,19 +43,21 @@ function DappList(props) {
     }, {
         refetchOnMountOrArgChange: false
     });
-    if (isLoading) return <div>Loading...</div>
-    if (!data) return <div>Missing post!</div>
+    if (isLoading) return <PageLayout>Loading...</PageLayout>
+    if (!data) return <PageLayout>Missing post!</PageLayout>
 
-    console.log(data[0]);
     const dApp = data[0];
+    const history = JSON.parse(localStorage.getItem('dApps'));
+    localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, {[dApp.id]: dApp})));
+
     const router = useRouter();
     return (
-        <>
+        <PageLayout>
             <div className="mb-6 cursor-pointer" onClick={router.back}>
                 <svg className="inline-block mr-2" width="24" height="24" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 19.5001L5 12.5001M5 12.5001L12 5.50012M5 12.5001H19" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span className="text-2xl">All dApps</span>
+                <span className="text-2xl">{AppStrings.allDapps}</span>
             </div>
             {dApp.images.banner && <div className="z-0 relative bottom-[-48px]">
                 <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
@@ -64,20 +67,19 @@ function DappList(props) {
                     <Image width={132} height={132} style={{ aspectRatio: 1 }} src={dApp.images.logo} className="rounded-lg" alt="" />
                 </div>
                 <div className="flex-auto  pt-4">
-                    <p className="uppercase my-2">{dApp.category}</p>
-                    <p className="text-5xl font-[600]">{dApp.name}</p>
+                    <p className="text-[16px] leading-[20px] uppercase my-2">{dApp.category}</p>
+                    <p className="text-[32px] leading-[38px] font-[600]">{dApp.name}</p>
                 </div>
                 <div className="flex-initial flex">
-                    <a target="_blank"
-                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}
-                       className="px-[16px] py-[12px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] flex justify-center items-center">
+                    <Button target="_blank"
+                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}>
                         <div className="text-[14px] leading-[16px] font-[500]">Visit Dapp</div>
                         <svg className="mx-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
                                   strokeLinejoin="round"/>
                         </svg>
-                    </a>
+                    </Button>
                     <a className="p-4 font-[600] text-[14px]">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -91,12 +93,12 @@ function DappList(props) {
                     </a>
                 </div>
             </header>
-            <DappDetailSection title="About">
+            <DappDetailSection title={AppStrings.about}>
                 <ExpandAbleText maxLines={3}>{dApp.description.split('\\n').map(e => <p>{e}</p>)}</ExpandAbleText>
             </DappDetailSection>
             <Divider />
             {dApp.images.screenshots?.length && (<>
-                <DappDetailSection title="Gallery">
+                <DappDetailSection title={AppStrings.gallery}>
                     <div className="grid grid-cols-3 gap-4">
                         {dApp.images.screenshots?.map((e) => <img src={e || ''} alt="DApp Screenshots"/>)}
                     </div>
@@ -106,7 +108,7 @@ function DappList(props) {
             }
             <DappDetailSection>
                 <div className="flex justify-between items-center">
-                    <p className="text-2xl ">Social</p>
+                    <p className="text-2xl ">{AppStrings.social}</p>
                     <div className="flex gap-3">
                         <SocialButton />
                         <SocialButton />
@@ -114,7 +116,7 @@ function DappList(props) {
                     </div>
                 </div>
             </DappDetailSection>
-        </>
+        </PageLayout>
     );
 }
 

@@ -19,6 +19,33 @@ export default function App({ Component, pageProps }: AppProps<{
     session: Session;
 }>) {
 
+
+import localFont from "next/font/local";
+
+export const generalSans = localFont({
+    src: [
+        {
+            path: './GeneralSans/GeneralSans-Regular.ttf',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: './GeneralSans/GeneralSans-Medium.ttf',
+            weight: '500',
+            style: 'normal',
+        },
+        {
+            path: './GeneralSans/GeneralSans-Bold.ttf',
+            weight: '800',
+            style: 'normal',
+        }
+    ],
+    display: 'swap',
+    fallback: ['system-ui'],
+    variable: '--font-sans',
+});
+
+
     return (
 
         <Provider store={store}>
@@ -28,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps<{
                 <SessionProvider refetchInterval={0} session={pageProps.session}>
                     <RainbowKitSiweNextAuthProvider >
                         <RainbowKitProvider chains={chains} theme={darkTheme()}>
-                            <Layout>
+                            <Layout  className={generalSans.className}>
                                 <Component {...pageProps} />
                             </Layout>
                         </RainbowKitProvider>

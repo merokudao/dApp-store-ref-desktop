@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)'],
+        mono: ['var(--font-mono)']
+      },
       container: {
         center:true,
         padding: {
@@ -15,7 +19,14 @@ module.exports = {
           '2xl': '6rem',
         },
       },
+      backgroundImage: {
+        'card-bg': 'linear-gradient(180deg, #141217 0%, #0E0C12 100%);',
+      },
+      borderRadius: {
+        'card-radius': '12px',
+      },
       colors: {
+        'text-color': "#ffffff",
         'canvas-color':'#0a090d',
         'border-color': '#2D2C33',
       },
