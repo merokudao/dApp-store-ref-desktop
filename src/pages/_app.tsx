@@ -15,12 +15,8 @@ import {
     darkTheme,
     RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
-export default function App({ Component, pageProps }: AppProps<{
-    session: Session;
-}>) {
-
-
 import localFont from "next/font/local";
+
 
 export const generalSans = localFont({
     src: [
@@ -46,11 +42,12 @@ export const generalSans = localFont({
 });
 
 
+
+export default function App({ Component, pageProps }: AppProps<{
+    session: Session;
+}>) {
     return (
-
         <Provider store={store}>
-
-
             <WagmiConfig config={wagmiConfig}>
                 <SessionProvider refetchInterval={0} session={pageProps.session}>
                     <RainbowKitSiweNextAuthProvider >
@@ -59,11 +56,9 @@ export const generalSans = localFont({
                                 <Component {...pageProps} />
                             </Layout>
                         </RainbowKitProvider>
-
                     </RainbowKitSiweNextAuthProvider>
                 </SessionProvider>
             </WagmiConfig>
-
         </Provider>
 
     )

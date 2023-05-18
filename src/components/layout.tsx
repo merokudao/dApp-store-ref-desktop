@@ -13,14 +13,14 @@ import { useAccount } from "wagmi";
 function NavBar(props) {
     return (
         <Row center className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10">
-            <div className="flex-auto w-2/12">
+            <div className="flex-grow">
                 <NavItem href="/" className="pr-[20px]">
                     <Image width={100} height={100} src={App.logo} alt={`${App.name} Logo`}/>
                 </NavItem>
             </div>
-            <div className="flex-auto w-3/12 text-right">
-                <ConnectButton chainStatus="none" showBalance={false} />
-            </div>
+            <ConnectButton className="justify-end" chainStatus="none" showBalance={false} />
+            {/*<div className="flex-auto w-3/12 text-right">*/}
+            {/*</div>*/}
         </Row>
     )
 }
