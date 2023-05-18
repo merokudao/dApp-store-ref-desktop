@@ -9,6 +9,7 @@ export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 export const ApiEndpoints = {
     ANALYTICS: 'analytics',
     APP_LIST: 'dapp',
+    APP_CATEGORIES_LIST: 'dapp/categories',
     CATEGORIES: 'categories',
     CATEGORY_APPS: 'categories/categorydapps',
     FEATURED: 'index/featured',

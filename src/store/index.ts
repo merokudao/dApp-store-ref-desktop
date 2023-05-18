@@ -1,13 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { api } from "../api/api";
 
-import { dAppDataSource } from "../features/dapp/dapp_api";
-import { analyticsDataSource } from "../features/analytics/analytics_api";
-import { searchDataSource } from '../features/search';
-
-dAppDataSource.registerEndpoints(api);
-analyticsDataSource.registerEndpoints(api);
-searchDataSource.registerEndpoints(api);
+// import { dAppDataSource } from "../features/dapp/dapp_api";
+// import { analyticsDataSource } from "../features/analytics/analytics_api";
+// import { searchDataSource } from '../features/search';
+//
+// dAppDataSource.registerEndpoints(api);
+// analyticsDataSource.registerEndpoints(api);
+// searchDataSource.registerEndpoints(api);
 
 export const store = configureStore({
   reducer: {
