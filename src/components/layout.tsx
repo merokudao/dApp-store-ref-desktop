@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {useGetAppsInCategoryListQuery, useGetCategoryListQuery} from "../features/dapp/dapp_api";
 import {useEffect, useState} from "react";
-import {Button, ExpandAbleText, RImage as Image} from "./index";
+import {Button, Card, ExpandAbleText, RImage as Image} from "./index";
 import {App} from "../app/constants.js";
 import {useRouter} from "next/router";
 import {AppStrings} from "../pages/constants";
@@ -130,24 +130,53 @@ export function Hero(props) {
     )
 }
 
+function CategoryListSmall(props) {
+    const {data} = props;
+    const [openKey, setOpenKey] = useState();
+    const [selected, setSelected] = useState()
+    return (
+        <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
+            {data.data.map((e, index) => (
+                <details onToggle={() => setOpenKey(e.category)}>
+                    <summary className="cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]">
+                        <div className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div>
+                        {(e.subCategory.length > 0) && (
+                        <svg className="ml-[16px]" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        )}
+                    </summary>
+                    {openKey === e.category && e.subCategory.length > 0 && <div className="cursor-pointer mt-[16px] inset-0" >
+                        <Card>
+                            {e.subCategory.map((e) => <p onClick={() => setSelected(e)} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">{e}</p>)}
+                        </Card>
+                    </div>}
+                </details>
+            ))
+            }
+        </Row>
+    );
+}
+
 export function PageLayout(props) {
-    // const limit = 9
-    // const {
-    //     data,
-    //     isFetching,
-    //     isLoading,
-    // } = useGetCategoryListQuery({
-    //     page:1,
-    //     limit:limit,
-    // },{
-    //     refetchOnMountOrArgChange:true
-    // });
-    // if (isLoading || isFetching) return <h1>Loading</h1>
-    // if (!data.data) return <h1>Error</h1>
+    const limit = 9
+    const {
+        data,
+        isFetching,
+        isLoading,
+    } = useGetCategoryListQuery({
+        page:1,
+        limit:limit,
+    },{
+        refetchOnMountOrArgChange:true
+    });
+    if (isLoading || isFetching) return <h1>Loading</h1>
+    if (!data.data) return <h1>Error</h1>
     return (
         <article className="container">
             <Row
-                className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap md:flex-nowrap gap-4">
+                className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap lg:flex-nowrap gap-4">
                 <div className="flex-initial w-full md:w-10/12">
                     <span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{AppStrings.title}</span>
                 </div>
@@ -155,11 +184,9 @@ export function PageLayout(props) {
                     <Input/>
                 </div>
             </Row>
-            {/*<Row className="overflow-scroll gap-[16px]">*/}
-            {/*    {data.data.map((e) => <Button className="flex-auto">{e.category}</Button>)}*/}
-            {/*</Row>*/}
+            <CategoryListSmall data={data} />
             <Row className="items-start justify-start">
-                <aside className="hidden md:flex md:flex-initial w-3/12 border-r border-r-border-color">
+                <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
                         <div className="py-4 border-b border-b-border-color">
                             <Link href="/history">
@@ -182,7 +209,7 @@ export function PageLayout(props) {
                         <CategoryList/>
                     </div>
                 </aside>
-                <section className="flex-initial md:w-9/12 md:pl-8 md:pt-8">
+                <section className="flex-initial lg:w-9/12 lg:pl-8 md:pt-8">
                     {props.children}
                 </section>
             </Row>

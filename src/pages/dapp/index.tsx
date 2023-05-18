@@ -59,22 +59,24 @@ function DappList(props) {
                 </svg>
                 <span className="text-2xl">{AppStrings.allDapps}</span>
             </div>
-            {dApp.images.banner && <div className="z-0 relative bottom-[-48px]">
+            {dApp.images.banner && <div className="z-0 relative">
                 <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
             </div>}
-            <header className="z-10 relative flex flex-col md:flex-row items-end gap-4 mb-12">
-                <div className="flex-initial w-[132px]  rounded-lg">
-                    <Image width={132} height={132} style={{ aspectRatio: 1 }} src={dApp.images.logo} className="rounded-lg" alt="" />
+            <header className="z-10 relative flex flex-col md:flex-row md:items-end gap-4 mb-12">
+                <div className="flex flex-row items-end gap-[16px] md:flex-col pl-[8px] md:pl-0">
+                <div className="flex-initial  rounded-lg">
+                    <Image width={64} height={64} style={{ aspectRatio: 1 }} src={dApp.images.logo} className="rounded-lg w-[64px] lg:w-[64px]" alt="" />
                 </div>
                 <div className="flex-auto  pt-4">
-                    <p className="text-[16px] leading-[20px] uppercase my-2">{dApp.category}</p>
-                    <p className="text-[32px] leading-[38px] font-[600]">{dApp.name}</p>
+                    <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{dApp.category}</p>
+                    <p className="text-[16px] leading-[20px] md:text-[32px] md:leading-[38px] font-[600]">{dApp.name}</p>
+                </div>
                 </div>
                 <div className="flex-initial flex">
-                    <Button target="_blank"
+                    <Button className="flex-grow" target="_blank"
                        href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}>
-                        <div className="text-[14px] leading-[16px] font-[500]">Visit Dapp</div>
-                        <svg className="mx-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        <div className="text-[12px] leading-[16px] lg:text-[14px] font-[500]">{AppStrings.visitDapp}</div>
+                        <svg className="mx-2 w-[16px]" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
                                   strokeLinejoin="round"/>
@@ -89,7 +91,6 @@ function DappList(props) {
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 15V3M12 15L7 10M12 15L17 10M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#525059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-
                     </a>
                 </div>
             </header>
