@@ -93,59 +93,66 @@ function DappList(props) {
             {dApp.images.banner && <div className="z-0 relative">
                 <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
             </div>}
-            <header className="z-10 relative flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-12">
-                <div className="flex flex-row  gap-[16px] md:flex-col pl-[8px] md:pl-0">
-                <div className="relative flex-initial rounded-2xl w-[74px relative] w-[64px] h-[64px] lg:w-[132px] lg:h-[132px]">
-                    <Image sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw" style={{ aspectRatio: 1 }} fill={true} src={dApp.images.logo} className="rounded-lg w-[64px] lg:w-[64px]" alt="" />
-                </div>
-                <div className="flex-auto  pt-4">
-                    <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{dApp.category}</p>
-                    <p className="text-[16px] leading-[20px] md:text-[32px] md:leading-[38px] font-[600]">{dApp.name}</p>
-                </div>
-                </div>
-                <div className="flex-initial flex">
-                    <Button as="a" className="flex flex-grow" target="_blank"
-                       href={viewLink}>
-                        <div className="text-[12px] leading-[16px] lg:text-[14px] font-[500]">{AppStrings.visitDapp}</div>
-                        <svg className="mx-2 w-[16px]" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
-                                  strokeLinejoin="round"/>
-                        </svg>
-                    </Button>
-                    <a className="p-4 font-[600] text-[14px]">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                    <DownloadButton href={downloadLink} dApp={dApp} />
-                </div>
-            </header>
-            <DappDetailSection title={AppStrings.about}>
-                <ExpandAbleText maxLines={3}>{dApp.description}</ExpandAbleText>
-            </DappDetailSection>
-            <Divider />
-            {dApp.images.screenshots?.length && (<>
-                <DappDetailSection title={AppStrings.gallery}>
-                    <div className="grid grid-cols-3 gap-4">
-                        {dApp.images.screenshots?.map((e) => <img src={e || ''} alt="DApp Screenshots"/>)}
-                    </div>
-                </DappDetailSection>
-                <Divider />
-            </>)
-            }
-            <DappDetailSection>
-                <div className="flex justify-between items-center">
-                    <p className="text-2xl ">{AppStrings.social}</p>
-                    <div className="flex gap-3">
-                        <SocialButton />
-                        <SocialButton />
-                        <SocialButton />
-                    </div>
-                </div>
-            </DappDetailSection>
+                <section className="relative top-[-16px] lg:top-[-48px]">
+                    <header className="z-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4 px-[8px] lg:px-[16px]">
+                        <div className="flex-auto flex flex-row items-end  gap-[16px] pl-[8px] md:pl-0">
+                            <div className="relative flex-initial rounded-2xl w-[74px relative] w-[64px] h-[64px] lg:w-[132px] lg:h-[132px]">
+                                <Image sizes="(max-width: 768px) 100vw,
+                                          (max-width: 1200px) 50vw,
+                                          33vw"
+                                       style={{aspectRatio: 1}}
+                                       fill={true}
+                                       src={dApp.images.logo}
+                                       className="rounded-lg w-[64px] lg:w-[64px]"
+                                       alt=""/>
+                            </div>
+                            <div className="flex-auto  pt-4">
+                                <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{dApp.category}</p>
+                                <p className="text-[16px] leading-[20px] md:text-[32px] md:leading-[38px] font-[600] line-clamp-1">{dApp.name}</p>
+                            </div>
+                        </div>
+                        <div className="flex-initial flex">
+                            <Button as="a" className="flex flex-grow" target="_blank"
+                                    href={viewLink}>
+                                <div className="text-[12px] leading-[16px] lg:text-[14px] font-[500]">{AppStrings.visitDapp}</div>
+                                <svg className="mx-2 w-[16px] hover:text-black" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7V17M17 7H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                          strokeLinejoin="round"/>
+                                </svg>
+                            </Button>
+                            <a className="p-4 font-[600] text-[14px]">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                            <DownloadButton href={downloadLink} dApp={dApp} />
+                        </div>
+                    </header>
+                    <DappDetailSection title={AppStrings.about}>
+                        <ExpandAbleText maxLines={3}>{dApp.description}</ExpandAbleText>
+                    </DappDetailSection>
+                    <Divider />
+                    {dApp.images.screenshots?.length && (<>
+                        <DappDetailSection title={AppStrings.gallery}>
+                            <div className="grid grid-cols-3 gap-4">
+                                {dApp.images.screenshots?.map((e) => <img src={e || ''} alt="DApp Screenshots"/>)}
+                            </div>
+                        </DappDetailSection>
+                        <Divider />
+                    </>)
+                    }
+                    <DappDetailSection>
+                        <div className="flex justify-between items-center">
+                            <p className="text-2xl ">{AppStrings.social}</p>
+                            <div className="flex gap-3">
+                                <SocialButton />
+                                <SocialButton />
+                                <SocialButton />
+                            </div>
+                        </div>
+                    </DappDetailSection>
+                </section>
         </PageLayout>
     );
 }

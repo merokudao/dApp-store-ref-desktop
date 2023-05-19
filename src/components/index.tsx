@@ -50,19 +50,20 @@ export * from './layout';
 import {default as NXTImage } from 'next/image';
 
 function RImage(props) {
-    const imgRef = useRef();
+    const imgRef = useRef(null);
     const [src, setSrc] = useState(props.placeholder || '/assets/images/icon_placeholder.png');
     useEffect(() => {
-        const img = imgRef.current;
-        // console.log(img.src, src)
-        if (img && img.src !== src) {
-            img.src = props.src;
-            // img.onerror = () => setSrc('/assets/images/icon_placeholder.png')
-            img.onload = (evt) => {
-                setSrc(props.src)
-            };
-        }
-    }, [src]);
+        const {current} = imgRef;
+        if (current) {
+            if (current) {
+                current.src = props.src;
+                // img.onerror = () => setSrc('/assets/images/icon_placeholder.png')
+                current.onload = (evt) => {
+                    setSrc(props.src)
+                };
+            }
+        }        // console.log(img.src, src)
+    }, [imgRef]);
     return <NXTImage  {...props} ref={imgRef} src={src} />
 }
 
