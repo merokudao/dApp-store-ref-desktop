@@ -2,6 +2,9 @@ import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
 import {RImage as Image, ExpandAbleText, PageLayout, Button} from "../../components";
 import {AppStrings} from "../constants";
+import classNames from "classnames";
+import {useAccount} from "wagmi";
+import {API_HOST, BASE_URL} from "../../api/constants";
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -31,6 +34,25 @@ function DappDetailSection(props) {
     )
 }
 
+function DownloadButton(props) {
+    const {href, dApp} = props;
+    const downloadAvailable = dApp.availableOnPlatform.includes('android') || dApp.availableOnPlatform.includes('ios');
+    const classnames = classNames({
+       'text-[#ddd]': !downloadAvailable,
+        'text-[#fff]': downloadAvailable,
+        'p-4 font-[600] text-[14px]': true,
+    });
+    const currentColor =  downloadAvailable ? "#fff" : "#525059";
+    return <a className={classnames} href={downloadAvailable ? href : null}>
+        <svg  width="24" height="24" viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 15V3M12 15L7 10M12 15L17 10M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                stroke={currentColor} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>;
+}
+
 function DappList(props) {
     const { query } = useRouter();
     const {
@@ -43,12 +65,21 @@ function DappList(props) {
     }, {
         refetchOnMountOrArgChange: false
     });
+
+    const {address} = useAccount();
     if (isLoading) return <PageLayout>Loading...</PageLayout>
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
     const dApp = data[0];
     const history = JSON.parse(localStorage.getItem('dApps'));
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, {[dApp.id]: dApp})));
+
+    const args = new URLSearchParams();
+    if (address) {
+        args.set('userAddress', address);
+    }
+    const viewLink =  `${BASE_URL}/o/view/${dApp.id}?${args.toString()}`
+    const downloadLink =  `${BASE_URL}/o/download/${dApp.id}?${args.toString()}`
 
     const router = useRouter();
     return (
@@ -75,8 +106,8 @@ function DappList(props) {
                 </div>
                 </div>
                 <div className="flex-initial flex">
-                    <Button className="flex-grow" target="_blank"
-                       href={`https://api-a.meroku.store/o/view/${dApp.id}?dappId=${dApp.id}&userId=""&userAddress=""`}>
+                    <Button as="a" className="flex flex-grow" target="_blank"
+                       href={viewLink}>
                         <div className="text-[12px] leading-[16px] lg:text-[14px] font-[500]">{AppStrings.visitDapp}</div>
                         <svg className="mx-2 w-[16px]" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -89,11 +120,7 @@ function DappList(props) {
                             <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-                    <a className="p-4 font-[600] text-[14px]">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 15V3M12 15L7 10M12 15L17 10M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#525059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
+                    <DownloadButton href={downloadLink} dApp={dApp} />
                 </div>
             </header>
             <DappDetailSection title={AppStrings.about}>

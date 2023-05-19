@@ -33,7 +33,10 @@ export class DappDataSource implements IDappDataSource {
 
     getAppList(builder: EndpointBuilder<any, any, any>) {
         return builder.query<PagedResponse<Dapp>, PagedRequest>({
-            query: (args) => `${ApiEndpoints.APP_LIST}?limit=${args.limit}&page=${args.page}&chainId=137`,
+            query: (args) => ({
+                url: `${ApiEndpoints.APP_LIST}`,
+                params: args
+            }),
         });
     }
 

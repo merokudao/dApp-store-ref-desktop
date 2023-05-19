@@ -1,4 +1,4 @@
-import {useGetAppsInCategoryListQuery} from "../../features/dapp/dapp_api";
+import {useGetAppsInCategoryListQuery, useGetDappListQuery} from "../../features/dapp/dapp_api";
 import {useRouter} from "next/router";
 import {PageLayout, Text, Card} from "@/components";
 import {AppList} from "../../components/app_list";
@@ -10,11 +10,11 @@ function CategoriesList(props) {
         data,
         isFetching,
         isLoading,
-    } = useGetAppsInCategoryListQuery({
+    } = useGetDappListQuery({
         ...router.query
     }, {
         page:1,
-        limit:limit,
+        limit:8,
     },{
         refetchOnMountOrArgChange:true
     });
@@ -46,7 +46,7 @@ function CategoriesList(props) {
         </div>
     </PageLayout>
 
-    child = (<AppList data={data.data}>
+    child = (<AppList data={data.response}>
     </AppList>);
     return (
     <PageLayout>
