@@ -1,7 +1,7 @@
-import {useGetAppsInCategoryListQuery, useGetDappListQuery} from "../../features/dapp/dapp_api";
-import {useRouter} from "next/router";
-import {PageLayout, Text, Card} from "@/components";
-import {AppList} from "../../components/app_list";
+import { Card, PageLayout } from "@/components";
+import { useRouter } from "next/router";
+import { AppList } from "../../components/app_list";
+import { useGetDappListQuery } from "../../features/dapp/dapp_api";
 
 function CategoriesList(props) {
     const router = useRouter();
@@ -21,7 +21,7 @@ function CategoriesList(props) {
 
 
     const buildLoadingItems = () => {
-        const _items = [];
+        const _items : any []= [];
         for (let i = 0; i < limit; i++) {
             _items.push(<Card>
                 <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />

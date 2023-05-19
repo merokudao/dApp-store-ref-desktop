@@ -1,13 +1,12 @@
-import Link from "next/link";
-import {useGetAppsInCategoryListQuery, useGetCategoryListQuery} from "../features/dapp/dapp_api";
-import {useEffect, useState} from "react";
-import {Button, Card, ExpandAbleText, RImage as Image} from "./index";
-import {App} from "../app/constants.js";
-import {useRouter} from "next/router";
-import {AppStrings} from "../pages/constants";
-import {Column, Row} from "./layout/flex";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from "wagmi";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { App } from "../app/constants.js";
+import { useGetCategoryListQuery } from "../features/dapp/dapp_api";
+import { AppStrings } from "../pages/constants";
+import { Button, Card, RImage as Image } from "./index";
+import { Row } from "./layout/flex";
 
 
 function NavBar(props) {
