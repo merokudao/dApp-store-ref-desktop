@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {RImage as Image, ExpandAbleText, PageLayout, Button} from "../../components";
+import {RImage as Image, ExpandAbleText, PageLayout, Button, RImage} from "../../components";
 import {AppStrings} from "../constants";
 import classNames from "classnames";
 import {useAccount} from "wagmi";
@@ -84,19 +84,20 @@ function DappList(props) {
     const router = useRouter();
     return (
         <PageLayout>
-            <div className="mb-6 cursor-pointer" onClick={router.back}>
-                <svg className="inline-block mr-2" width="24" height="24" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 19.5001L5 12.5001M5 12.5001L12 5.50012M5 12.5001H19" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="text-2xl">{AppStrings.allDapps}</span>
-            </div>
-            {dApp.images.banner && <div className="z-0 relative">
-                <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
-            </div>}
-                <section className="relative top-[-16px] lg:top-[-48px]">
+            <div className="flex flex-col">
+                <div className="mb-6 cursor-pointer" onClick={router.back}>
+                    <svg className="inline-block mr-2" width="24" height="24" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 19.5001L5 12.5001M5 12.5001L12 5.50012M5 12.5001H19" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="text-2xl">{AppStrings.allDapps}</span>
+                </div>
+                {dApp.images.banner && <div className="z-0 relative top-[16px] lg:top-[48px] w-full h-[200px] lg:h-[400px]">
+                  <Image src={dApp.images.banner} fill={true} alt="DApp Banner" className="aspect-video	rounded-lg" />
+                </div>}
+                <section>
                     <header className="z-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4 px-[8px] lg:px-[16px]">
                         <div className="flex-auto flex flex-row items-end  gap-[16px] pl-[8px] md:pl-0">
-                            <div className="relative flex-initial rounded-2xl w-[74px relative] w-[64px] h-[64px] lg:w-[132px] lg:h-[132px]">
+                            <div className="relative bg-canvas-color flex-initial rounded-2xl w-[74px relative] w-[64px] h-[64px] lg:w-[132px] lg:h-[132px]">
                                 <Image sizes="(max-width: 768px) 100vw,
                                           (max-width: 1200px) 50vw,
                                           33vw"
@@ -153,6 +154,7 @@ function DappList(props) {
                         </div>
                     </DappDetailSection>
                 </section>
+            </div>
         </PageLayout>
     );
 }
