@@ -9,7 +9,8 @@ function Text(props) {
         {
             className: `${props.className} ${className}`,
         },
-        props.children
+        // {dApp.description.split('\\n').map(e => <p>{e}</p>)}
+        props.children.split('\\n').map(e => <p>{e}</p>)
     );
 }
 
@@ -18,10 +19,11 @@ function Text(props) {
 function ExpandAbleText(props) {
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const maxLines = isExpanded ? undefined : props.maxLines;
+    const label = isExpanded ? "Read Less" : "Read More";
     return (
         <>
-            <Text className="text-[14px] leading-[21px] font-[500]" maxLines={maxLines}>{props.children}</Text>
-            <button onClick={() => setExpanded(!isExpanded)}>Read More</button>
+            <Text className="lg:text-white text-[14px] leading-[21px] font-[500]" maxLines={maxLines}>{props.children}</Text>
+            <button onClick={() => setExpanded(!isExpanded)}>{label}</button>
         </>
     )
 }
@@ -51,7 +53,7 @@ function RImage(props) {
     const [src, setSrc] = useState(props.placeholder || '/assets/images/icon_placeholder.png');
     useEffect(() => {
         const img = imgRef.current;
-        console.log(img.src, src)
+        // console.log(img.src, src)
         if (img && img.src !== src) {
             img.src = props.src;
             // img.onerror = () => setSrc('/assets/images/icon_placeholder.png')

@@ -62,10 +62,12 @@ function DappList(props) {
             {dApp.images.banner && <div className="z-0 relative">
                 <img src={dApp.images.banner} alt="DApp Banner" className="rounded-lg" />
             </div>}
-            <header className="z-10 relative flex flex-col md:flex-row md:items-end gap-4 mb-12">
-                <div className="flex flex-row items-end gap-[16px] md:flex-col pl-[8px] md:pl-0">
-                <div className="flex-initial  rounded-lg">
-                    <Image width={64} height={64} style={{ aspectRatio: 1 }} src={dApp.images.logo} className="rounded-lg w-[64px] lg:w-[64px]" alt="" />
+            <header className="z-10 relative flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-12">
+                <div className="flex flex-row  gap-[16px] md:flex-col pl-[8px] md:pl-0">
+                <div className="relative flex-initial rounded-2xl w-[74px relative] w-[64px] h-[64px] lg:w-[132px] lg:h-[132px]">
+                    <Image sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw" style={{ aspectRatio: 1 }} fill={true} src={dApp.images.logo} className="rounded-lg w-[64px] lg:w-[64px]" alt="" />
                 </div>
                 <div className="flex-auto  pt-4">
                     <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{dApp.category}</p>
@@ -95,7 +97,7 @@ function DappList(props) {
                 </div>
             </header>
             <DappDetailSection title={AppStrings.about}>
-                <ExpandAbleText maxLines={3}>{dApp.description.split('\\n').map(e => <p>{e}</p>)}</ExpandAbleText>
+                <ExpandAbleText maxLines={3}>{dApp.description}</ExpandAbleText>
             </DappDetailSection>
             <Divider />
             {dApp.images.screenshots?.length && (<>

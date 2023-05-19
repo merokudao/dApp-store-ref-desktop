@@ -4,6 +4,7 @@ import {Dapp} from "./models/dapp";
 import {ApiEndpoints} from "../../api/constants";
 import {api} from "../../api/api";
 import {Review} from "./models/review";
+import dapp from "../../pages/dapp";
 
 interface IDappDataSource {
     getFeaturedList(builder: EndpointBuilder<any, any, any>),
