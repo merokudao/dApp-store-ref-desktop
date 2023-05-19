@@ -110,16 +110,25 @@ function Input(props) {
 }
 
 export function Hero(props) {
-    const {title, subtitle, button} = props;
+    const {title, subtitle, poster, video, button} = props;
     return (
         <>
             <div className="relative">
-                <div className="bg-[url('/hero.png')] bg-no-repeat bg-cover">
-                    <Row className="h-[80vh] justify-center md:justify-start items-center text-center md:text-left container z-10">
-                        <div className="flex-initial md:w-1/2">
+                <div className="bg-black bg-no-repeat bg-cover">
+                    <Row className="h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
+                        <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
                             <Button>{button.text}</Button>
+                        </div>
+                        <div className="flex-initial sm:w-1/2 md:flex-grow">
+                            <iframe src={`${video}?transparent=0&background=1&controls=1&autoplay=1&loop=1`}
+                                    className="w-full"
+                                    width={window.innerWidth / 2}
+                                    height={window.innerHeight / 2}
+                                    frameBorder="0"
+                                    allow="autoplay; fullscreen"
+                                    allowFullScreen />
                         </div>
                     </Row>
                 </div>

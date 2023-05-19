@@ -83,11 +83,13 @@ const Index = (props) => {
 
     return (
         <>
-            {/*<Hero*/}
-            {/*    title="There are more dApps built #OnPolygon than ever before"*/}
-            {/*    subtitle="The dApps in our ecosystem set the standard for privacy,security and content quality."*/}
-            {/*    button={{text: 'Submit Your dApp'}}*/}
-            {/*/>*/}
+            <Hero
+                title="There are more dApps built #OnPolygon than ever before"
+                subtitle="The dApps in our ecosystem set the standard for privacy,security and content quality."
+                button={{text: 'Submit Your dApp'}}
+                // video={"https://player.vimeo.com/video/791153898?h=da72488da5"}
+                video={"https://player.vimeo.com/video/791153931?h=969d328799"}
+            />
             <PageLayout>
                 <p>{page}</p>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
