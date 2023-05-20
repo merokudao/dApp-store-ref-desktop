@@ -3,24 +3,41 @@ import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { App } from "../app/constants.js";
+import {App, posConfig, zkevmConfig} from "../app/constants.js";
 import { useGetCategoryListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
+import {useDispatch, useSelector} from "react-redux";
+import {setApp, setAppState} from "../features/app/app_slice";
 
 
 function NavBar(props) {
+    const app = useSelector((state => state.app));
+    const dispatch =  useDispatch();
+    const router = useRouter();
+    const onAppConfigClick = (app) => {
+        dispatch(setApp(app))
+        router.push('/')
+    }
+    const isActive = (config) => {
+        if(app.title === config.title) {
+            return "text-[#fff]";
+        }
+        return "";
+    }
     return (
-        <Row center className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10">
-            <div className="flex-grow">
+        <Row center className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10 gap-[16px]">
+            <div className="flex-initial">
                 <NavItem href="/" className="pr-[20px]">
                     <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src} alt={`${App.name} Logo`}/>
                 </NavItem>
             </div>
+            <div className="flex-grow flex gap-[16px] text-[14px] leading-[20px] font-[500] text-[#87868C]">
+                <button className={isActive(posConfig)} onClick={() => onAppConfigClick(posConfig)}>{posConfig.title}</button>
+                <button className={isActive(zkevmConfig)} onClick={() => onAppConfigClick(zkevmConfig)}>{zkevmConfig.title}</button>
+            </div>
             <ConnectButton chainStatus="none" showBalance={false} />
-            {/*<div className="flex-auto w-3/12 text-right">*/}
-            {/*</div>*/}
         </Row>
     )
 }
@@ -63,7 +80,10 @@ function ExpansionPanel(props) {
 
 
 function CategoryList(props) {
-    const { data, isLoading, isError } = useGetCategoryListQuery();
+    const chainId = useSelector(state => state.app.chainId)
+    const { data, isLoading, isError } = useGetCategoryListQuery({chainId}, {
+        refetchOnMountOrArgChange:false
+    });
 
     if (isLoading) return <div className="mr-[16px]">
         <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
@@ -126,7 +146,7 @@ export function Hero(props) {
                     <Row className="min-h-[80vh] h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
-                            <p className="w-full md:w-[70%] text-[16px] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
+                            <p className="w-full md:w-[70%] text-[16px] text-[#67666E] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
                             <Button>{button.text}</Button>
                         </div>
                         <div className="flex-initial sm:w-1/2 md:flex-grow">
@@ -177,14 +197,13 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
-    const limit = 9
+    const app = useSelector((state => state.app));
     const {
         data,
         isFetching,
         isLoading,
     } = useGetCategoryListQuery({
-        page:1,
-        limit:limit,
+        chainId: app.chainId,
     },{
         refetchOnMountOrArgChange:false
     });
@@ -206,7 +225,7 @@ export function PageLayout(props) {
             <Row
                 className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap lg:flex-nowrap gap-4">
                 <div className="flex-initial w-full md:w-10/12">
-                    <span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{AppStrings.title}</span>
+                    <span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{app.title}</span>
                 </div>
                 <div className="flex-initial w-full md:w-3/12">
                     <Input/>
@@ -250,7 +269,7 @@ export default function Layout(props) {
         <>
             <div {...props}>
                 <div className="fixed h-[70px] w-full z-20">
-                    <NavBar/>
+                    <NavBar />
                 </div>
                 <main className="relative top-[70px]">
                     {props.children}

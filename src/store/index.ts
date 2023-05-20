@@ -1,16 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { api } from "../api/api";
-
-// import { dAppDataSource } from "../features/dapp/dapp_api";
-// import { analyticsDataSource } from "../features/analytics/analytics_api";
-// import { searchDataSource } from '../features/search';
-//
-// dAppDataSource.registerEndpoints(api);
-// analyticsDataSource.registerEndpoints(api);
-// searchDataSource.registerEndpoints(api);
+import '../features/app/app_slice';
+import {appSlice} from "../features/app/app_slice";
 
 export const store = configureStore({
   reducer: {
+    'app': appSlice.reducer,
     [api.reducerPath]: api.reducer
   },
   middleware: (getDefaultMiddleware) =>

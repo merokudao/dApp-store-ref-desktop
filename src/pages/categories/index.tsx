@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { AppList } from "../../components/app_list";
 import { useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
+import {useSelector} from "react-redux";
+import {getApp} from "../../features/app/app_slice";
 
 
 function CategoriesList(props) {
@@ -23,6 +25,7 @@ function CategoriesList(props) {
     // });
 
     const limit = 8;
+        const app = useSelector(getApp);
         const [page, setPage] = useState<number>(1);
         const [items, setItems] = useState<Array<typeof Dapp>>([]);
         console.log("Page no:", page);
@@ -31,7 +34,10 @@ function CategoriesList(props) {
             isFetching,
             isLoading,
         } = useGetInfiniteDappListQuery({
-                ...router.query,page,limit
+                ...router.query,
+                page,
+                limit,
+                chainId: app.chainId,
             },{ 
             refetchOnMountOrArgChange:false,
         });

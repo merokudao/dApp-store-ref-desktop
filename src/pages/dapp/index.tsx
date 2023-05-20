@@ -5,6 +5,8 @@ import {AppStrings} from "../constants";
 import classNames from "classnames";
 import {useAccount} from "wagmi";
 import {API_HOST, BASE_URL} from "../../api/constants";
+import {useSelector} from "react-redux";
+import {getApp} from "../../features/app/app_slice";
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -54,6 +56,7 @@ function DownloadButton(props) {
 }
 
 function DappList(props) {
+    const app = useSelector(getApp);
     const { query } = useRouter();
     const {
         data,
@@ -61,6 +64,7 @@ function DappList(props) {
     } = useSearchByIdQuery(query.id, {
         page: 1,
         limit: 20,
+        chainId: app.chainId,
     }, {
         refetchOnMountOrArgChange: false
     });

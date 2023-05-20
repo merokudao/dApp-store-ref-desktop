@@ -17,3 +17,54 @@ export const App = {
         // },
     ],
 };
+
+interface AppConfig {
+    title: string,
+    chainId: number
+    hero: {
+        title:string,
+        subtitle: string,
+        button: {
+            text: string,
+            href: string,
+        },
+        video: string
+    }
+}
+
+const zkevmConfig:AppConfig = {
+    title: "zkEVM dApps",
+    chainId: 1101,
+    hero: {
+        title: "Experience the newest   and your favourite  dApps on #zkEVM ",
+        subtitle: "The dApps in our ecosystem set the standard for privacy, security and content quality.",
+        button: {
+            text: 'Submit your dApp',
+            href: '',
+        },
+        video:"https://player.vimeo.com/video/791153931?h=969d328799"
+    },
+}
+
+const posConfig:AppConfig = {
+    title: "PoS dApps",
+    chainId: 137,
+    hero: {
+        title: "Experience the newest and your favourite dApps on #PoS",
+        subtitle: "The dApps in our ecosystem set the standard for privacy, security and content quality.",
+        button: {
+            text: 'Submit your dApp',
+            href: '',
+        },
+        video:"https://player.vimeo.com/video/791153898?h=da72488da5"
+    },
+}
+
+export type {
+    AppConfig
+}
+
+export {
+    posConfig,
+    zkevmConfig,
+}

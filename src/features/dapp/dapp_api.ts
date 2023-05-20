@@ -54,10 +54,11 @@ export class DappDataSource implements IDappDataSource {
       }),
       serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
         if (queryArgs?.categories !== undefined) {
-          return endpointName + queryArgs?.categoreis;
+          console.log(queryArgs?.chainId)
+          return endpointName + queryArgs?.categories + queryArgs?.chainId;
         } else if (queryArgs?.search !== undefined) {
-          return endpointName + queryArgs?.search;
-        } else return endpointName;
+          return endpointName + queryArgs?.search  + queryArgs?.chainId;
+        } else return endpointName + queryArgs?.chainId;
       },
       forceRefetch({ currentArg, previousArg }) {
         console.log("PreviousPage: ", previousArg?.page);
@@ -92,8 +93,8 @@ export class DappDataSource implements IDappDataSource {
   }
 
   getCategoryList(builder: EndpointBuilder<any, any, any>) {
-    return builder.query<CategoryListResponse, string>({
-      query: () => `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=137`,
+    return builder.query<CategoryListResponse, {}>({
+      query: (args) => `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=${args.chainId}`,
     });
   }
 

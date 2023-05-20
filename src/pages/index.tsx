@@ -3,8 +3,11 @@ import { AppList, Card, Hero, PageLayout, } from '../components';
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
 import Dapp from "./dapp";
+import {useSelector} from "react-redux";
+import {getApp} from "../features/app/app_slice";
 
 const Index = (props) => {
+        const app = useSelector(getApp);
         const limit = 8;
         const [page, setPage] = useState<number>(1);
         const [items, setItems] = useState<Array<typeof Dapp>>([]);
@@ -15,6 +18,7 @@ const Index = (props) => {
         } = useGetInfiniteDappListQuery({
             page:page,
             limit:limit,
+            chainId: app.chainId,
         },{ 
             refetchOnMountOrArgChange:true,
         });
@@ -97,11 +101,10 @@ const Index = (props) => {
         <>
             <div className="min-h-[80vh]">
                 <Hero
-                    title="There are more dApps built #OnPolygon than ever before"
-                    subtitle="The dApps in our ecosystem set the standard for privacy,security and content quality."
-                    button={{text: 'Submit Your dApp'}}
-                    // video={"https://player.vimeo.com/video/791153898?h=da72488da5"}
-                    video={"https://player.vimeo.com/video/791153931?h=969d328799"}
+                    title={app.hero.title}
+                    subtitle={app.hero.title}
+                    button={app.hero.button}
+                    video={app.hero.video}
                 />
             </div>
             <PageLayout>
