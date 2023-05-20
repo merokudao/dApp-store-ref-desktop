@@ -7,6 +7,7 @@ import { useGetCategoryListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
 import { Button, Card, RImage as Image } from "./index";
 import { Row } from "./layout/flex";
+import {default as NXTImage} from "next/image";
 
 
 function NavBar(props) {
@@ -14,7 +15,7 @@ function NavBar(props) {
         <Row center className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10">
             <div className="flex-grow">
                 <NavItem href="/" className="pr-[20px]">
-                    <Image width={App.logo.width} height={App.logo.height} src={App.logo.src} alt={`${App.name} Logo`}/>
+                    <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src} alt={`${App.name} Logo`}/>
                 </NavItem>
             </div>
             <ConnectButton chainStatus="none" showBalance={false} />

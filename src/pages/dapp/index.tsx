@@ -97,7 +97,7 @@ function DappList(props) {
                     <span className="text-2xl">{AppStrings.allDapps}</span>
                 </div>
                 {dApp.images.banner && <div className="z-0 relative top-[16px] lg:top-[48px] w-full h-[200px] lg:h-[400px]">
-                  <Image src={dApp.images.banner} fill={true} alt="DApp Banner" className="aspect-video	rounded-lg" />
+                  <Image src={dApp.images.banner} fill={true} alt="DApp Banner" className="aspect-video	rounded-lg object-cover	" />
                 </div>}
                 <section>
                     <header className="z-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4 px-[8px] lg:px-[16px]">
@@ -109,7 +109,7 @@ function DappList(props) {
                                        style={{aspectRatio: 1}}
                                        fill={true}
                                        src={dApp.images.logo}
-                                       className="rounded-lg w-[64px] lg:w-[64px]"
+                                       className="rounded-lg w-[64px] lg:w-[64px] "
                                        alt=""/>
                             </div>
                             <div className="flex-auto  pt-4">
