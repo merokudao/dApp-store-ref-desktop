@@ -1,9 +1,7 @@
-import CategoryList from '../pages/categories';
-import {AppList, Card, Hero, PageLayout,} from '../components';
-import {AppStrings} from "./constants";
-import {useRouter} from "next/router";
-import {useGetAppsInCategoryListQuery, useGetDappListQuery} from "../features/dapp/dapp_api";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useState } from "react";
+import { AppList, Card, Hero, PageLayout, } from '../components';
+import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
+import { AppStrings } from "./constants";
 import Dapp from "./dapp";
 
 const Index = (props) => {
@@ -14,25 +12,25 @@ const Index = (props) => {
             data,
             isFetching,
             isLoading,
-        } = useGetDappListQuery({
+        } = useGetInfiniteDappListQuery({
             page:page,
             limit:limit,
-        },{
-            refetchOnMountOrArgChange:true
+        },{ 
+            refetchOnMountOrArgChange:true,
         });
-
+       
+        // since now data is being merge in RTK itself
         useEffect(() => {
             if (data) {
-                setItems([...items, ...data?.response])
+                setItems([ ...data?.response])
             }
         }, [data]);
 
-        const observerTarget = useRef(null);
-
+        // const observerTarget = useRef(null);
 
         const buildLoadingItems = () => {
-            const _items = [];
-            for (let i = 0; i < limit; i++) {
+            const _items : any[] =  [];
+            for (let i = 0; i < items.length; i++) {
                 _items.push(<Card>
                     <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />
                     <div className="bg-border-color h-[24px] my-4"/>
@@ -44,27 +42,47 @@ const Index = (props) => {
             return _items;
         }
 
-        const opt = {
-            threshold: 1,
-        };
+        // const opt = {
+        //     threshold: 1,
+        // };
 
+        // this one doesn't need to be refrished to listen to scroll events
         useEffect(() => {
-            console.log('Using Effect')
-            let {current} = observerTarget;
-            console.log(observerTarget);
-            const observer = new IntersectionObserver((entries) => {
-                console.log(entries)
-                if (entries[0].isIntersecting) {
-                    setPage(page + 1);
-                    console.log(page);
-                }
-            }, opt);
-            if (current) observer.observe(current!);
-
-            return () => {
-                if (current) observer.unobserve(current!);
+            const onScroll = () => {
+              const scrolledToBottom =
+                window.innerHeight + window.scrollY + window.innerHeight/3 >= document.body.offsetHeight;
+              if   (scrolledToBottom && !isFetching &&( page <( data?.pageCount || 0)) ) {
+                console.log("Fetching more data...");
+                setPage(page + 1);
+              }
             };
-    }, [observerTarget.current,  page]);
+        
+            document.addEventListener("scroll", onScroll);
+        
+            return function () {
+              document.removeEventListener("scroll", onScroll);
+            };
+          }, [page, isFetching]);
+
+    //     useEffect(() => {
+    //         console.log('Using Effect');
+    //         let {current} = observerTarget;
+    //         console.log("ObserverTarget",observerTarget);
+    //         const observer = new IntersectionObserver(async (entries) => {
+    //             console.log("Entries",entries);
+    //             console.log("isLoading;",isLoading);
+    //             console.log("isFetching;",isFetching);
+    //             if ((!(isFetching || isLoading)) && entries[0].isIntersecting) {
+    //                 setPage(page + 1);
+    //                 console.log(page);
+    //             }
+    //         }, opt);
+    //         if (current) observer.observe(current!);
+
+    //         return () => {
+    //             if (current) observer.unobserve(current!);
+    //         };
+    // }, [observerTarget.current,  page,isFetching]);
 
         let child;
         if ((isLoading || isFetching) && items.length === 0) return <PageLayout>
@@ -95,7 +113,9 @@ const Index = (props) => {
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full"/>
                 {child}
-                <div ref={observerTarget} />
+                {/* <div ref={observerTarget} /> */}
+                {/* TODO add loader here */}
+                <p>Loading more</p>
             </PageLayout>
         </>
     )

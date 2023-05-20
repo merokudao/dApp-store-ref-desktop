@@ -1,4 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { AppList } from "./app_list";
+import { Card } from './card';
 
 function Text(props) {
     const element = props.as || 'p';
@@ -40,12 +42,7 @@ function Button(props) {
 }
 
 
-export {
-    Text,
-    Button,
-    ExpandAbleText
-}
-export * from './layout';
+
 
 import {default as NXTImage } from 'next/image';
 
@@ -53,22 +50,33 @@ function RImage(props) {
     const imgRef = useRef(null);
     const [src, setSrc] = useState(props.placeholder || '/assets/images/icon_placeholder.png');
     useEffect(() => {
-        const {current} = imgRef;
-        if (current) {
-            if (current) {
-                current.src = props.src;
-                // img.onerror = () => setSrc('/assets/images/icon_placeholder.png')
-                current.onload = (evt) => {
-                    setSrc(props.src)
-                };
-            }
-        }        // console.log(img.src, src)
-    }, [imgRef]);
+        const img : any= imgRef.current;
+        // console.log(img.src, src)
+        if (img && img.src !== src) {
+            img.src = props.src;
+            // img.onerror = () => setSrc('/assets/images/icon_placeholder.png')
+            img.onload = (evt) => {
+                setSrc(props.src)
+            };
+        }
+    }, [src]);
     return <NXTImage  {...props} ref={imgRef} src={src} />
 }
 
 import {AppList} from "./app_list";
 import {Card} from './card';
+
+export * from './layout';
+export {
+    Text,
+    Button,
+    ExpandAbleText
+};
+export {
+    RImage,
+    AppList,
+    Card
+};
 export {
     RImage,
     AppList,
