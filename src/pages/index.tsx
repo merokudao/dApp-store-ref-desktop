@@ -30,14 +30,8 @@ const Index = (props) => {
 
         const buildLoadingItems = () => {
             const _items : any[] =  [];
-            for (let i = 0; i < items.length; i++) {
-                _items.push(<Card>
-                    <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />
-                    <div className="bg-border-color h-[24px] my-4"/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                    <div className='bg-border-color h-[12px] mb-2 w-full'/>
-                </Card>)
+            for (let i = 0; i < (items.length || 10); i++) {
+                _items.push(<div key={i} className="shimmer w-full h-[160px] rounded-lg" />)
             }
             return _items;
         }
@@ -109,7 +103,6 @@ const Index = (props) => {
                 video={"https://player.vimeo.com/video/791153931?h=969d328799"}
             />
             <PageLayout>
-                <p>{page}</p>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full"/>
                 {child}

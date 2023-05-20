@@ -57,8 +57,7 @@ function DappList(props) {
     const { query } = useRouter();
     const {
         data,
-        isFetching,
-        isLoading,
+        isLoading
     } = useSearchByIdQuery(query.id, {
         page: 1,
         limit: 20,
@@ -67,7 +66,13 @@ function DappList(props) {
     });
 
     const {address} = useAccount();
-    if (isLoading) return <PageLayout>Loading...</PageLayout>
+    if (isLoading) return <PageLayout>
+        <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+    </PageLayout>
+
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
     const dApp = data[0];

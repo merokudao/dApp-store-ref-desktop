@@ -177,7 +177,7 @@ export function PageLayout(props) {
         page:1,
         limit:limit,
     },{
-        refetchOnMountOrArgChange:true
+        refetchOnMountOrArgChange:false
     });
     if (isLoading || isFetching) return <h1>Loading</h1>
     if (!data.data) return <h1>Error</h1>
