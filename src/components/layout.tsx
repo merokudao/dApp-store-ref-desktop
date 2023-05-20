@@ -65,7 +65,14 @@ function ExpansionPanel(props) {
 function CategoryList(props) {
     const { data, isLoading, isError } = useGetCategoryListQuery();
 
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <div className="mr-[16px]">
+        <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[48xp] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+        <div className="shimmer w-full h-[48xp] mb-[16px] rounded-lg" />
+    </div>
     if (isError) return <p>Error</p>
 
     return (
@@ -116,7 +123,7 @@ export function Hero(props) {
         <>
             <div className="relative">
                 <div className="bg-black bg-no-repeat bg-cover">
-                    <Row className="h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
+                    <Row className="min-h-[80vh] h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
@@ -181,8 +188,19 @@ export function PageLayout(props) {
     },{
         refetchOnMountOrArgChange:false
     });
-    if (isLoading || isFetching) return <h1>Loading</h1>
-    if (!data.data) return <h1>Error</h1>
+    let child;
+    if (isLoading || isFetching) {
+        child=(<div className="mr-[16px]">
+            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
+        </div>)
+    }
+    // else if (!data.data) child= <h1>Error</h1>
+    else {
+        child = <CategoryList/>;
+    }
     return (
         <article className="container">
             <Row
@@ -194,7 +212,7 @@ export function PageLayout(props) {
                     <Input/>
                 </div>
             </Row>
-            <CategoryListSmall data={data} />
+            {data && <CategoryListSmall data={data} />}
             <Row className="items-start justify-start">
                 <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
@@ -216,7 +234,7 @@ export function PageLayout(props) {
                                 <span className="text-xl">{AppStrings.allDapps}</span>
                             </Link>
                         </div>
-                        <CategoryList/>
+                        {child}
                     </div>
                 </aside>
                 <section className="flex-initial lg:w-9/12 lg:pl-8 md:pt-8">

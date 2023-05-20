@@ -97,7 +97,7 @@ function DappList(props) {
                     <span className="text-2xl">{AppStrings.allDapps}</span>
                 </div>
                 {dApp.images.banner && <div className="z-0 relative top-[16px] lg:top-[48px] w-full h-[200px] lg:h-[400px]">
-                  <Image src={dApp.images.banner} fill={true} alt="DApp Banner" className="aspect-video	rounded-lg object-cover	" />
+                  <Image src={dApp.images.banner} placeholder={"/assets/images/banner_placeholder.png"} fill={true} alt="DApp Banner" className="aspect-video	rounded-lg object-cover	" />
                 </div>}
                 <section>
                     <header className="z-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4 px-[8px] lg:px-[16px]">
@@ -148,16 +148,16 @@ function DappList(props) {
                         <Divider />
                     </>)
                     }
-                    <DappDetailSection>
-                        <div className="flex justify-between items-center">
-                            <p className="text-2xl ">{AppStrings.social}</p>
-                            <div className="flex gap-3">
-                                <SocialButton />
-                                <SocialButton />
-                                <SocialButton />
-                            </div>
-                        </div>
-                    </DappDetailSection>
+                    {/*<DappDetailSection>*/}
+                    {/*    <div className="flex justify-between items-center">*/}
+                    {/*        <p className="text-2xl ">{AppStrings.social}</p>*/}
+                    {/*        <div className="flex gap-3">*/}
+                    {/*            <SocialButton />*/}
+                    {/*            <SocialButton />*/}
+                    {/*            <SocialButton />*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</DappDetailSection>*/}
                 </section>
             </div>
         </PageLayout>
