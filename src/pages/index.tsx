@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AppList, Card, Hero, PageLayout, } from '../components';
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
@@ -26,11 +26,11 @@ const Index = (props) => {
             }
         }, [data]);
 
-        const observerTarget = useRef(null);
+        // const observerTarget = useRef(null);
 
         const buildLoadingItems = () => {
             const _items : any[] =  [];
-            for (let i = 0; i < limit; i++) {
+            for (let i = 0; i < items.length; i++) {
                 _items.push(<Card>
                     <div className="bg-border-color w-[64px] h-[64px] rounded-lg" />
                     <div className="bg-border-color h-[24px] my-4"/>
@@ -42,16 +42,16 @@ const Index = (props) => {
             return _items;
         }
 
-        const opt = {
-            threshold: 1,
-        };
+        // const opt = {
+        //     threshold: 1,
+        // };
 
         // this one doesn't need to be refrished to listen to scroll events
         useEffect(() => {
             const onScroll = () => {
               const scrolledToBottom =
                 window.innerHeight + window.scrollY + window.innerHeight/3 >= document.body.offsetHeight;
-              if (scrolledToBottom && !isFetching) {
+              if   (scrolledToBottom && !isFetching &&( page <( data?.pageCount || 0)) ) {
                 console.log("Fetching more data...");
                 setPage(page + 1);
               }
@@ -113,7 +113,9 @@ const Index = (props) => {
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full"/>
                 {child}
-                <div ref={observerTarget} />
+                {/* <div ref={observerTarget} /> */}
+                {/* TODO add loader here */}
+                <p>Loading more</p>
             </PageLayout>
         </>
     )

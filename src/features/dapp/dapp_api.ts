@@ -47,25 +47,34 @@ export class DappDataSource implements IDappDataSource {
 
   // New RTK added for infinite list, this one merger the data itself
   getInfiniteAppList(builder: EndpointBuilder<any, any, any>) {
-    return builder.query<any, PagedRequest>({
+    return builder.query<any, any>({
       query: (args) => ({
         url: `${ApiEndpoints.APP_LIST}`,
         params: args,
       }),
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
+      serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
+        if (queryArgs?.categories !== undefined) {
+          return endpointName + queryArgs?.categoreis;
+        } else if (queryArgs?.search !== undefined) {
+          return endpointName + queryArgs?.search;
+        } else return endpointName;
       },
       forceRefetch({ currentArg, previousArg }) {
+        console.log("PreviousPage: ", previousArg?.page);
+        console.log("CurrentPage: ", currentArg?.page);
         return currentArg !== previousArg;
       },
+      keepUnusedDataFor: 360,
       // Always merge incoming data to the cache entry
-      merge: (currentCache, newItems) => {
+      merge: (currentCache, newItems, otherArgs) => {
+        console.log("newItems", newItems);
         if (currentCache.response === undefined) {
           currentCache.response = newItems.response;
         } else {
           currentCache.response?.push(...newItems.response);
         }
         currentCache.page = newItems.page;
+        console.log("currentCache", currentCache);
       },
     });
   }
