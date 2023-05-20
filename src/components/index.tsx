@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AppList } from "./app_list";
 import { Card } from './card';
 
-import {default as NXTImage } from 'next/image';
+import { default as NXTImage } from 'next/image';
 
 function Text(props) {
     const element = props.as || 'p';

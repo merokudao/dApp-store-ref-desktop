@@ -1,13 +1,13 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { App } from "../app/constants.js";
 import { useGetCategoryListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
-import { Button, Card, RImage as Image } from "./index";
+import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
-import {default as NXTImage} from "next/image";
 
 
 function NavBar(props) {
@@ -83,7 +83,8 @@ function Input(props) {
 
     useEffect(() => {
         if (value) {
-            router.push(`/search?search=${value}`);
+            router.push(`/search?search=${value}`,undefined,{shallow:true});
+            document.getElementById("searchBar")?.focus();
         }
     }, [value])
 
@@ -97,7 +98,7 @@ function Input(props) {
                             fill="white"/>
                     </svg>
                 </div>
-                <input value={value}
+                <input value={value} id='searchBar'
                        onChange={(evt) => {
                            setValue(evt.target.value);
                        }}
