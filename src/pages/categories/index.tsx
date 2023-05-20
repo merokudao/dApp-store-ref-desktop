@@ -1,4 +1,4 @@
-import { Card, PageLayout } from "@/components";
+import { PageLayout } from "@/components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AppList } from "../../components/app_list";
@@ -33,7 +33,7 @@ function CategoriesList(props) {
         } = useGetInfiniteDappListQuery({
                 ...router.query,page,limit
             },{ 
-            refetchOnMountOrArgChange:true,
+            refetchOnMountOrArgChange:false,
         });
 
        

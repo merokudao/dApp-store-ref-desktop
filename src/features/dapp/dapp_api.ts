@@ -62,7 +62,7 @@ export class DappDataSource implements IDappDataSource {
       forceRefetch({ currentArg, previousArg }) {
         console.log("PreviousPage: ", previousArg?.page);
         console.log("CurrentPage: ", currentArg?.page);
-        return currentArg !== previousArg;
+        return currentArg?.page !== previousArg?.page;
       },
       keepUnusedDataFor: 360,
       // Always merge incoming data to the cache entry
