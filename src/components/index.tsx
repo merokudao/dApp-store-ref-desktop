@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { AppList } from "./app_list";
 import { Card } from './card';
 
+import {default as NXTImage } from 'next/image';
+
 function Text(props) {
     const element = props.as || 'p';
     const color = props.color || '#87868C';
@@ -44,8 +46,6 @@ function Button(props) {
 
 
 
-import {default as NXTImage } from 'next/image';
-
 function RImage(props) {
     const imgRef = useRef(null);
     const [src, setSrc] = useState(props.placeholder || '/assets/images/icon_placeholder.png');
@@ -63,19 +63,11 @@ function RImage(props) {
     return <NXTImage  {...props} ref={imgRef} src={src} />
 }
 
-import {AppList} from "./app_list";
-import {Card} from './card';
-
 export * from './layout';
 export {
     Text,
     Button,
     ExpandAbleText
-};
-export {
-    RImage,
-    AppList,
-    Card
 };
 export {
     RImage,
