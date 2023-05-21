@@ -1,9 +1,11 @@
-import {useEffect, useState} from "react";
-
-import {PageLayout, AppList} from "@/components";
-import {AppStrings} from "../constants";
+import { AppList, PageLayout } from "@/components";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getApp } from "../../features/app/app_slice";
+import { AppStrings } from "../constants";
 
 export default function HistoryPage(props) {
+    const app = useSelector(getApp);
     const [history, setHistory] = useState({});
     useEffect(() => {
         let text = localStorage.getItem('dApps')

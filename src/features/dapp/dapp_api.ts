@@ -54,21 +54,24 @@ export class DappDataSource implements IDappDataSource {
       }),
       serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
         if (queryArgs?.categories !== undefined) {
-          console.log(queryArgs?.chainId)
+          console.log(queryArgs?.chainId);
           return endpointName + queryArgs?.categories + queryArgs?.chainId;
         } else if (queryArgs?.search !== undefined) {
-          return endpointName + queryArgs?.search  + queryArgs?.chainId;
+          return endpointName + queryArgs?.search + queryArgs?.chainId;
         } else return endpointName + queryArgs?.chainId;
       },
       forceRefetch({ currentArg, previousArg }) {
         console.log("PreviousPage: ", previousArg?.page);
         console.log("CurrentPage: ", currentArg?.page);
-        return currentArg?.page !== previousArg?.page;
+        return currentArg?.page === previousArg?.page
+          ? currentArg?.chainId !== previousArg?.chainId
+          : true;
       },
       keepUnusedDataFor: 360,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems, otherArgs) => {
         console.log("newItems", newItems);
+        if (currentCache.page === newItems.page) return;
         if (currentCache.response === undefined) {
           currentCache.response = newItems.response;
         } else {
@@ -94,7 +97,8 @@ export class DappDataSource implements IDappDataSource {
 
   getCategoryList(builder: EndpointBuilder<any, any, any>) {
     return builder.query<CategoryListResponse, {}>({
-      query: (args) => `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=${args.chainId}`,
+      query: (args) =>
+        `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=${args.chainId}`,
     });
   }
 
