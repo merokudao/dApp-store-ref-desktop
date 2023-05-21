@@ -15,7 +15,7 @@ export default function HistoryPage(props) {
         }
         console.log(history);
 
-    }, [])
+    }, [history])
     return (
         <PageLayout>
             <h1 className="text-4xl mb-8 capitalize">{AppStrings.browsingHistory}</h1>

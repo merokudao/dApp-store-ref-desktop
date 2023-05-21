@@ -59,7 +59,7 @@ function RImage(props) {
                 setSrc(props.src)
             };
         }
-    }, [src]);
+    }, [props.src, src]);
     return <NXTImage  {...props} ref={imgRef} src={src} />
 }
 

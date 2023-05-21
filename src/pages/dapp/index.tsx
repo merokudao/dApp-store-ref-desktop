@@ -147,7 +147,7 @@ function DappList(props) {
                     {dApp.images.screenshots?.length && (<>
                         <DappDetailSection title={AppStrings.gallery}>
                             <div className="grid grid-cols-3 gap-4">
-                                {dApp.images.screenshots?.map((e) => <img key={JSON.stringify(e)} src={e || ''} alt="DApp Screenshots" />)}
+                                {dApp.images.screenshots?.map((e) => <Image key={JSON.stringify(e)} src={e || ''} alt="DApp Screenshots" />)}
                             </div>
                         </DappDetailSection>
                         <Divider />

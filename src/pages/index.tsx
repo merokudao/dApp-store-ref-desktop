@@ -17,12 +17,13 @@ const Index = (props) => {
         isFetching,
         isLoading,
     } = useGetInfiniteDappListQuery({
-        page: (app.chainId === 137) ? page: page2,
+        page: (app.chainId === 137) ? page : page2,
         limit: limit,
         chainId: app.chainId,
     }, {
         refetchOnMountOrArgChange: true,
     });
+    const selectedPage = (app.chainId === 137) ? page : page2;
 
     // since now data is being merge in RTK itself
     useEffect(() => {
@@ -50,10 +51,10 @@ const Index = (props) => {
         const onScroll = () => {
             const scrolledToBottom =
                 window.innerHeight + window.scrollY + window.innerHeight / 3 >= document.body.offsetHeight;
-            if (scrolledToBottom && !isFetching && (((app.chainId === 137) ? page: page2) < (data?.pageCount || 0))) {
+            if (scrolledToBottom && !isFetching && (((app.chainId === 137) ? page : page2) < (data?.pageCount || 0))) {
                 console.log("Fetching more data...");
-                
-                (app.chainId === 137) ? setPage(page + 1): setPage2(page2+1);
+
+                (app.chainId === 137) ? setPage(page + 1) : setPage2(page2 + 1);
             }
         };
 
@@ -62,7 +63,7 @@ const Index = (props) => {
         return function () {
             document.removeEventListener("scroll", onScroll);
         };
-    }, [(app.chainId === 137) ? page: page2, isFetching]);
+    }, [selectedPage, isFetching, app.chainId, data?.pageCount, page, page2]);
 
     //     useEffect(() => {
     //         console.log('Using Effect');

@@ -39,13 +39,36 @@ function Siwe() {
             window.alert(error)
         }
     }
-
     useEffect(() => {
         console.log(isConnected);
         if (isConnected && !session) {
-            handleLogin()
+            (async () => {
+                try {
+                    const callbackUrl = "/protected"
+                    const message = new SiweMessage({
+                        domain: window.location.host,
+                        address: address,
+                        statement: "Sign in with Ethereum to the app.",
+                        uri: window.location.origin,
+                        version: "1",
+                        chainId: chain?.id,
+                        nonce: await getCsrfToken(),
+                    })
+                    const signature = await signMessageAsync({
+                        message: message.prepareMessage(),
+                    })
+                    signIn("credentials", {
+                        message: JSON.stringify(message),
+                        redirect: false,
+                        signature,
+                        callbackUrl,
+                    })
+                } catch (error) {
+                    window.alert(error)
+                }
+            })()
         }
-    }, [isConnected])
+    }, [isConnected, session, address, chain?.id, signMessageAsync])
 
     return (
         <Layout>

@@ -115,7 +115,7 @@ function Input(props) {
             router.push(`/search?search=${value}`, undefined, { shallow: true });
             document.getElementById("searchBar")?.focus();
         }
-    }, [value])
+    }, [value, router])
 
     return (
         <div className={props.className}>

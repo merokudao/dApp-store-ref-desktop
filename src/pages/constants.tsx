@@ -15,4 +15,5 @@ const AppStrings = {
 export {
     AppStrings
 }
-export default () => { }
+const defaultExport = () => { }
+export default defaultExport;
