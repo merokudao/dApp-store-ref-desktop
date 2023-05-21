@@ -4,7 +4,6 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { WC_PROJECT_ID } from "../../api/constants";
 import { chains } from "./config";
-import { useAccount } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public';
 
 export const { connectors } = getDefaultWallets({ appName: 'DappStore', projectId: WC_PROJECT_ID ?? "", chains: chains })
