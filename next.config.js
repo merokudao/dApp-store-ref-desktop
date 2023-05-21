@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: 'build',
+
   i18n: {
     locales: ['en'],
     defaultLocale: 'en'

@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/fonts": ["./styles/fonts"],
-      "@/components": ["./src/components"]
+      "@/fonts": [
+        "./styles/fonts"
+      ],
+      "@/components": [
+        "./src/components"
+      ]
     },
     "target": "es5",
     "lib": [
@@ -34,7 +38,9 @@
   "include": [
     "src",
     "global.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "build/types/**/*.ts",
+    "dist/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

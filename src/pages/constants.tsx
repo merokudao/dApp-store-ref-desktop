@@ -15,3 +15,4 @@ const AppStrings = {
 export {
     AppStrings
 }
+export default () => { }
