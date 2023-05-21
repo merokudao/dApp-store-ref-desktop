@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { AppList, Card, Hero, PageLayout, } from '../components';
+import { useSelector } from "react-redux";
+import { AppList, Hero, PageLayout } from '../components';
+import { getApp } from "../features/app/app_slice";
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
 import Dapp from "./dapp";
-import { useSelector } from "react-redux";
-import { getApp } from "../features/app/app_slice";
 
 const Index = (props) => {
     const app = useSelector(getApp);
@@ -32,9 +32,9 @@ const Index = (props) => {
 
     // const observerTarget = useRef(null);
 
-    const buildLoadingItems = () => {
+    const buildLoadingItems = (count: number = 10) => {
         const _items: any[] = [];
-        for (let i = 0; i < (items.length || 10); i++) {
+        for (let i = 0; i < (count); i++) {
             _items.push(<div key={i} className="shimmer w-full h-[160px] rounded-lg" />)
         }
         return _items;
@@ -88,7 +88,7 @@ const Index = (props) => {
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-                {buildLoadingItems()}
+                {buildLoadingItems(items.length || 10)}
             </div>
         </div>
     </PageLayout>
@@ -108,7 +108,7 @@ const Index = (props) => {
                     video={app.hero.video}
                 />
             </div>
-            <PageLayout>
+            <PageLayout><>{page}</>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full" />
                 {child}
@@ -118,7 +118,7 @@ const Index = (props) => {
                     <div className="h-[35px] w-full" />
 
                     <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-                        {buildLoadingItems()}
+                        {buildLoadingItems(4)}
                     </div>
                 </div> : <div />}
 
