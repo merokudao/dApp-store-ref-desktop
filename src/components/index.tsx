@@ -14,7 +14,7 @@ function Text(props) {
             className: `${props.className} ${className}`,
         },
         // {dApp.description.split('\\n').map(e => <p>{e}</p>)}
-        props.children.split('\\n').map(e => <p>{e}</p>)
+        props.children.split('\\n').map(e => <p key={JSON.stringify(e)}>{e}</p>)
     );
 }
 
@@ -50,7 +50,7 @@ function RImage(props) {
     const imgRef = useRef(null);
     const [src, setSrc] = useState(props.placeholder || '/assets/images/icon_placeholder.png');
     useEffect(() => {
-        const img : any= imgRef.current;
+        const img: any = imgRef.current;
         // console.log(img.src, src)
         if (img && img.src !== src) {
             img.src = props.src;
