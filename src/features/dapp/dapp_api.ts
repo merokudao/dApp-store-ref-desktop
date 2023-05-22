@@ -54,13 +54,13 @@ export class DappDataSource implements IDappDataSource {
       }),
       serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
         let key = endpointName + queryArgs.chainId;
-        if (queryArgs?.categories !== undefined) {
+        if (queryArgs?.categories) {
           key += queryArgs?.categories;
         }
-        if (queryArgs?.subCategory !== undefined) {
+        if (queryArgs?.subCategory) {
           key += queryArgs?.subCategory;
         }
-        if (queryArgs?.search !== undefined) {
+        if (queryArgs?.search) {
           key += queryArgs?.search;
         }
         return  key
