@@ -53,12 +53,17 @@ export class DappDataSource implements IDappDataSource {
         params: args,
       }),
       serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
+        let key = endpointName + queryArgs.chainId;
         if (queryArgs?.categories !== undefined) {
-          console.log(queryArgs?.chainId);
-          return endpointName + queryArgs?.categories + queryArgs?.chainId;
-        } else if (queryArgs?.search !== undefined) {
-          return endpointName + queryArgs?.search + queryArgs?.chainId;
-        } else return endpointName + queryArgs?.chainId;
+          key += queryArgs?.categories;
+        }
+        if (queryArgs?.subCategory !== undefined) {
+          key += queryArgs?.subCategory;
+        }
+        if (queryArgs?.search !== undefined) {
+          key += queryArgs?.search;
+        }
+        return  key
       },
       forceRefetch({ currentArg, previousArg }) {
         console.log("PreviousPage: ", previousArg?.page);
@@ -96,7 +101,7 @@ export class DappDataSource implements IDappDataSource {
   }
 
   getCategoryList(builder: EndpointBuilder<any, any, any>) {
-    return builder.query<CategoryListResponse, {}>({
+    return builder.query<CategoryListResponse, any>({
       query: (args) =>
         `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=${args.chainId}`,
     });

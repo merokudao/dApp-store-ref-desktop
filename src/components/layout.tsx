@@ -52,21 +52,23 @@ function ExpansionPanel(props) {
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const hasSubCategories = props.category.subCategory.length > 0;
     return (
-        <details open={isExpanded} onToggle={(evt) => console.log(evt)} className="pr-4">
+        <details open={isExpanded} onToggle={() => setExpanded(!isExpanded)} className="pr-4">
             <summary>
-                <Link  className="flex items-center justify-between" href={`/categories/?categories=${props.category.category}`}>
-                    <p className="text-[20px] py-[10px] capitalize">{props.category.category}</p>
+                <div className="flex items-center justify-between">
+                    <Link href={`/categories/?categories=${props.category.category}`}>
+                        <p className="text-[20px] py-[10px] capitalize">{props.category.category}</p>
+                    </Link>
                     {hasSubCategories &&
-                      <div onClick={() => setExpanded(!isExpanded)} className={isExpanded ? "rotate-180" : ""}>
+                      <div className={isExpanded ? "rotate-180" : ""}>
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"/>
                         </svg>
                       </div>}
-                </Link>
+                </div>
             </summary>
 
-            {props.category.subCategory.map((e) =>
+            {hasSubCategories && props.category.subCategory.map((e) =>
                     (<div className="pl-5">
                         <Link href={`/categories/?categories=${props.category.category}&subCategory=${e}`}>
                             <p className="text-[16px] text-[#87868C] font-[500] py-[10px] hover:text-[#fff] capitalize">{e}</p>
