@@ -9,7 +9,7 @@ import { AppStrings } from "../pages/constants";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
 import {useDispatch, useSelector} from "react-redux";
-import {setApp, setAppState} from "../features/app/app_slice";
+import {getApp, setApp} from "../features/app/app_slice";
 
 
 function NavBar(props) {
