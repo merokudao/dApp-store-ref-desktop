@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps<{
                 <SessionProvider refetchInterval={0} session={pageProps.session}>
                     <RainbowKitSiweNextAuthProvider >
                         <RainbowKitProvider chains={chains} theme={darkTheme()}>
-                            <Layout  className={generalSans.className}>
+                            <Layout className={generalSans.className}>
                                 <Component {...pageProps} />
                             </Layout>
                         </RainbowKitProvider>
