@@ -15,6 +15,7 @@ export interface Dapp {
     listDate: string,
     availableOnPlatform: Array<string>,
     "category": string,
+    tags: Array<string>,
     "chains": Array<number>,
     "images": {
         banner: string,
