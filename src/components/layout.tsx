@@ -142,7 +142,8 @@ function Input(props) {
 }
 
 export function Hero(props) {
-    const { title, subtitle, poster, video, button } = props;
+    const { title, subtitle, video, button } = props;
+
     return (
         <>
             <div className="relative">
@@ -154,13 +155,13 @@ export function Hero(props) {
                             <Button>{button.text}</Button>
                         </div>
                         <div className="flex-initial sm:w-1/2 md:flex-grow">
-                            <iframe src={`${video}?transparent=0&background=1&controls=1&autoplay=1&loop=1`}
-                                className="w-full"
-                                width={window.innerWidth / 2}
-                                height={window.innerHeight / 2}
-                                frameBorder="0"
-                                allow="autoplay; fullscreen"
-                                allowFullScreen />
+                            { typeof window !== "undefined" &&
+                                <iframe src={`${video}?transparent=0&background=1&controls=1&autoplay=1&loop=1`}
+                                        className="lg:w-[40vw] h-[50vh]"
+                                        frameBorder="0"
+                                        allow="autoplay; fullscreen"
+                                        allowFullScreen />
+                            }
                         </div>
                     </Row>
                 </div>
@@ -269,6 +270,8 @@ export function PageLayout(props) {
 }
 
 export default function Layout(props) {
+    const app = useSelector(getApp);
+    const router = useRouter();
     return (
         <>
             <div {...props}>
@@ -276,6 +279,14 @@ export default function Layout(props) {
                     <NavBar />
                 </div>
                 <main className="relative top-[70px]">
+                    {router.asPath === '/' && <div className="min-h-[80vh]">
+                      <Hero
+                        title={app.hero.title}
+                        subtitle={app.hero.title}
+                        button={app.hero.button}
+                        video={app.hero.video}
+                      />
+                    </div>}
                     {props.children}
                 </main>
             </div>

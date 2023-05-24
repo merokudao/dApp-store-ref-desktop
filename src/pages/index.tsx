@@ -32,8 +32,6 @@ const Index = (props) => {
         }
     }, [data]);
 
-    // const observerTarget = useRef(null);
-
     const buildLoadingItems = (count: number = 10) => {
         const _items: any[] = [];
         for (let i = 0; i < (count); i++) {
@@ -42,9 +40,6 @@ const Index = (props) => {
         return _items;
     }
 
-    // const opt = {
-    //     threshold: 1,
-    // };
 
     // this one doesn't need to be refrished to listen to scroll events
     useEffect(() => {
@@ -65,26 +60,6 @@ const Index = (props) => {
         };
     }, [selectedPage, isFetching, app.chainId, data?.pageCount, page, page2]);
 
-    //     useEffect(() => {
-    //         console.log('Using Effect');
-    //         let {current} = observerTarget;
-    //         console.log("ObserverTarget",observerTarget);
-    //         const observer = new IntersectionObserver(async (entries) => {
-    //             console.log("Entries",entries);
-    //             console.log("isLoading;",isLoading);
-    //             console.log("isFetching;",isFetching);
-    //             if ((!(isFetching || isLoading)) && entries[0].isIntersecting) {
-    //                 setPage(page + 1);
-    //                 console.log(page);
-    //             }
-    //         }, opt);
-    //         if (current) observer.observe(current!);
-
-    //         return () => {
-    //             if (current) observer.unobserve(current!);
-    //         };
-    // }, [observerTarget.current,  page,isFetching]);
-
     let child;
     if ((isLoading || isFetching) && ((items.length === 0) || ((items[0] as any).chains as Array<number>).indexOf(app.chainId) === -1)) return <PageLayout>
         <div>
@@ -95,35 +70,20 @@ const Index = (props) => {
         </div>
     </PageLayout>
 
-    child = (<>
-        <AppList data={items} />
-    </>
-    );
+    child = <AppList data={items} />;
 
     return (
         <>
-            <div className="min-h-[80vh]">
-                <Hero
-                    title={app.hero.title}
-                    subtitle={app.hero.title}
-                    button={app.hero.button}
-                    video={app.hero.video}
-                />
-            </div>
             <PageLayout>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full" />
                 {child}
-                {/* <div ref={observerTarget} /> */}
-                {/* TODO add loader here */}
                 {(isLoading || isFetching) ? <div>
                     <div className="h-[35px] w-full" />
-
                     <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
                         {buildLoadingItems(4)}
                     </div>
-                </div> : <div />}
-
+                </div> : null}
             </PageLayout>
         </>
     )
