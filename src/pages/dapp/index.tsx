@@ -11,6 +11,8 @@ import {Row} from "../../components/layout/flex";
 import {useConnectModal} from "@rainbow-me/rainbowkit";
 import Modal from 'react-modal';
 import {useEffect, useState} from "react";
+import {useGetDappByOwnerAddressQuery} from "../../features/dapp/dapp_api";
+import {Dapp} from "../../features/dapp/models/dapp";
 
 Modal.setAppElement('#__next');
 
@@ -74,6 +76,33 @@ function DownloadButton(props) {
     </a>;
 }
 
+function ClaimDappSection(props) {
+    const {onClick, address, onOpenConnectModal} = props;
+    return (
+        <Row className="items-start justify-between">
+            <div className="w-8/12 flex flex-col gap-[16px]">
+                <h2 className="text-[24px] text-[500] leading-[32px]">Claim this dApp</h2>
+                <p className="text-[#87868C]">This dApp has not been claimed by its developers. Click here to open the Meroku platform and claim your .app domain</p>
+                {!address && onOpenConnectModal && <p onClick={onOpenConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>}
+            </div>
+            <ClaimButton onClick={onClick}>Claim</ClaimButton>
+        </Row>
+    );
+}
+
+function UpdateDappSection(props) {
+    const {onClick} = props;
+    return (
+        <Row className="items-start justify-between">
+            <div className="w-8/12 flex flex-col gap-[16px]">
+                <h2 className="text-[24px] text-[500] leading-[32px]">Update dApp</h2>
+                <p className="text-[#87868C]">Click here to update the dApp metadata on the Meroku platform. You are seeing this because you have claimed this dApp's .app namespace</p>
+            </div>
+            <ClaimButton onClick={onClick}>Update</ClaimButton>
+        </Row>
+    );
+}
+
 function DappList(props) {
     const router = useRouter();
     const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
@@ -101,6 +130,14 @@ function DappList(props) {
     });
 
     const { address } = useAccount();
+
+    const {
+        ownedApps,
+        isOwnedAppsLoading,
+    } = useGetDappByOwnerAddressQuery(address, {
+        skip: (address === undefined) && (isLoading || !data[0].minted)
+    });
+
     if (isLoading) return <PageLayout>
         <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
@@ -110,15 +147,26 @@ function DappList(props) {
 
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
-    const dApp = data[0];
+    const dApp:Dapp = data.data[0];
+
+    if (!dApp) {
+        return <PageLayout>Missing post!</PageLayout>
+    }
+
     const history = JSON.parse(localStorage.getItem('dApps') ?? "{}");
-    localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, { [dApp.id]: dApp })));
+    localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, { [dApp.dappId]: dApp })));
     const args = new URLSearchParams();
     if (address) {
         args.set('userAddress', address);
     }
-    const viewLink = `${BASE_URL}/o/view/${dApp.id}?${args.toString()}`
-    const downloadLink = `${BASE_URL}/o/download/${dApp.id}?${args.toString()}`
+    const viewLink = `${BASE_URL}/o/view/${dApp.dappId}?${args.toString()}`
+    const downloadLink = `${BASE_URL}/o/download/${dApp.dappId}?${args.toString()}`
+
+    const isOwner = isOwnedAppsLoading ? false : (ownedApps?.data?.includes(dApp.dappId) || false)
+
+    const getIframeSrc = ():string => {
+        return isOwner ? 'https://app.meroku.org/update' : 'https://app.meroku.org/app'
+    }
 
     const onClaimButtonClick = () => {
         if (!!address) {
@@ -177,7 +225,7 @@ function DappList(props) {
                         </div>
                     </header>
                     <DappDetailSection title={AppStrings.about}>
-                        <ExpandAbleText maxLines={3}>{dApp.description}</ExpandAbleText>
+                        <ExpandAbleText maxCharacters={320} maxLines={3}>{dApp.description}</ExpandAbleText>
                     </DappDetailSection>
                     <Divider />
                     {dApp.images.screenshots?.length && (<>
@@ -190,20 +238,15 @@ function DappList(props) {
                     </>)
                     }
                     <DappDetailSection>
-                        <Row className="items-start justify-between">
-                            <div className="w-8/12 flex flex-col gap-[16px]">
-                                <h2 className="text-[24px] text-[500] leading-[32px]">Claim this dApp</h2>
-                                <p className="text-[#87868C]">This dApp has not been claimed by its developers. Click here to open the Meroku platform and claim your .app domain</p>
-                                {!address && openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>}
-                            </div>
-                            <ClaimButton onClick={onClaimButtonClick}>Claim</ClaimButton>
-                        </Row>
+                        {!!address && isOwner ?
+                            <UpdateDappSection  onClick={onClaimButtonClick} /> :
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} /> }
                     </DappDetailSection>
                 </section>
             </div>
             {isClaimOpen && <Modal
                 isOpen={isClaimOpen}
-                onRequestClose={null}
+                onRequestClose={() => setClaimOpen(false)}
                 style={modalStyles}
             >
                 <div className="w-full m-auto">
@@ -217,7 +260,7 @@ function DappList(props) {
                       </button>
                     </div>
                     <div className="bg-canvas-color">
-                        <iframe className="w-full rounded-[16px] min-h-screen" src="https://app.meroku.org/app"/>
+                        <iframe className="w-full rounded-[16px] min-h-screen" src={getIframeSrc()} />
                     </div>
                 </div>
             </Modal>}

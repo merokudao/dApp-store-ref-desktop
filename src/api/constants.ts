@@ -13,7 +13,7 @@ export const ApiEndpoints = {
     CATEGORIES: 'categories',
     CATEGORY_APPS: 'categories/categorydapps',
     FEATURED: 'index/featured',
-    SEARCH_BY_ID: 'dapp/searchById',
+    SEARCH_BY_ID: 'dapp/search',
     SEARCH_BY_PKG_ID: 'dapp/queryWithPackageId',
     REVIEWS: 'reviews',
     RATING: 'dapp/rate',

@@ -22,6 +22,8 @@ interface IDappDataSource {
   getCategoryList(builder: EndpointBuilder<any, any, any>);
 
   getAppsInCategoryList(builder: EndpointBuilder<any, any, any>);
+
+  getDappByOwnerAddress(builder: EndpointBuilder<any, any, any>);
 }
 
 export class DappDataSource implements IDappDataSource {
@@ -33,6 +35,7 @@ export class DappDataSource implements IDappDataSource {
         getFeaturedList: this.getFeaturedList(build),
         getCategoryList: this.getCategoryList(build),
         getAppsInCategoryList: this.getAppsInCategoryList(build),
+        getDappByOwnerAddress: this.getDappByOwnerAddress(build),
       }),
     });
   }
@@ -117,6 +120,14 @@ export class DappDataSource implements IDappDataSource {
     });
   }
 
+  getDappByOwnerAddress(builder:EndpointBuilder<any, any, any>) {
+    return builder.query<any, string>({
+      query: (ownerAddress) => ({
+        url: `api/v1/dapp/search/address/${ownerAddress}`
+      })
+    })
+  }
+
   getPolygonCategoryList() {
     return categories;
   }
@@ -128,6 +139,7 @@ export const {
   useGetDappListQuery,
   useGetInfiniteDappListQuery,
   useGetCategoryListQuery,
+  useGetDappByOwnerAddressQuery,
 } = dAppDataSource.registerEndpoints(api);
 
 export const getPolygonCategoryList = dAppDataSource.getPolygonCategoryList;

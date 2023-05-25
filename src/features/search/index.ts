@@ -22,7 +22,7 @@ class SearchDataSource implements ISearchDataSource {
 
     searchById(builder:EndpointBuilder<any, any, any>) {
         return builder.query<PagedResponse<Dapp>,string>({
-            query: (appId) => `${ApiEndpoints.SEARCH_BY_ID}?dappId=${appId}&chainId=137`,
+            query: (appId) => `/api/v1/dapp/search/${appId}`,
         });
     }
 

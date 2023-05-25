@@ -21,13 +21,21 @@ function Text(props) {
 
 
 function ExpandAbleText(props) {
+    const {maxCharacters} = props;
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const maxLines = isExpanded ? undefined : props.maxLines;
     const label = isExpanded ? "Read Less" : "Read More";
+    let text = props.children;
+    const requiresTruncation = text.length > maxCharacters
+    if (requiresTruncation) {
+        text = isExpanded ? props.children : `${props.children.substring(0,maxCharacters)}...`
+    }
     return (
         <>
-            <Text className="lg:text-white text-[14px] leading-[21px] font-[500]" maxLines={maxLines}>{props.children}</Text>
-            <button onClick={() => setExpanded(!isExpanded)}>{label}</button>
+            <Text className="lg:text-white text-[14px] leading-[21px] font-[500]" maxLines={maxLines}>
+                {text}
+            </Text>
+            {requiresTruncation && <button onClick={() => setExpanded(!isExpanded)}>{label}</button>}
         </>
     )
 }
