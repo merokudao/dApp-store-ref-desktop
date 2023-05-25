@@ -1,12 +1,31 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import { RImage as Image, ExpandAbleText, PageLayout, Button, RImage } from "../../components";
+import {RImage as Image, ExpandAbleText, PageLayout, Button, RImage, ClaimButton} from "../../components";
 import { AppStrings } from "../constants";
 import classNames from "classnames";
 import { useAccount } from "wagmi";
 import { API_HOST, BASE_URL } from "../../api/constants";
 import { useSelector } from "react-redux";
 import { getApp } from "../../features/app/app_slice";
+import {Row} from "../../components/layout/flex";
+import {useConnectModal} from "@rainbow-me/rainbowkit";
+import Modal from 'react-modal';
+import {useEffect, useState} from "react";
+
+Modal.setAppElement('#__next');
+
+const modalStyles = {
+    overlay: {
+        background: 'rgba(0,0,0,0.80)'
+    },
+    content: {
+        padding: 0,
+        top: '80px',
+        border: 0,
+        background: 'transparent'
+    }
+}
+
 
 function Divider(props) {
     return <div className="h-[1px] bg-[#2D2C33]" />
@@ -57,9 +76,19 @@ function DownloadButton(props) {
 
 function DappList(props) {
     const router = useRouter();
-
+    const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
+    const { openConnectModal } = useConnectModal();
     const app = useSelector(getApp);
     const { query } = useRouter();
+
+    useEffect(() => {
+        if (isClaimOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [isClaimOpen ]);
+
     const {
         data,
         isLoading
@@ -84,7 +113,6 @@ function DappList(props) {
     const dApp = data[0];
     const history = JSON.parse(localStorage.getItem('dApps') ?? "{}");
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, { [dApp.id]: dApp })));
-
     const args = new URLSearchParams();
     if (address) {
         args.set('userAddress', address);
@@ -92,6 +120,14 @@ function DappList(props) {
     const viewLink = `${BASE_URL}/o/view/${dApp.id}?${args.toString()}`
     const downloadLink = `${BASE_URL}/o/download/${dApp.id}?${args.toString()}`
 
+    const onClaimButtonClick = () => {
+        if (!!address) {
+            setClaimOpen(true)
+            return
+        } else if (openConnectModal) {
+            openConnectModal();
+        }
+    };
     return (
         <PageLayout>
             <div className="flex flex-col">
@@ -147,24 +183,44 @@ function DappList(props) {
                     {dApp.images.screenshots?.length && (<>
                         <DappDetailSection title={AppStrings.gallery}>
                             <div className="grid grid-cols-3 gap-4">
-                                {dApp.images.screenshots?.map((e) => <Image key={JSON.stringify(e)} src={e || ''} alt="DApp Screenshots" />)}
+                                {dApp.images.screenshots?.map((e,idx) => <img key={idx} src={e || ''} alt="DApp Screenshot" />)}
                             </div>
                         </DappDetailSection>
                         <Divider />
                     </>)
                     }
-                    {/*<DappDetailSection>*/}
-                    {/*    <div className="flex justify-between items-center">*/}
-                    {/*        <p className="text-2xl ">{AppStrings.social}</p>*/}
-                    {/*        <div className="flex gap-3">*/}
-                    {/*            <SocialButton />*/}
-                    {/*            <SocialButton />*/}
-                    {/*            <SocialButton />*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</DappDetailSection>*/}
+                    <DappDetailSection>
+                        <Row className="items-start justify-between">
+                            <div className="w-8/12 flex flex-col gap-[16px]">
+                                <h2 className="text-[24px] text-[500] leading-[32px]">Claim this dApp</h2>
+                                <p className="text-[#87868C]">This dApp has not been claimed by its developers. Click here to open the Meroku platform and claim your .app domain</p>
+                                {!address && openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>}
+                            </div>
+                            <ClaimButton onClick={onClaimButtonClick}>Claim</ClaimButton>
+                        </Row>
+                    </DappDetailSection>
                 </section>
             </div>
+            {isClaimOpen && <Modal
+                isOpen={isClaimOpen}
+                onRequestClose={null}
+                style={modalStyles}
+            >
+                <div className="w-full m-auto">
+                    <div className="flex justify-end ">
+                      <button onClick={() => setClaimOpen(false)}>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M27.5291 9L19.8848 16.6459L12.2404 9L10 11.2404L17.6459 18.8848L10 26.5291L12.2404 28.7695L19.8848 21.1236L27.5291 28.7695L29.7695 26.5291L22.1236 18.8848L29.7695 11.2404L27.5291 9Z"
+                            fill="white"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="bg-canvas-color">
+                        <iframe className="w-full rounded-[16px] min-h-screen" src="https://app.meroku.org/app"/>
+                    </div>
+                </div>
+            </Modal>}
         </PageLayout>
     );
 }

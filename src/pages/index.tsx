@@ -25,7 +25,7 @@ const Index = (props) => {
     });
     const selectedPage = (app.chainId === 137) ? page : page2;
 
-    // since now data is being merge in RTK itself
+    // since now data is being merged in RTK itself
     useEffect(() => {
         if (data) {
             setItems([...data?.response])
@@ -41,7 +41,7 @@ const Index = (props) => {
     }
 
 
-    // this one doesn't need to be refrished to listen to scroll events
+    // this one doesn't need to be refreshed to listen to scroll events
     useEffect(() => {
         const onScroll = () => {
             const scrolledToBottom =

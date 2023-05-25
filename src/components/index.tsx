@@ -45,6 +45,17 @@ function Button(props) {
 
 
 
+function ClaimButton(props) {
+    return <button {...props}
+                   className="flex items-center justify-center py-[10px] px-[40px] rounded-[32px] bg-gradient-to-b
+                              from-[#8A46FF] to-[#6E38CC] hover:from-[#fff] hover:to-[#ddd] hover:text-black
+                              disabled:cursor-not-allowed">
+        <span className="text-[14px] font-[600] leading-[18px]">{props.children}</span>
+    </button>
+}
+
+
+
 
 function RImage(props) {
     const imgRef = useRef(null);
@@ -67,9 +78,8 @@ export * from './layout';
 export {
     Text,
     Button,
-    ExpandAbleText
-};
-export {
+    ClaimButton,
+    ExpandAbleText,
     RImage,
     AppList,
     Card

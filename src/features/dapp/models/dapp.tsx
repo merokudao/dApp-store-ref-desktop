@@ -14,15 +14,15 @@ export interface Dapp {
     isListed: boolean,
     listDate: string,
     availableOnPlatform: Array<string>,
-    "category": string,
+    category: string,
     tags: Array<string>,
-    "chains": Array<number>,
-    "images": {
+    chains: Array<number>,
+    images: {
         banner: string,
         logo: string,
         screenshots:Array<string>
     },
-    "metrics": {
+    metrics: {
         "dappId": string,
         "downloads": number,
         "installs": number,
@@ -31,5 +31,6 @@ export interface Dapp {
         "visits": number,
         "rating": number
     },
-    "users": []
+    users: [],
+    minted?:boolean
 }

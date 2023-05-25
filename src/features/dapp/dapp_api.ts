@@ -8,6 +8,7 @@ import {
 } from "../../models/response";
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
+import {categories } from './polygon_categories';
 
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
@@ -115,6 +116,10 @@ export class DappDataSource implements IDappDataSource {
       }),
     });
   }
+
+  getPolygonCategoryList() {
+    return categories;
+  }
 }
 
 export const dAppDataSource = new DappDataSource();
@@ -123,5 +128,6 @@ export const {
   useGetDappListQuery,
   useGetInfiniteDappListQuery,
   useGetCategoryListQuery,
-  useGetAppsInCategoryListQuery,
 } = dAppDataSource.registerEndpoints(api);
+
+export const getPolygonCategoryList = dAppDataSource.getPolygonCategoryList;

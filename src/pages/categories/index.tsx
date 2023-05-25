@@ -6,6 +6,8 @@ import { useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
 import { useSelector } from "react-redux";
 import { getApp } from "../../features/app/app_slice";
+import {customToMerokuCategory} from "../../features/categories";
+import category from "./[category]";
 
 
 function CategoriesList(props) {
@@ -23,18 +25,19 @@ function CategoriesList(props) {
     // },{
     //     refetchOnMountOrArgChange:true
     // });
-
     const limit = 8;
     const app = useSelector(getApp);
     const [page, setPage] = useState<number>(1);
     const [items, setItems] = useState<Array<typeof Dapp>>([]);
-    console.log("Page no:", page);
+    const categoryMapped = customToMerokuCategory(router.query.categories, router.query.subCategory);
+
     const {
         data,
         isFetching,
         isLoading,
     } = useGetInfiniteDappListQuery({
-        ...router.query,
+        categories:categoryMapped.category,
+        subCategory:categoryMapped.subCategory,
         page,
         limit,
         chainId: app.chainId,
