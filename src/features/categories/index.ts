@@ -281,21 +281,21 @@ var polygonMappedList: string[] = [];
 merokuAPIData.map((e) => merokuCategoryList.push(e.category));
 
 (Object.values(polygonMappingData) as string[]).map((e) => {
-    polygonMappedList.push(e.split(".")[0]);
+  polygonMappedList.push(e.split(".")[0]);
 });
 
 var othersList: string[] = merokuCategoryList.filter(
-    (value) => !polygonMappedList.includes(value.toLowerCase())
+  (value) => !polygonMappedList.includes(value.toLowerCase())
 );
 
 interface CatSubCat {
-    category: string;
-    subCategory?: string;
+  category: string;
+  subCategory?: string;
 }
 
 // Create a Map object to be passed
 const customToMerokuMapping: Map<string, string> = new Map(
-    Object.entries(JSON.parse(polygonMapping))
+  Object.entries(JSON.parse(polygonMapping))
 );
 
 /**
@@ -303,26 +303,26 @@ const customToMerokuMapping: Map<string, string> = new Map(
  *
  */
 const customToMerokuCategory = (
-    category: string | string[] | undefined,
-    subCategory?: string | string[] | undefined
+  category: string | string[] | undefined,
+  subCategory?: string | string[] | undefined
 ): CatSubCat => {
-    const mapping = customToMerokuMapping;
-    let output: CatSubCat = { category: "" };
+  const mapping = customToMerokuMapping;
+  let output: CatSubCat = { category: "" };
 
-    const key = subCategory ? [category, subCategory].join(".") : category;
-    const value = mapping.get(key);
-    if (value) {
-        const [c, sc] = value.split(".");
-        output["category"] = c;
-        if (sc) {
-            output["subCategory"] = sc;
-        }
+  const key = subCategory ? [category, subCategory].join(".") : category as string;
+  const value = mapping.get(key);
+  if (value) {
+    const [c, sc] = value.split(".");
+    output["category"] = c;
+    if (sc) {
+      output["subCategory"] = sc;
     }
-    return output;
+  }
+  return output;
 };
 
 
 export {
-    polygonMappedList,
-    customToMerokuCategory
+  polygonMappedList,
+  customToMerokuCategory
 }
