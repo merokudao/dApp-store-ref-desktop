@@ -1,18 +1,18 @@
 import { useRouter } from "next/router";
 import { useSearchByIdQuery } from "../../features/search";
-import {RImage as Image, ExpandAbleText, PageLayout, Button, RImage, ClaimButton} from "../../components";
+import { RImage as Image, ExpandAbleText, PageLayout, Button, RImage, ClaimButton } from "../../components";
 import { AppStrings } from "../constants";
 import classNames from "classnames";
 import { useAccount } from "wagmi";
 import { API_HOST, BASE_URL } from "../../api/constants";
 import { useSelector } from "react-redux";
 import { getApp } from "../../features/app/app_slice";
-import {Row} from "../../components/layout/flex";
-import {useConnectModal} from "@rainbow-me/rainbowkit";
+import { Row } from "../../components/layout/flex";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Modal from 'react-modal';
-import {useEffect, useState} from "react";
-import {useGetDappByOwnerAddressQuery} from "../../features/dapp/dapp_api";
-import {Dapp} from "../../features/dapp/models/dapp";
+import { useEffect, useState } from "react";
+import { useGetDappByOwnerAddressQuery } from "../../features/dapp/dapp_api";
+import { Dapp } from "../../features/dapp/models/dapp";
 
 Modal.setAppElement('#__next');
 
@@ -77,7 +77,7 @@ function DownloadButton(props) {
 }
 
 function ClaimDappSection(props) {
-    const {onClick, address, onOpenConnectModal} = props;
+    const { onClick, address, onOpenConnectModal } = props;
     return (
         <Row className="items-start justify-between">
             <div className="w-8/12 flex flex-col gap-[16px]">
@@ -91,7 +91,7 @@ function ClaimDappSection(props) {
 }
 
 function UpdateDappSection(props) {
-    const {onClick} = props;
+    const { onClick } = props;
     return (
         <Row className="items-start justify-between">
             <div className="w-8/12 flex flex-col gap-[16px]">
@@ -116,7 +116,7 @@ function DappList(props) {
         } else {
             document.body.style.overflow = 'unset';
         }
-    }, [isClaimOpen ]);
+    }, [isClaimOpen]);
 
     const {
         data,
@@ -135,7 +135,7 @@ function DappList(props) {
         ownedApps,
         isOwnedAppsLoading,
     } = useGetDappByOwnerAddressQuery(address, {
-        skip: (address === undefined) && (isLoading || !data[0].minted)
+        skip: (address === undefined) && (isLoading || !data[0]?.minted)
     });
 
     if (isLoading) return <PageLayout>
@@ -147,7 +147,7 @@ function DappList(props) {
 
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
-    const dApp:Dapp = data.data[0];
+    const dApp: Dapp = data.data[0];
 
     if (!dApp) {
         return <PageLayout>Missing post!</PageLayout>
@@ -164,7 +164,7 @@ function DappList(props) {
 
     const isOwner = isOwnedAppsLoading ? false : (ownedApps?.data?.includes(dApp.dappId) || false)
 
-    const getIframeSrc = ():string => {
+    const getIframeSrc = (): string => {
         return isOwner ? 'https://app.meroku.org/update' : 'https://app.meroku.org/app'
     }
 
@@ -231,7 +231,7 @@ function DappList(props) {
                     {dApp.images.screenshots?.length && (<>
                         <DappDetailSection title={AppStrings.gallery}>
                             <div className="grid grid-cols-3 gap-4">
-                                {dApp.images.screenshots?.map((e,idx) => <img key={idx} src={e || ''} alt="DApp Screenshot" />)}
+                                {dApp.images.screenshots?.map((e, idx) => <img key={idx} src={e || ''} alt="DApp Screenshot" />)}
                             </div>
                         </DappDetailSection>
                         <Divider />
@@ -239,8 +239,8 @@ function DappList(props) {
                     }
                     <DappDetailSection>
                         {!!address && isOwner ?
-                            <UpdateDappSection  onClick={onClaimButtonClick} /> :
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} /> }
+                            <UpdateDappSection onClick={onClaimButtonClick} /> :
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} />}
                     </DappDetailSection>
                 </section>
             </div>
@@ -251,13 +251,13 @@ function DappList(props) {
             >
                 <div className="w-full m-auto">
                     <div className="flex justify-end ">
-                      <button onClick={() => setClaimOpen(false)}>
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M27.5291 9L19.8848 16.6459L12.2404 9L10 11.2404L17.6459 18.8848L10 26.5291L12.2404 28.7695L19.8848 21.1236L27.5291 28.7695L29.7695 26.5291L22.1236 18.8848L29.7695 11.2404L27.5291 9Z"
-                            fill="white"/>
-                        </svg>
-                      </button>
+                        <button onClick={() => setClaimOpen(false)}>
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M27.5291 9L19.8848 16.6459L12.2404 9L10 11.2404L17.6459 18.8848L10 26.5291L12.2404 28.7695L19.8848 21.1236L27.5291 28.7695L29.7695 26.5291L22.1236 18.8848L29.7695 11.2404L27.5291 9Z"
+                                    fill="white" />
+                            </svg>
+                        </button>
                     </div>
                     <div className="bg-canvas-color">
                         <iframe className="w-full rounded-[16px] min-h-screen" src={getIframeSrc()} />
