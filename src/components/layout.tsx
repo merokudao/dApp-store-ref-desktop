@@ -58,7 +58,7 @@ function ExpansionPanel(props) {
     // const [isExpanded, setExpanded] = useState<boolean>(open);
     const isExpanded = open;
     const hasSubCategories = props.category.subCategory.length > 0;
-    console.log(open)
+    // console.log(open)
     return (
         <div onClick={() => onClick(category.category)} className="pr-4">
             <div className="flex items-center justify-between">
@@ -108,7 +108,7 @@ function CategoryList(props) {
     return (
         <ul>
             {data.data.map((e) => <ExpansionPanel open={openKey === e.category}
-                                                  onClick={(value) => setOpenKey(value)}
+                                                  onClick={(value) => openKey === e.category ? setOpenKey(''): setOpenKey(value)}
                                                   category={e}
                                                   key={e.category}/>)}
         </ul>
@@ -183,8 +183,7 @@ export function Hero(props) {
 function CategoryListSmall(props) {
     const router = useRouter();
     const data = getPolygonCategoryList();
-    console.log("router.query.categories",router.query.categories);
-    console.log("router.query.subCategory",router.query.subCategory);
+
     const [openKey, setOpenKey] = useState<string>((router.query.categories as string | undefined) || '');
     const [selected, setSelected] = useState<string>((router.query.subCategory as string | undefined) || '')
 

@@ -8,7 +8,7 @@ import {
 } from "../../models/response";
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
-import {categories } from './polygon_categories';
+import { categories } from "./polygon_categories";
 
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
@@ -67,7 +67,7 @@ export class DappDataSource implements IDappDataSource {
         if (queryArgs?.search) {
           key += queryArgs?.search;
         }
-        return  key
+        return key;
       },
       forceRefetch({ currentArg, previousArg }) {
         console.log("PreviousPage: ", previousArg?.page);
@@ -120,12 +120,12 @@ export class DappDataSource implements IDappDataSource {
     });
   }
 
-  getDappByOwnerAddress(builder:EndpointBuilder<any, any, any>) {
+  getDappByOwnerAddress(builder: EndpointBuilder<any, any, any>) {
     return builder.query<any, string>({
       query: (ownerAddress) => ({
-        url: `api/v1/dapp/search/address/${ownerAddress}`
-      })
-    })
+        url: `api/v1/dapp/search/address/${ownerAddress}`,
+      }),
+    });
   }
 
   getPolygonCategoryList() {
