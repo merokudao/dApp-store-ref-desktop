@@ -1,18 +1,18 @@
-import { useRouter } from "next/router";
-import { useSearchByIdQuery } from "../../features/search";
-import { RImage as Image, ExpandAbleText, PageLayout, Button, RImage, ClaimButton } from "../../components";
-import { AppStrings } from "../constants";
-import classNames from "classnames";
-import { useAccount } from "wagmi";
-import { API_HOST, BASE_URL } from "../../api/constants";
-import { useSelector } from "react-redux";
-import { getApp } from "../../features/app/app_slice";
-import { Row } from "../../components/layout/flex";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import Modal from 'react-modal';
+import classNames from "classnames";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Modal from 'react-modal';
+import { useSelector } from "react-redux";
+import { useAccount } from "wagmi";
+import { BASE_URL } from "../../api/constants";
+import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout } from "../../components";
+import { Row } from "../../components/layout/flex";
+import { getApp } from "../../features/app/app_slice";
 import { useGetDappByOwnerAddressQuery } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
+import { useSearchByIdQuery } from "../../features/search";
+import { AppStrings } from "../constants";
 
 Modal.setAppElement('#__next');
 
@@ -77,7 +77,7 @@ function DownloadButton(props) {
 }
 
 function ClaimDappSection(props) {
-    const { onClick, address, onOpenConnectModal } = props;
+    const { onClick, address, onOpenConnectModal,minted } = props;
     return (
         <Row className="items-start justify-between">
             <div className="w-8/12 flex flex-col gap-[16px]">
@@ -240,7 +240,7 @@ function DappList(props) {
                     <DappDetailSection>
                         {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} />}
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted = {dApp.minted}/>}
                     </DappDetailSection>
                 </section>
             </div>

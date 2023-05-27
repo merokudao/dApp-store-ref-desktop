@@ -1,15 +1,15 @@
-import {ConnectButton} from '@rainbow-me/rainbowkit';
-import {default as NXTImage} from "next/image";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { default as NXTImage } from "next/image";
 import Link from "next/link";
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {App, posConfig, zkevmConfig} from "../app/constants.js";
-import {getPolygonCategoryList, useGetCategoryListQuery} from "../features/dapp/dapp_api";
-import {AppStrings} from "../pages/constants";
-import {Button, Card} from "./index";
-import {Row} from "./layout/flex";
-import {useDispatch, useSelector} from "react-redux";
-import {getApp, setApp} from "../features/app/app_slice";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { App, posConfig, zkevmConfig } from "../app/constants.js";
+import { getApp, setApp } from "../features/app/app_slice";
+import { getPolygonCategoryList, useGetCategoryListQuery } from "../features/dapp/dapp_api";
+import { AppStrings } from "../pages/constants";
+import { Button, Card } from "./index";
+import { Row } from "./layout/flex";
 
 
 function NavBar(props) {
@@ -181,17 +181,19 @@ export function Hero(props) {
 }
 
 function CategoryListSmall(props) {
-    const {data} = props;
-    const [openKey, setOpenKey] = useState();
-    const [selected, setSelected] = useState()
+    const data = getPolygonCategoryList();
+    const [openKey, setOpenKey] = useState<string>('');
+    const [selected, setSelected] = useState<string>('')
+
     return (
         <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
             {data.data.map((e, index) => (
-                <details key={JSON.stringify(e)} onToggle={() => setOpenKey(e.category)}>
+                <details key={JSON.stringify(e)} onToggle={() => {setOpenKey(e.category)}}>
                     <summary
                         className="cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]">
+                        <Link href={`/categories/?categories=${e.category}`}>
                         <div
-                            className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div>
+                            className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
                         {(e.subCategory.length > 0) && (
                             <svg className="ml-[16px]" width="24" height="25" viewBox="0 0 24 25" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -202,9 +204,17 @@ function CategoryListSmall(props) {
                     </summary>
                     {openKey === e.category && e.subCategory.length > 0 &&
                       <div className="cursor-pointer mt-[16px] inset-0">
-                        <Card>
-                            {e.subCategory.map((e) => <p key={JSON.stringify(e)} onClick={() => setSelected(e)}
-                                                         className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">{e}</p>)}
+                       <Card> 
+                         {
+                         e.subCategory.map((f) => 
+                         {
+                         
+                            return <Link href={`/categories/?categories=${e.category}&subCategory=${f}`}>
+                            <p key={JSON.stringify(e)} onClick={() => setSelected(f)} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
+                                {f}
+                            </p>
+                        </Link>})
+                        }
                         </Card>
                       </div>}
                 </details>
@@ -250,7 +260,9 @@ export function PageLayout(props) {
                     <Input/>
                 </div>
             </Row>
+            
             {data && <CategoryListSmall data={data}/>}
+            
             <Row className="items-start justify-start">
                 <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
@@ -266,7 +278,6 @@ export function PageLayout(props) {
                                 <span className="text-xl">{AppStrings.browsingHistory}</span>
                             </Link>
                         </div>
-
                         <div className="py-4">
                             <Link href="/">
                                 <span className="text-xl">{AppStrings.allDapps}</span>

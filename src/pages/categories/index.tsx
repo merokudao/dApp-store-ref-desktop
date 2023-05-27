@@ -1,13 +1,12 @@
 import { PageLayout } from "@/components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { AppList } from "../../components/app_list";
+import { getApp } from "../../features/app/app_slice";
+import { customToMerokuCategory } from "../../features/categories";
 import { useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
-import { useSelector } from "react-redux";
-import { getApp } from "../../features/app/app_slice";
-import {customToMerokuCategory} from "../../features/categories";
-import category from "./[category]";
 
 
 function CategoriesList(props) {
@@ -36,6 +35,7 @@ function CategoriesList(props) {
         isFetching,
         isLoading,
     } = useGetInfiniteDappListQuery({
+        search: router.query.search,
         categories:categoryMapped.category,
         subCategory:categoryMapped.subCategory,
         page,
@@ -90,7 +90,7 @@ function CategoriesList(props) {
 
     let child;
 
-    if (isLoading || isFetching && items.length === 0) return <PageLayout>
+    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== router.query?.category) || ((items[0] as any)?.subCategory !== router.query?.subCategory))) return <PageLayout>
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
@@ -104,6 +104,7 @@ function CategoriesList(props) {
     return (
         <PageLayout>
             <h1 className="text-[24px] leading-[32px] lg:text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
+            
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             {child}
         </PageLayout>

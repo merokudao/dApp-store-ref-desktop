@@ -309,7 +309,9 @@ const customToMerokuCategory = (
   const mapping = customToMerokuMapping;
   let output: CatSubCat = { category: "" };
 
-  const key = subCategory ? [category, subCategory].join(".") : category as string;
+  const key = subCategory
+    ? [category, subCategory].join(".")
+    : (category as string);
   const value = mapping.get(key);
   if (value) {
     const [c, sc] = value.split(".");
@@ -321,8 +323,4 @@ const customToMerokuCategory = (
   return output;
 };
 
-
-export {
-  polygonMappedList,
-  customToMerokuCategory
-}
+export { polygonMappedList, customToMerokuCategory };
