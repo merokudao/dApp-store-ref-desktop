@@ -241,6 +241,15 @@ function DappList(props) {
                         {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
                             <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted = {dApp.minted}/>}
+
+{/*                         
+                        {!(address == undefined) ?
+                            isOwner ?
+                                <UpdateDappSection onClick={onClaimButtonClick} /> :
+                                !((dApp.minted == undefined) || (!dApp.minted)) ?
+                                       ( openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>) :
+                                        <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>:
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>} */}
                     </DappDetailSection>
                 </section>
             </div>
