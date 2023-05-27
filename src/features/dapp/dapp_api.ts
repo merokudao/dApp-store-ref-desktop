@@ -80,6 +80,11 @@ export class DappDataSource implements IDappDataSource {
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems, otherArgs) => {
         console.log("newItems", newItems);
+        if (newItems.page < currentCache.page) {
+          currentCache.response = newItems.response;
+          currentCache.page = newItems.page;
+          return;
+        }
         if (currentCache.page === newItems.page) return;
         if (currentCache.response === undefined) {
           currentCache.response = newItems.response;

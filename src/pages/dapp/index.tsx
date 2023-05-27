@@ -120,7 +120,8 @@ function DappList(props) {
 
     const {
         data,
-        isLoading
+        isFetching,
+        isLoading,
     } = useSearchByIdQuery(query.id, {
         page: 1,
         limit: 20,
@@ -135,10 +136,11 @@ function DappList(props) {
         ownedApps,
         isOwnedAppsLoading,
     } = useGetDappByOwnerAddressQuery(address, {
-        skip: (address === undefined) && (isLoading || !data[0]?.minted)
+        skip: (address === undefined) && (isLoading || isFetching || !data[0]?.minted)
     });
 
-    if (isLoading) return <PageLayout>
+    console.log("yout are herererrr");
+    if (isLoading || isFetching) return <PageLayout>
         <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />

@@ -14,7 +14,7 @@ function Text(props) {
             className: `${props.className} ${className}`,
         },
         // {dApp.description.split('\\n').map(e => <p>{e}</p>)}
-        props.children.split('\\n').map(e => <p key={JSON.stringify(e)}>{e}</p>)
+        props.children.split('\\n').map(e => <p >{e}</p>)
     );
 }
 
@@ -92,3 +92,4 @@ export {
     AppList,
     Card
 };
+
