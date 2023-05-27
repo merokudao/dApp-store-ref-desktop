@@ -232,11 +232,11 @@ var polygonMapping = `{
     "Metaverse": "games.metaverse",
 
     "Gaming": "games",
-	"Gaming.Puzzle & strategy games": "games.puzzle",
-	"Gaming.Action & adventure games": "games.adventure",
+	"Gaming.Puzzle and strategy games": "games.puzzle",
+	"Gaming.Action and adventure games": "games.adventure",
 	"Gaming.First-person action games": "games.action",
 	"Gaming.Role-playing games (RPG)": "games.role-playing",
-	"Gaming.Sports & racing games": "games.racing",
+	"Gaming.Sports and racing games": "games.racing",
 	"Gaming.Simulation games": "games.simulation",
 	"Gaming.Studios": "games.studios",
 
@@ -257,7 +257,7 @@ var polygonMapping = `{
     "DeFi": "defi",
 	"DeFi.Stablecoins": "defi.stablecoins",
 	"DeFi.Decentralized Exchanges": "defi.exchanges",
-	"DeFi.Lending & Borrowing": "defi.lending-and-borrowing",
+	"DeFi.Lending and Borrowing": "defi.lending-and-borrowing",
 	"DeFi.Liquid Staking": "defi.liquid staking",
 	"DeFi.Yield Aggregation / Farming": "defi.farming",
 	"DeFi.Real World Assets / Tokenization": "defi.tokenization",

@@ -181,9 +181,12 @@ export function Hero(props) {
 }
 
 function CategoryListSmall(props) {
+    const router = useRouter();
     const data = getPolygonCategoryList();
-    const [openKey, setOpenKey] = useState<string>('');
-    const [selected, setSelected] = useState<string>('')
+    console.log("router.query.categories",router.query.categories);
+    console.log("router.query.subCategory",router.query.subCategory);
+    const [openKey, setOpenKey] = useState<string>((router.query.categories as string | undefined) || '');
+    const [selected, setSelected] = useState<string>((router.query.subCategory as string | undefined) || '')
 
     return (
         <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
@@ -191,16 +194,29 @@ function CategoryListSmall(props) {
                 <details key={JSON.stringify(e)} onToggle={() => {setOpenKey(e.category)}}>
                     <summary
                         className="cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]">
-                        <Link href={`/categories/?categories=${e.category}`}>
+                        <Link href={`/categories/?categories=${e.category}`} >
                         <div
                             className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
-                        {(e.subCategory.length > 0) && (
-                            <svg className="ml-[16px]" width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                            </svg>
-                        )}
+                            {
+                                (e.subCategory.length > 0) ?
+                                    (openKey === e.category) ?
+                                        (
+                                        <svg className="ml-[16px]" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        ) : 
+                                            (e.subCategory.includes(selected)) ?
+                                            
+                                                <svg className="ml-[16px]"  width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>{
+                                                    router.push(`/categories/?categories=${e.category}`,undefined,{shallow: true})
+                                                    setSelected('');}}>
+                                            <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            : <svg className="ml-[16px]" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    : <></>
+                            }
                     </summary>
                     {openKey === e.category && e.subCategory.length > 0 &&
                       <div className="cursor-pointer mt-[16px] inset-0">
@@ -208,12 +224,13 @@ function CategoryListSmall(props) {
                          {
                          e.subCategory.map((f) => 
                          {
-                         
-                            return <Link href={`/categories/?categories=${e.category}&subCategory=${f}`}>
-                            <p key={JSON.stringify(e)} onClick={() => setSelected(f)} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
+                            return <p key={JSON.stringify(e)} onClick={() => {
+                            router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
+                            setSelected(f);
+                            }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
                                 {f}
                             </p>
-                        </Link>})
+})
                         }
                         </Card>
                       </div>}
