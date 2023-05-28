@@ -83,7 +83,7 @@ function ClaimDappSection(props) {
             <div className="w-8/12 flex flex-col gap-[16px]">
                 <h2 className="text-[24px] text-[500] leading-[32px]">Claim this dApp</h2>
                 <p className="text-[#87868C]">This dApp has not been claimed by its developers. Click here to open the Meroku platform and claim your .app domain</p>
-                {!address && onOpenConnectModal && <p onClick={onOpenConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>}
+                {/* {!address && onOpenConnectModal && <p onClick={onOpenConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>} */}
             </div>
             <ClaimButton onClick={onClick}>Claim</ClaimButton>
         </Row>
@@ -117,10 +117,6 @@ function DappList(props) {
             document.body.style.overflow = 'unset';
         }
     }, [isClaimOpen]);
-    console.log(
-        "query.id",
-        query.id
-    )
 
     const {
         data,
@@ -134,16 +130,6 @@ function DappList(props) {
         refetchOnMountOrArgChange: false
     });
 
-    console.log(
-        "Data - item",
-        data
-    )
-    console.log(
-        "isFetching",
-        isFetching,
-        "isLoading",
-        isLoading,
-    )
     const { address } = useAccount();
 
     const {
@@ -153,23 +139,17 @@ function DappList(props) {
         skip: (address === undefined) && (isLoading || isFetching || !data[0]?.minted)
     });
 
-    console.log("yout are herererrr");
-    console.log("Data-item-2", data);
-    if (isLoading || isFetching) return
-    <PageLayout>
+    if (isLoading || isFetching) 
+    return <PageLayout>
         <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
     </PageLayout>
-    console.log("you are herererrr");
 
     if (!data) return <PageLayout>Missing post!</PageLayout>
-    console.log("you are herererrr 2");
 
     const dApp: Dapp = data.data[0];
-
-    console.log("you are herererrr 3");
 
 
     if (!dApp) {
@@ -261,18 +241,20 @@ function DappList(props) {
                     </>)
                     }
                     <DappDetailSection>
-                        {!!address && isOwner ?
+                        {/* {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted={dApp.minted} />}
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted={dApp.minted} />} */}
 
-                        {/*                         
-                        {!(address == undefined) ?
+                                                
+                    {!(address == undefined) ?
                             isOwner ?
-                                <UpdateDappSection onClick={onClaimButtonClick} /> :
-                                !((dApp.minted == undefined) || (!dApp.minted)) ?
-                                       ( openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>) :
-                                        <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>:
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>} */}
+                            <UpdateDappSection onClick={onClaimButtonClick} /> :
+                            !((dApp.minted == undefined) || (!dApp.minted)) ? (
+                                openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>
+                            ) :
+                                <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/> :
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>
+                        }
                     </DappDetailSection>
                 </section>
             </div>
