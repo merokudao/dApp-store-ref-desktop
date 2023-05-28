@@ -7,16 +7,17 @@ export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 // export const BASE_URL = `${API_HOST}/${API_PATH}/${API_VERSION}`;
 
 export const ApiEndpoints = {
-    ANALYTICS: 'analytics',
-    APP_LIST: 'dapp',
-    APP_CATEGORIES_LIST: 'dapp/categories',
-    CATEGORIES: 'categories',
-    CATEGORY_APPS: 'categories/categorydapps',
-    FEATURED: 'index/featured',
-    SEARCH_BY_ID: 'dapp/search',
-    SEARCH_BY_PKG_ID: 'dapp/queryWithPackageId',
-    REVIEWS: 'reviews',
-    RATING: 'dapp/rate',
-    FETCH_USER: 'fetchuser',
-    POST_USER: 'postuser',
-}
+  ANALYTICS: "analytics",
+  APP_LIST: "dapp",
+  APP_CATEGORIES_LIST: "dapp/categories",
+  CATEGORIES: "categories",
+  CATEGORY_APPS: "categories/categorydapps",
+  FEATURED: "index/featured",
+  SEARCH_BY_ID: "dapp/search",
+  SEARCH_BY_PKG_ID: "dapp/queryWithPackageId",
+  REVIEWS: "reviews",
+  RATING: "dapp/rate",
+  FETCH_USER: "fetchuser",
+  POST_USER: "postuser",
+  SEARCH: "api/v1/dapp/search",
+};

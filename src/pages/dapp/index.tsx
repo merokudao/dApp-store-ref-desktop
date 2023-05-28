@@ -120,7 +120,8 @@ function DappList(props) {
 
     const {
         data,
-        isLoading
+        isFetching,
+        isLoading,
     } = useSearchByIdQuery(query.id, {
         page: 1,
         limit: 20,
@@ -135,10 +136,11 @@ function DappList(props) {
         ownedApps,
         isOwnedAppsLoading,
     } = useGetDappByOwnerAddressQuery(address, {
-        skip: (address === undefined) && (isLoading || !data[0]?.minted)
+        skip: (address === undefined) && (isLoading || isFetching || !data[0]?.minted)
     });
 
-    if (isLoading) return <PageLayout>
+    console.log("yout are herererrr");
+    if (isLoading || isFetching) return <PageLayout>
         <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
@@ -241,6 +243,15 @@ function DappList(props) {
                         {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
                             <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted = {dApp.minted}/>}
+
+{/*                         
+                        {!(address == undefined) ?
+                            isOwner ?
+                                <UpdateDappSection onClick={onClaimButtonClick} /> :
+                                !((dApp.minted == undefined) || (!dApp.minted)) ?
+                                       ( openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>) :
+                                        <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>:
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>} */}
                     </DappDetailSection>
                 </section>
             </div>
