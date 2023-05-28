@@ -33,10 +33,10 @@ function CategoriesList(props) {
     let categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
 
     useEffect(()=>{
-    if(data){
+    if(merokuData){
         categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
     }
-    })
+    },[merokuData])
 
 
     const {
@@ -97,15 +97,28 @@ function CategoriesList(props) {
     }
 
     let child;
-
-    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || ((items[0] as any)?.subCategory !== categoryMapped.subCategory))) return <PageLayout>
+    if(router.query.categories === 'Others' || router.query.search)
+    {
+        if (isLoading || isFetching && (items.length === 0)) 
+        return <PageLayout>
+            <div>
+                <div className="bg-border-color w-[240px] h-[32px] my-4" />
+                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+                    {buildLoadingItems()}
+                </div>
+            </div>
+        </PageLayout>   
+    }
+    else{
+    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || ((items[0] as any)?.subCategory !== categoryMapped.subCategory))) 
+    return <PageLayout>
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
                 {buildLoadingItems()}
             </div>
         </div>
-    </PageLayout>
+    </PageLayout>}
 
     child = (<AppList data={items}>
     </AppList>);

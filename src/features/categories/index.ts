@@ -310,18 +310,17 @@ const customToMerokuCategory = (
   merokuData: any,
   subCategory?: string | string[] | undefined
 ): CatSubCat => {
-  let output: CatSubCat;
+  let output: CatSubCat = { category: "" };
   var merokuCategoryList: string[] = [];
-  console.log("merokudata", merokuData);
 
   if (merokuData !== undefined) {
     merokuData.data.map((e) => merokuCategoryList.push(e.category));
     var othersList: string[] = merokuCategoryList.filter(
       (value) => !polygonMappedList.includes(value.toLowerCase())
     );
-    output = { category: othersList };
-  } else {
-    output = { category: "" };
+    if (category === "Others") {
+      output["category"] = othersList;
+    }
   }
 
   const mapping = customToMerokuMapping;
@@ -337,6 +336,7 @@ const customToMerokuCategory = (
       output["subCategory"] = sc;
     }
   }
+
   return output;
 };
 // const getOthersCategoryList = (
