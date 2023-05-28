@@ -271,7 +271,9 @@ var polygonMapping = `{
 
 	"Infrastructure.On-Ramp/Off-Ramp": "defi.on-ramping, defi.off-ramping",
 
-	"DeFi.Derivatives, Perps, Trading": "defi.trading"
+	"DeFi.Derivatives, Perps, Trading": "defi.trading",
+
+  "Education" : "education"
 }`;
 var merokuAPIData = JSON.parse(merokuJsonString).data;
 var polygonMappingData = JSON.parse(polygonMapping);

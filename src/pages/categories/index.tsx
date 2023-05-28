@@ -36,8 +36,8 @@ function CategoriesList(props) {
         isLoading,
     } = useGetInfiniteDappListQuery({
         search: router.query.search,
-        categories:categoryMapped.category,
-        subCategory:categoryMapped.subCategory,
+        categories: categoryMapped.category,
+        subCategory: categoryMapped.subCategory,
         page,
         limit,
         chainId: app.chainId,
@@ -79,18 +79,17 @@ function CategoriesList(props) {
     }, [page, isFetching, data?.pageCount]);
 
 
-    const buildLoadingItems = () => {
+    const buildLoadingItems = (count: number = 10) => {
         const _items: any[] = [];
-        for (let i = 0; i < (items.length || 10); i++) {
+        for (let i = 0; i < (count); i++) {
             _items.push(<div key={i} className="shimmer w-full h-[160px] rounded-lg" />)
         }
         return _items;
     }
 
-
     let child;
 
-    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== router.query?.category) || ((items[0] as any)?.subCategory !== router.query?.subCategory))) return <PageLayout>
+    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || ((items[0] as any)?.subCategory !== categoryMapped.subCategory))) return <PageLayout>
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
@@ -104,9 +103,15 @@ function CategoriesList(props) {
     return (
         <PageLayout>
             <h1 className="text-[24px] leading-[32px] lg:text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
-            
+
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             {child}
+            {(isLoading || isFetching) ? <div>
+                <div className="h-[35px] w-full" />
+                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+                    {buildLoadingItems(4)}
+                </div>
+            </div> : null}
         </PageLayout>
     )
 }

@@ -86,6 +86,10 @@ export const categories = {
       ],
     },
     {
+      category: "Education",
+      subCategory: [],
+    },
+    {
       category: "Others",
       subCategory: [],
     },

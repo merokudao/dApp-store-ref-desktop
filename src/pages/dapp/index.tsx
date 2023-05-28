@@ -77,7 +77,7 @@ function DownloadButton(props) {
 }
 
 function ClaimDappSection(props) {
-    const { onClick, address, onOpenConnectModal,minted } = props;
+    const { onClick, address, onOpenConnectModal, minted } = props;
     return (
         <Row className="items-start justify-between">
             <div className="w-8/12 flex flex-col gap-[16px]">
@@ -117,6 +117,10 @@ function DappList(props) {
             document.body.style.overflow = 'unset';
         }
     }, [isClaimOpen]);
+    console.log(
+        "query.id",
+        query.id
+    )
 
     const {
         data,
@@ -124,12 +128,22 @@ function DappList(props) {
         isLoading,
     } = useSearchByIdQuery(query.id, {
         page: 1,
-        limit: 20,
+        limit: 1,
         chainId: app.chainId,
     }, {
         refetchOnMountOrArgChange: false
     });
 
+    console.log(
+        "Data - item",
+        data
+    )
+    console.log(
+        "isFetching",
+        isFetching,
+        "isLoading",
+        isLoading,
+    )
     const { address } = useAccount();
 
     const {
@@ -140,16 +154,23 @@ function DappList(props) {
     });
 
     console.log("yout are herererrr");
-    if (isLoading || isFetching) return <PageLayout>
+    console.log("Data-item-2", data);
+    if (isLoading || isFetching) return
+    <PageLayout>
         <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
         <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
     </PageLayout>
+    console.log("you are herererrr");
 
     if (!data) return <PageLayout>Missing post!</PageLayout>
+    console.log("you are herererrr 2");
 
     const dApp: Dapp = data.data[0];
+
+    console.log("you are herererrr 3");
+
 
     if (!dApp) {
         return <PageLayout>Missing post!</PageLayout>
@@ -242,9 +263,9 @@ function DappList(props) {
                     <DappDetailSection>
                         {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted = {dApp.minted}/>}
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted={dApp.minted} />}
 
-{/*                         
+                        {/*                         
                         {!(address == undefined) ?
                             isOwner ?
                                 <UpdateDappSection onClick={onClaimButtonClick} /> :
