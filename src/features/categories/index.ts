@@ -291,7 +291,7 @@ var polygonMappedList: string[] = [];
 // );
 
 interface CatSubCat {
-  category: string;
+  category: string | string[];
   subCategory?: string;
 }
 
@@ -304,12 +304,27 @@ const customToMerokuMapping: Map<string, string> = new Map(
  * mapping: A Map that contains mapping from custom's Category and Sub Category to Meroku's Category and Sub Category
  *
  */
+
 const customToMerokuCategory = (
   category: string | string[] | undefined,
+  merokuData: any,
   subCategory?: string | string[] | undefined
 ): CatSubCat => {
+  let output: CatSubCat;
+  var merokuCategoryList: string[] = [];
+  console.log("merokudata", merokuData);
+
+  if (merokuData !== undefined) {
+    merokuData.data.map((e) => merokuCategoryList.push(e.category));
+    var othersList: string[] = merokuCategoryList.filter(
+      (value) => !polygonMappedList.includes(value.toLowerCase())
+    );
+    output = { category: othersList };
+  } else {
+    output = { category: "" };
+  }
+
   const mapping = customToMerokuMapping;
-  let output: CatSubCat = { category: "" };
 
   const key = subCategory
     ? [category, subCategory].join(".")
@@ -324,19 +339,18 @@ const customToMerokuCategory = (
   }
   return output;
 };
-const getOthersCategoryList = (
-  merokuCategoryAPIData: Array<{
-    category: string,
-    subCategory: Array<string>
-  }>
-): Array<string> => {
-  var merokuCategoryList: string[] = [];
-  merokuCategoryAPIData.map((e) => merokuCategoryList.push(e.category));
-  var othersList: string[] = merokuCategoryList.filter(
-    (value) => !polygonMappedList.includes(value.toLowerCase())
-  );
-  return othersList;
-};
-
+// const getOthersCategoryList = (
+//   merokuCategoryAPIData: Array<{
+//     category: string,
+//     subCategory: Array<string>
+//   }>
+// ): Array<string> => {
+//   var merokuCategoryList: string[] = [];
+//   merokuCategoryAPIData.map((e) => merokuCategoryList.push(e.category));
+//   var othersList: string[] = merokuCategoryList.filter(
+//     (value) => !polygonMappedList.includes(value.toLowerCase())
+//   );
+//   return othersList;
+// };
 
 export { polygonMappedList, customToMerokuCategory };

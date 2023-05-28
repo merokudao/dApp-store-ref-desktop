@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { AppList } from "../../components/app_list";
 import { getApp } from "../../features/app/app_slice";
 import { customToMerokuCategory } from "../../features/categories";
-import { useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
+import { useGetCategoryListQuery, useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
 
 
@@ -28,7 +28,16 @@ function CategoriesList(props) {
     const app = useSelector(getApp);
     const [page, setPage] = useState<number>(1);
     const [items, setItems] = useState<Array<typeof Dapp>>([]);
-    const categoryMapped = customToMerokuCategory(router.query.categories, router.query.subCategory);
+    const merokuData = useGetCategoryListQuery({});
+
+    let categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
+
+    useEffect(()=>{
+    if(data){
+        categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
+    }
+    })
+
 
     const {
         data,

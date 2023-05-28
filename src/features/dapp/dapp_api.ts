@@ -111,8 +111,8 @@ export class DappDataSource implements IDappDataSource {
 
   getCategoryList(builder: EndpointBuilder<any, any, any>) {
     return builder.query<CategoryListResponse, any>({
-      query: (args) =>
-        `${ApiEndpoints.APP_CATEGORIES_LIST}?chainId=${(args as any).chainId}`,
+      query: () => ApiEndpoints.APP_CATEGORIES_LIST,
+      keepUnusedDataFor: 3600,
     });
   }
 

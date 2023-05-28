@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { AppList, Hero, PageLayout } from '../components';
+import { AppList, PageLayout } from '../components';
 import { getApp } from "../features/app/app_slice";
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
@@ -23,6 +23,7 @@ const Index = (props) => {
     }, {
         refetchOnMountOrArgChange: true,
     });
+
     const selectedPage = (app.chainId === 137) ? page : page2;
 
     // since now data is being merged in RTK itself
