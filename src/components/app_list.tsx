@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { spaceMono } from "../theme";
 import { useRouter } from "next/router";
 
-function Tag(props: { children: ReactNode }) {
+export function Tag(props: { children: ReactNode }) {
     const _classNames = classNames({
         'text-[10px] leading-[10px] uppercase': true,
         'px-[6px] py-[4px]': true,

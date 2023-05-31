@@ -9,6 +9,7 @@ import {
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
 import { categories } from "./polygon_categories";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
@@ -36,6 +37,7 @@ export class DappDataSource implements IDappDataSource {
         getCategoryList: this.getCategoryList(build),
         getAppsInCategoryList: this.getAppsInCategoryList(build),
         getDappByOwnerAddress: this.getDappByOwnerAddress(build),
+        getFeaturedDapps: this.getFeaturedDapps(build),
       }),
     });
   }
@@ -136,6 +138,24 @@ export class DappDataSource implements IDappDataSource {
   getPolygonCategoryList() {
     return categories;
   }
+
+  getFeaturedDapps(builder: EndpointBuilder<any, any, any>) {
+    return builder.query<Dapp, void>({
+      async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const appIdsReq = await fetchWithBQ(ApiEndpoints.FEATURED)
+        if (appIdsReq.error)
+          return {error: appIdsReq.error as FetchBaseQueryError}
+        const appIds = appIdsReq.data[0].dappIds
+        const result = <any>[];
+        for (const idx in appIds) {
+          const appReq = await fetchWithBQ(`/api/v1/dapp/search/${appIds[idx]}`)
+          result.push(appReq.data.data[0])
+        }
+        return result.length
+            ? {data: result}
+            : {error: result.error as FetchBaseQueryError}
+      }})
+  }
 }
 
 export const dAppDataSource = new DappDataSource();
@@ -145,6 +165,7 @@ export const {
   useGetInfiniteDappListQuery,
   useGetCategoryListQuery,
   useGetDappByOwnerAddressQuery,
+  useGetFeaturedDappsQuery,
 } = dAppDataSource.registerEndpoints(api);
 
 export const getPolygonCategoryList = dAppDataSource.getPolygonCategoryList;

@@ -10,6 +10,7 @@ const AppStrings = {
     social: 'Social',
     readMore: 'Read More',
     readLess: 'Read Less',
+    featuredDapps: 'Featured dApps',
 }
 
 export {

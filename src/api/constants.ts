@@ -12,7 +12,7 @@ export const ApiEndpoints = {
   APP_CATEGORIES_LIST: "dapp/categories",
   CATEGORIES: "categories",
   CATEGORY_APPS: "categories/categorydapps",
-  FEATURED: "index/featured",
+  FEATURED: "store/featured",
   SEARCH_BY_ID: "dapp/search",
   SEARCH_BY_PKG_ID: "dapp/queryWithPackageId",
   REVIEWS: "reviews",

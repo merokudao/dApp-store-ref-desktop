@@ -12,7 +12,8 @@ import {chains} from '../features/wallet_connect/config';
 import {RainbowKitSiweNextAuthProvider} from '@rainbow-me/rainbowkit-siwe-next-auth';
 import {SessionProvider} from 'next-auth/react';
 import {darkTheme, RainbowKitProvider,} from '@rainbow-me/rainbowkit';
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function App({ Component, pageProps }: AppProps<{
     session: Session;

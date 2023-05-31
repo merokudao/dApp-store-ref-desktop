@@ -12,6 +12,10 @@ details > summary {
 details summary::marker {
     display:none;
 }
+.slick-track {
+    display: flex !important;
+    gap: 24px;
+}
 
 .shimmer {
     background: linear-gradient(90deg, rgba(32, 32, 35, 0.5) 0%, rgba(36, 35, 41, 0.135) 100%);

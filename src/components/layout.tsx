@@ -2,14 +2,16 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { App, posConfig, zkevmConfig } from "../app/constants.js";
 import { getApp, setApp } from "../features/app/app_slice";
-import { getPolygonCategoryList, useGetCategoryListQuery } from "../features/dapp/dapp_api";
+import {getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery} from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
+import {FeaturedCard, SliderButton} from "./card";
+import Slider from "react-slick";
 
 
 function NavBar(props) {
@@ -216,7 +218,7 @@ function CategoryListSmall(props) {
                                             </svg>
                                         ) :
                                         <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" strokeLinejoin="round" />
                                         </svg>
                                 : <></>
                         }
@@ -317,6 +319,31 @@ export function PageLayout(props) {
 export default function Layout(props) {
     const app = useSelector(getApp);
     const router = useRouter();
+    const {data, isLoading} = useGetFeaturedDappsQuery();
+    const slider = useRef();
+    const settings = {
+        dots: false,
+        infinite: false,
+        arrows: false,
+        speed: 500,
+        rows: 1,
+        slidesToShow: 4.5,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 2.15,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 3.15,
+                }
+            }
+        ]
+    };
     return (
         <>
             <div {...props}>
@@ -324,14 +351,35 @@ export default function Layout(props) {
                     <NavBar />
                 </div>
                 <main className="relative top-[70px]">
-                    {router.asPath === '/' && <div className="min-h-[80vh]">
+                    {router.asPath === '/' && <section>
+                      <div className="min-h-[80vh]">
                         <Hero
                             title={app.hero.title}
                             subtitle={app.hero.title}
                             button={app.hero.button}
                             video={app.hero.video}
                         />
-                    </div>}
+                      </div>
+                        {data && <div className="container relative">
+                            <Row className="justify-between items-center my-[32px]">
+                              <h2 className="text-[24px] leading-[32px] lg:text-[60px] lg:leading-[72px] font-[500]">{AppStrings.featuredDapps}</h2>
+                              <div>
+                                <SliderButton onClick={slider?.current?.slickPrev}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M19 12L5 12M5 12L12 19M5 12L12 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                </SliderButton>
+                                <SliderButton onClick={slider?.current?.slickNext}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                </SliderButton>
+                              </div>
+                            </Row>
+                            <Slider ref={slider} {...settings}>
+                                {data.map((dapp) => <FeaturedCard app={dapp}/>)}
+                            </Slider>
+                        </div>}
+                    </section>
+                      }
                     {props.children}
                 </main>
             </div>
