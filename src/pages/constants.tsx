@@ -11,6 +11,8 @@ const AppStrings = {
     readMore: 'Read More',
     readLess: 'Read Less',
     featuredDapps: 'Featured dApps',
+    reviewsTitle: 'Ratings & Reviews',
+    ratings: 'Ratings'
 }
 
 export {

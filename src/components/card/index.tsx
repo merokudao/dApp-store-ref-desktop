@@ -32,3 +32,12 @@ export function FeaturedCard(props) {
         </div>
     )
 }
+
+export function ReviewCard(props) {
+    return <Card>
+        <Row>
+            <p>Ketan Mittal <span className="text-[#87868C]">&#x2022; 07/03/2022</span></p>
+        </Row>
+        <p className="text-[14px] leading-[21px] font-[500] text-[#87868C]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto atque consequuntur delectus, deserunt ducimus, esse incidunt ipsam reprehenderit sapiente sed tempore vel vitae, voluptates voluptatibus? Ducimus eum impedit sequi?</p>
+    </Card>
+}
