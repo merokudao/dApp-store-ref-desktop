@@ -37,7 +37,7 @@ export function FeaturedCard(props) {
 export function ReviewCard(props) {
     const {review} = props;
     const date = new Date(Date.parse(review.updatedAt))
-    return <Card >
+    return <Card className="h-auto" >
         <Row className="justify-between">
             <p>{review.userId}<span className="text-[#87868C]">&#x2022; {`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</span></p>
             <StarRating rating={review.rating} />

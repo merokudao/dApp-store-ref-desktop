@@ -7,9 +7,15 @@ import {useGetAppRatingQuery} from "../../features/dapp/dapp_api";
 
 function RatingAndReviewPage(props) {
     const router = useRouter();
-    const {data, isLoading, isFetching} = useGetAppRatingQuery('hashmail.app')
+    const {data, isLoading, isFetching} = useGetAppRatingQuery(router.query.id)
     if (isLoading || isFetching) return null;
-    if (data && data.data.length === 1) return null;
+    // if (data && data.data.length === 0) return null;
+    let reviewList;
+    if (!data.data.length) {
+        reviewList = <p>No reviews found</p>;
+    } else {
+        reviewList = data.data.map(review => <ReviewCard review={review}/>)
+    }
     return (
         <PageLayout>
             <div className="mb-6 cursor-pointer" onClick={router.back}>
@@ -34,7 +40,7 @@ function RatingAndReviewPage(props) {
                 </button>
             </Row>
             <Column className="gap-y-[16px]">
-                {data.data.map(review => <ReviewCard review={review}/>)}
+                {reviewList}
             </Column>
         </PageLayout>
     );

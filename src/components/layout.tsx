@@ -2,7 +2,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {ReactComponentElement, ReactElement, useEffect, useRef, useState} from "react";
+import React, {ReactComponentElement, ReactElement, useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { App, posConfig, zkevmConfig } from "../app/constants.js";
 import { getApp, setApp } from "../features/app/app_slice";
@@ -308,7 +308,7 @@ export function PageLayout(props) {
                         {child}
                     </div>
                 </aside>
-                <section className="flex-initial lg:w-9/12 lg:pl-8 md:pt-8">
+                <section className="flex-grow lg:w-9/12 lg:pl-8 md:pt-8">
                     {props.children}
                 </section>
             </Row>
@@ -346,7 +346,7 @@ export default function Layout(props) {
     };
 
     function buildLoadingCard(number: number) {
-        let output = [];
+        let output = Array<React.JSX.Element>();
         for (let i = 0; i < number; i++) {
             output.push(<div className="shimmer h-[240px] lg:h-[320px] mb-[16px] rounded-lg" />)
         }

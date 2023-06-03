@@ -195,7 +195,6 @@ function ReviewDialog(props) {
 function AppRatingList(props) {
     const {data, isLoading, isFetching} = useGetAppRatingQuery(props.id)
     if (isLoading || isFetching) return null;
-    if (data && data.data.length === 0) return null;
     return <>
         <Row className="justify-between items-center py-[24px]">
             <h1 className="text-[24px] leading-[32px] font-[500]">{AppStrings.reviewsTitle}</h1>
@@ -214,7 +213,7 @@ function AppRatingList(props) {
         </Row>
         {/*<p className="text-[24px] leading-[28px] font-[600]">3.0</p>*/}
         {/*<small className="text-[14px] leading-[21px] font-[500] text-[#87868C]">3,200 Ratings</small>*/}
-        <Row className="gap-x-[16px]">
+        <Row className="gap-x-[16px] items-stretch ">
             {data.data.slice(0,2).map(review => <ReviewCard review={review}/>)}
         </Row>
         {!!data.data.length && <Row className="justify-end my-[16px]">
