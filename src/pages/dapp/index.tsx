@@ -6,13 +6,16 @@ import Modal from 'react-modal';
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL } from "../../api/constants";
-import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout } from "../../components";
-import { Row } from "../../components/layout/flex";
+import {Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout, Card} from "../../components";
+import {Column, Row} from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
-import { useGetDappByOwnerAddressQuery } from "../../features/dapp/dapp_api";
+import {useGetAppRatingQuery, useGetDappByOwnerAddressQuery, usePostReviewMutation} from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
+import {ReviewCard} from "../../components/card";
+import Link from "next/link";
+import {Review} from "../../features/dapp/models/review";
 
 Modal.setAppElement('#__next');
 
@@ -25,6 +28,22 @@ const modalStyles = {
         top: '80px',
         border: 0,
         background: 'transparent'
+    }
+}
+
+const reviewModalStyle = {
+    overlay: {
+        background: 'rgba(0,0,0,0.7)'
+    },
+    content: {
+        padding: '24px',
+        top: 'calc(50% - (30vw / 2))',
+        border: 0,
+        width: '512px',
+        height: '512px',
+        margin: '0 auto',
+        background: '#141318',
+        borderRadius: '16px'
     }
 }
 
@@ -71,7 +90,7 @@ function DownloadButton(props) {
             xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M12 15V3M12 15L7 10M12 15L17 10M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
-                stroke={currentColor} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                stroke={currentColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     </a>;
 }
@@ -103,20 +122,122 @@ function UpdateDappSection(props) {
     );
 }
 
+function Input(props) {
+    return <textarea rows={5} className="bg-transparent border-[#2D2C33] border-[1px] rounded-[12px] p-[20px]" {...props} />
+}
+
+export function StarRating(props) {
+    const {editable, onChange} = props;
+    const [rating, setRating] = useState(props.rating);
+    const [hover, setHover] = useState(0);
+    useEffect(() => {
+        if (typeof onChange === 'function') {
+            onChange(rating);
+        }
+    },[rating]);
+    return (
+        <Row className="gap-x-[4px]" onMouseLeave={editable ? () => setRating(rating): undefined}>
+            {[...Array(5)].map((_, idx) => {
+                idx += 1;
+                return <svg onClick={editable ? () => setRating(idx): undefined}
+                            onMouseEnter={editable ? () => setHover(idx): undefined}
+                            onMouseLeave={editable ? () => setRating(rating): undefined}
+                            className={`icon ${idx <= (rating || hover) ? "icon-filled" : null}`}
+                            width="24"
+                            height="25"
+                            viewBox="0 0 24 25"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2.5L15.09 8.76L22 9.77L17 14.64L18.18 21.52L12 18.27L5.82 21.52L7 14.64L2 9.77L8.91 8.76L12 2.5Z"
+                        stroke="currentcolor" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>;
+            })}
+        </Row>
+    )
+}
+
+function ReviewDialog(props) {
+    const [postReview, result] = usePostReviewMutation();
+    const [errors, setErrors] = useState();
+    const { address } = useAccount();
+    const [review, setReview] = useState<Review>({
+        dappId: props.dappId,
+        userAddress: address,
+    } as Review);
+    const onSubmit = (evt) => {
+        console.log(result.isUpdating)
+        postReview(review).unwrap().then(_ => {
+            props.onRequestClose();
+        }).catch(err => setErrors(err));
+        console.log(result.isUpdating);
+    }
+    return <>
+        <Column className={"gap-y-[32px] relative"}>
+            <h1 className="text-[20px] leading-[24px] font-[500]">Add Review</h1>
+            <button onClick={() => props.onRequestClose()} className="absolute right-0 "><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 6.5L18 18.5M18 6.5L6 18.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            </button>
+            <Column className="items-start justify-start gap-y-[8px] input" >
+                <label htmlFor="">Add Rating</label>
+                <StarRating editable={true} onChange={(val) => setReview({...review, rating:val})} />
+            </Column>
+            <Column className="gap-y-[8px]">
+                <label htmlFor="">Write a review</label>
+                <Input onChange={(evt) => setReview({...review, comment: evt.target.value})} />
+            </Column>
+            <Button disabled={false} onClick={onSubmit}>Submit</Button>
+        </Column>
+    </>
+}
+
+function AppRatingList(props) {
+    const {data, isLoading, isFetching} = useGetAppRatingQuery(props.id)
+    if (isLoading || isFetching) return null;
+    if (data && data.data.length === 0) return null;
+    return <>
+        <Row className="justify-between items-center py-[24px]">
+            <h1 className="text-[24px] leading-[32px] font-[500]">{AppStrings.reviewsTitle}</h1>
+            <button className="flex items-center gap-x-[8px] text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" onClick={props.onCreateReivew}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.4374 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" stroke="url(#paint0_linear_1089_2333)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="paint0_linear_1089_2333" x1="12.0607" y1="1.87869" x2="12.0607" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#8A46FF"/>
+                            <stop offset="1" stopColor="#6E38CC"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Add review
+            </button>
+        </Row>
+        {/*<p className="text-[24px] leading-[28px] font-[600]">3.0</p>*/}
+        {/*<small className="text-[14px] leading-[21px] font-[500] text-[#87868C]">3,200 Ratings</small>*/}
+        <Row className="gap-x-[16px]">
+            {data.data.slice(0,2).map(review => <ReviewCard review={review}/>)}
+        </Row>
+        {!!data.data.length && <Row className="justify-end my-[16px]">
+            <Link className="text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" href={`dapp/reviews/?id=${props.id}`}>View More</Link>
+        </Row>}
+        <Divider />
+        </>
+}
+
 function DappList(props) {
     const router = useRouter();
     const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
     const { openConnectModal } = useConnectModal();
     const app = useSelector(getApp);
     const { query } = useRouter();
-
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
     useEffect(() => {
         if (isClaimOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
         }
-    }, [isClaimOpen]);
+    }, [isClaimOpen, isReviewModalOpen]);
 
     const {
         data,
@@ -132,12 +253,15 @@ function DappList(props) {
 
     const { address } = useAccount();
 
+
     const {
         ownedApps,
         isOwnedAppsLoading,
     } = useGetDappByOwnerAddressQuery(address, {
         skip: (address === undefined) && (isLoading || isFetching || !data[0]?.minted)
     });
+
+
 
     if (isLoading || isFetching) 
     return <PageLayout>
@@ -152,9 +276,11 @@ function DappList(props) {
     const dApp: Dapp = data.data[0];
 
 
+
     if (!dApp) {
         return <PageLayout>Missing post!</PageLayout>
     }
+
 
     const history = JSON.parse(localStorage.getItem('dApps') ?? "{}");
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, { [dApp.dappId]: dApp })));
@@ -179,6 +305,7 @@ function DappList(props) {
             openConnectModal();
         }
     };
+
     return (
         <PageLayout>
             <div className="flex flex-col">
@@ -231,6 +358,7 @@ function DappList(props) {
                         <ExpandAbleText maxCharacters={320} maxLines={3}>{dApp.description}</ExpandAbleText>
                     </DappDetailSection>
                     <Divider />
+                    <AppRatingList id={dApp.dappId} onCreateReivew={() => setIsReviewModalOpen(true)} />
                     {dApp.images.screenshots?.length && (<>
                         <DappDetailSection title={AppStrings.gallery}>
                             <div className="grid grid-cols-3 gap-4">
@@ -258,6 +386,7 @@ function DappList(props) {
                     </DappDetailSection>
                 </section>
             </div>
+            {isReviewModalOpen && <Modal isOpen={isReviewModalOpen} style={reviewModalStyle} onRequestClose={() => setIsReviewModalOpen(false)}><ReviewDialog dappId={dApp.dappId} onRequestClose={() => setIsReviewModalOpen(false)} /></Modal>}
             {isClaimOpen && <Modal
                 isOpen={isClaimOpen}
                 onRequestClose={() => setClaimOpen(false)}

@@ -1,5 +1,6 @@
 const AppStrings = {
     title: 'Polygon dApps',
+    back: 'Back',
     allDapps: 'All dApps',
     visitDapp: 'Visit Dapp',
     searchDapps: 'Search dApps',

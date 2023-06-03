@@ -17,12 +17,11 @@ function Row(props) {
 
 function Column(props) {
     const config = {
-        'flex-column': true,
-        'items-center': true,
-        'justify-between': true,
+        'flex-col': true,
+        [props.className]: true,
     }
     const classes = classNames(config);
-    return <Flex className={`${classes} ${props.classNames}` }>{props.children}</Flex>
+    return <Flex className={`${classes} ${props.className}` }>{props.children}</Flex>
 }
 
 export {

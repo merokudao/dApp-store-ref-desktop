@@ -10,6 +10,7 @@ import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
 import { categories } from "./polygon_categories";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import {AppStrings} from "../../pages/constants";
 
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
@@ -25,6 +26,8 @@ interface IDappDataSource {
   getAppsInCategoryList(builder: EndpointBuilder<any, any, any>);
 
   getDappByOwnerAddress(builder: EndpointBuilder<any, any, any>);
+  getFeaturedDapps(builder: EndpointBuilder<any, any, any>);
+  getAppRating(builder: EndpointBuilder<any, any, any>);
 }
 
 export class DappDataSource implements IDappDataSource {
@@ -38,6 +41,8 @@ export class DappDataSource implements IDappDataSource {
         getAppsInCategoryList: this.getAppsInCategoryList(build),
         getDappByOwnerAddress: this.getDappByOwnerAddress(build),
         getFeaturedDapps: this.getFeaturedDapps(build),
+        getAppRating: this.getAppRating(build),
+        postReview: this.postReview(build),
       }),
     });
   }
@@ -156,6 +161,26 @@ export class DappDataSource implements IDappDataSource {
             : {error: result.error as FetchBaseQueryError}
       }})
   }
+
+  getAppRating(builder: EndpointBuilder<any, any, any>) {
+    return builder.query<any, string>({
+      query: (id) => ({
+        url: `${ApiEndpoints.RATING}/${id}`,
+      })
+    })
+  }
+  postReview(builder: EndpointBuilder<any, any, any>) {
+    return builder.mutation<void, any>({
+      query: ({...body}) => {
+
+        return {
+          url: `${ApiEndpoints.RATING}`,
+          method: 'POST',
+          body: body,
+        }
+      }
+    })
+  }
 }
 
 export const dAppDataSource = new DappDataSource();
@@ -166,6 +191,8 @@ export const {
   useGetCategoryListQuery,
   useGetDappByOwnerAddressQuery,
   useGetFeaturedDappsQuery,
+  useGetAppRatingQuery,
+  usePostReviewMutation,
 } = dAppDataSource.registerEndpoints(api);
 
 export const getPolygonCategoryList = dAppDataSource.getPolygonCategoryList;

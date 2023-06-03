@@ -1,10 +1,11 @@
 import {Tag} from "../app_list";
 import Image from "next/image";
 import {Row} from "../layout/flex";
+import {StarRating} from "../../pages/dapp";
 
 export const Card = (props) => {
     return (
-        <div className="card p-4 w-full h-full bg-card-bg border border-gray-700 rounded-card-radius">
+        <div className={"card p-4 w-full h-full bg-card-bg border border-gray-700 rounded-card-radius " + props.className}>
             {props.children}
         </div>
     )
@@ -34,10 +35,13 @@ export function FeaturedCard(props) {
 }
 
 export function ReviewCard(props) {
-    return <Card>
-        <Row>
-            <p>Ketan Mittal <span className="text-[#87868C]">&#x2022; 07/03/2022</span></p>
+    const {review} = props;
+    const date = new Date(Date.parse(review.updatedAt))
+    return <Card >
+        <Row className="justify-between">
+            <p>{review.userId}<span className="text-[#87868C]">&#x2022; {`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</span></p>
+            <StarRating rating={review.rating} />
         </Row>
-        <p className="text-[14px] leading-[21px] font-[500] text-[#87868C]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto atque consequuntur delectus, deserunt ducimus, esse incidunt ipsam reprehenderit sapiente sed tempore vel vitae, voluptates voluptatibus? Ducimus eum impedit sequi?</p>
+        <p className="text-[14px] leading-[21px] font-[500] text-[#87868C]">{review.comment}</p>
     </Card>
 }
