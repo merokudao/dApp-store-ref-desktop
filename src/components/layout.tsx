@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
-import { App, posConfig, zkevmConfig } from "../app/constants.js";
+import { App, } from "../app/constants.js";
 import { getApp, setApp } from "../features/app/app_slice";
 import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
@@ -34,15 +34,10 @@ function NavBar(props) {
             className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10 gap-[16px]">
             <div className="flex-initial">
                 <NavItem href="/" className="pr-[20px]">
-                    <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src}
+                        <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src} style={{objectFit: "contain",height:App.logo.height}}
                         alt={`${App.name} Logo`} />
+
                 </NavItem>
-            </div>
-            <div className="flex-grow flex gap-[16px] text-[14px] leading-[20px] font-[500] text-[#87868C]">
-                <button className={isActive(posConfig)}
-                    onClick={() => onAppConfigClick(posConfig)}>{posConfig.title}</button>
-                <button className={isActive(zkevmConfig)}
-                    onClick={() => onAppConfigClick(zkevmConfig)}>{zkevmConfig.title}</button>
             </div>
             <ConnectButton chainStatus="none" showBalance={false} />
         </Row>
@@ -158,20 +153,13 @@ export function Hero(props) {
     return (
         <>
             <div className="relative">
-                <div className="bg-black bg-no-repeat bg-cover">
+                <div className="bg-black bg-no-repeat bg-cover" style={{ backgroundImage: `url("/hero_bg.png")`}}>
                     <Row
                         className="min-h-[80vh] h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] text-[#67666E] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
                             <Button>{button.text}</Button>
-                        </div>
-                        <div className="flex-initial sm:w-1/2 md:flex-grow">
-                            <iframe src={`${video}?transparent=0&background=1&controls=1&autoplay=1&loop=1`}
-                                className="lg:w-[40vw] h-[50vh]"
-                                frameBorder="0"
-                                allow="autoplay; fullscreen"
-                                allowFullScreen />
                         </div>
                     </Row>
                 </div>
