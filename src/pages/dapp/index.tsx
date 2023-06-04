@@ -172,7 +172,8 @@ function ReviewDialog(props) {
     } as Review);
     const onSubmit = (evt) => {
         console.log(result.isUpdating)
-        postReview(review).unwrap().then(_ => {
+
+        postReview({ ...review, rating: review.rating ?? 0 }).unwrap().then(_ => {
             props.onRequestClose();
         }).catch(err => {
             console.log(err);
