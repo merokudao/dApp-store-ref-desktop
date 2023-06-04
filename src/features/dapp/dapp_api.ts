@@ -2,6 +2,7 @@ import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions
 import { api } from "../../api/api";
 import { ApiEndpoints } from "../../api/constants";
 import {
+  BuildDownloadResponse,
   CategoryListResponse,
   PagedRequest,
   PagedResponse,
@@ -9,8 +10,7 @@ import {
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
 import { categories } from "./polygon_categories";
-import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
-import {AppStrings} from "../../pages/constants";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
@@ -28,6 +28,8 @@ interface IDappDataSource {
   getDappByOwnerAddress(builder: EndpointBuilder<any, any, any>);
   getFeaturedDapps(builder: EndpointBuilder<any, any, any>);
   getAppRating(builder: EndpointBuilder<any, any, any>);
+  getBuildDownloadUrl(builder: EndpointBuilder<any, any, any>);
+
 }
 
 export class DappDataSource implements IDappDataSource {
@@ -43,6 +45,8 @@ export class DappDataSource implements IDappDataSource {
         getFeaturedDapps: this.getFeaturedDapps(build),
         getAppRating: this.getAppRating(build),
         postReview: this.postReview(build),
+        getBuildDownloadUrl: this.getBuildDownloadUrl(build),
+
       }),
     });
   }
@@ -149,7 +153,7 @@ export class DappDataSource implements IDappDataSource {
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
         const appIdsReq = await fetchWithBQ(ApiEndpoints.FEATURED)
         if (appIdsReq.error)
-          return {error: appIdsReq.error as FetchBaseQueryError}
+          return { error: appIdsReq.error as FetchBaseQueryError }
         const appIds = appIdsReq.data[0].dappIds
         const result = <any>[];
         for (const idx in appIds) {
@@ -157,9 +161,10 @@ export class DappDataSource implements IDappDataSource {
           result.push(appReq.data.data[0])
         }
         return result.length
-            ? {data: result}
-            : {error: result.error as FetchBaseQueryError}
-      }})
+          ? { data: result }
+          : { error: result.error as FetchBaseQueryError }
+      }
+    })
   }
 
   getAppRating(builder: EndpointBuilder<any, any, any>) {
@@ -171,7 +176,7 @@ export class DappDataSource implements IDappDataSource {
   }
   postReview(builder: EndpointBuilder<any, any, any>) {
     return builder.mutation<void, any>({
-      query: ({...body}) => {
+      query: ({ ...body }) => {
 
         return {
           url: `${ApiEndpoints.RATING}`,
@@ -179,6 +184,13 @@ export class DappDataSource implements IDappDataSource {
           body: body,
         }
       }
+    })
+  }
+  getBuildDownloadUrl(builder: EndpointBuilder<any, any, any>) {
+    return builder.query<BuildDownloadResponse, string>({
+      query: (id) => ({
+        url: `${ApiEndpoints.BUILD_DOWNLOAD_URL}/${id}/build`,
+      })
     })
   }
 }
@@ -193,6 +205,7 @@ export const {
   useGetFeaturedDappsQuery,
   useGetAppRatingQuery,
   usePostReviewMutation,
+  useGetBuildDownloadUrlQuery
 } = dAppDataSource.registerEndpoints(api);
 
 export const getPolygonCategoryList = dAppDataSource.getPolygonCategoryList;

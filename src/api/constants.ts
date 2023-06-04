@@ -20,4 +20,6 @@ export const ApiEndpoints = {
   FETCH_USER: "fetchuser",
   POST_USER: "postuser",
   SEARCH: "api/v1/dapp/search",
+  BUILD_DOWNLOAD_URL: "dapp",
+
 };

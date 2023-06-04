@@ -6,16 +6,16 @@ import Modal from 'react-modal';
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL } from "../../api/constants";
-import {Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout, Card} from "../../components";
-import {Column, Row} from "../../components/layout/flex";
+import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout, Card } from "../../components";
+import { Column, Row } from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
-import {useGetAppRatingQuery, useGetDappByOwnerAddressQuery, usePostReviewMutation} from "../../features/dapp/dapp_api";
+import { useGetAppRatingQuery, useGetBuildDownloadUrlQuery, useGetDappByOwnerAddressQuery, usePostReviewMutation } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
-import {ReviewCard} from "../../components/card";
+import { ReviewCard } from "../../components/card";
 import Link from "next/link";
-import {Review} from "../../features/dapp/models/review";
+import { Review } from "../../features/dapp/models/review";
 
 Modal.setAppElement('#__next');
 
@@ -78,14 +78,19 @@ function DappDetailSection(props) {
 
 function DownloadButton(props) {
     const { href, dApp } = props;
+    const { data, isLoading, isFetching } = useGetBuildDownloadUrlQuery(dApp.dappId)
+    if (isLoading || isFetching) return null;
+    console.log(dApp.dappId)
+    console.log(href)
+    console.log(data, isLoading, isFetching);
     const downloadAvailable = dApp.availableOnPlatform.includes('android') || dApp.availableOnPlatform.includes('ios');
     const classnames = classNames({
         'text-[#ddd]': !downloadAvailable,
         'text-[#fff]': downloadAvailable,
         'p-4 font-[600] text-[14px]': true,
     });
-    const currentColor = downloadAvailable ? "#fff" : "#525059";
-    return <a className={classnames} href={downloadAvailable ? href : null}>
+    const currentColor = downloadAvailable && (href != undefined || data != undefined) ? "#fff" : "#525059";
+    return <a className={classnames} href={downloadAvailable ? href != undefined ? href : data != undefined ? data?.url : null : null}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -127,30 +132,30 @@ function Input(props) {
 }
 
 export function StarRating(props) {
-    const {editable, onChange} = props;
+    const { editable, onChange } = props;
     const [rating, setRating] = useState(props.rating);
     const [hover, setHover] = useState(0);
     useEffect(() => {
         if (typeof onChange === 'function') {
             onChange(rating);
         }
-    },[rating]);
+    }, [rating]);
     return (
-        <Row className="gap-x-[4px]" onMouseLeave={editable ? () => setRating(rating): undefined}>
+        <Row className="gap-x-[4px]" onMouseLeave={editable ? () => setRating(rating) : undefined}>
             {[...Array(5)].map((_, idx) => {
                 idx += 1;
-                return <svg onClick={editable ? () => setRating(idx): undefined}
-                            onMouseEnter={editable ? () => setHover(idx): undefined}
-                            onMouseLeave={editable ? () => setRating(rating): undefined}
-                            className={`icon ${idx <= (rating || hover) ? "icon-filled" : null}`}
-                            width="24"
-                            height="25"
-                            viewBox="0 0 24 25"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                return <svg onClick={editable ? () => setRating(idx) : undefined}
+                    onMouseEnter={editable ? () => setHover(idx) : undefined}
+                    onMouseLeave={editable ? () => setRating(rating) : undefined}
+                    className={`icon ${idx <= (rating || hover) ? "icon-filled" : null}`}
+                    width="24"
+                    height="25"
+                    viewBox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M12 2.5L15.09 8.76L22 9.77L17 14.64L18.18 21.52L12 18.27L5.82 21.52L7 14.64L2 9.77L8.91 8.76L12 2.5Z"
-                        stroke="currentcolor" strokeLinecap="round" strokeLinejoin="round"/>
+                        stroke="currentcolor" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>;
             })}
         </Row>
@@ -176,16 +181,16 @@ function ReviewDialog(props) {
         <Column className={"gap-y-[32px] relative"}>
             <h1 className="text-[20px] leading-[24px] font-[500]">Add Review</h1>
             <button onClick={() => props.onRequestClose()} className="absolute right-0 "><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 6.5L18 18.5M18 6.5L6 18.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M6 6.5L18 18.5M18 6.5L6 18.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             </button>
             <Column className="items-start justify-start gap-y-[8px] input" >
                 <label htmlFor="">Add Rating</label>
-                <StarRating editable={true} onChange={(val) => setReview({...review, rating:val})} />
+                <StarRating editable={true} onChange={(val) => setReview({ ...review, rating: val })} />
             </Column>
             <Column className="gap-y-[8px]">
                 <label htmlFor="">Write a review</label>
-                <Input onChange={(evt) => setReview({...review, comment: evt.target.value})} />
+                <Input onChange={(evt) => setReview({ ...review, comment: evt.target.value })} />
             </Column>
             <Button disabled={false} onClick={onSubmit}>Submit</Button>
         </Column>
@@ -193,18 +198,18 @@ function ReviewDialog(props) {
 }
 
 function AppRatingList(props) {
-    const {data, isLoading, isFetching} = useGetAppRatingQuery(props.id)
+    const { data, isLoading, isFetching } = useGetAppRatingQuery(props.id)
     if (isLoading || isFetching) return null;
     return <>
         <Row className="justify-between items-center py-[24px]">
             <h1 className="text-[24px] leading-[32px] font-[500]">{AppStrings.reviewsTitle}</h1>
             <button className="flex items-center gap-x-[8px] text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" onClick={props.onCreateReivew}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.4374 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" stroke="url(#paint0_linear_1089_2333)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.4374 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" stroke="url(#paint0_linear_1089_2333)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     <defs>
                         <linearGradient id="paint0_linear_1089_2333" x1="12.0607" y1="1.87869" x2="12.0607" y2="22" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#8A46FF"/>
-                            <stop offset="1" stopColor="#6E38CC"/>
+                            <stop stopColor="#8A46FF" />
+                            <stop offset="1" stopColor="#6E38CC" />
                         </linearGradient>
                     </defs>
                 </svg>
@@ -214,16 +219,17 @@ function AppRatingList(props) {
         {/*<p className="text-[24px] leading-[28px] font-[600]">3.0</p>*/}
         {/*<small className="text-[14px] leading-[21px] font-[500] text-[#87868C]">3,200 Ratings</small>*/}
         <Row className="gap-x-[16px] items-stretch ">
-            {data.data.slice(0,2).map(review => <ReviewCard review={review}/>)}
+            {data.data.slice(0, 2).map(review => <ReviewCard review={review} />)}
         </Row>
         {!!data.data.length && <Row className="justify-end my-[16px]">
             <Link className="text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" href={`dapp/reviews/?id=${props.id}`}>View More</Link>
         </Row>}
         <Divider />
-        </>
+    </>
 }
 
 function DappList(props) {
+
     const router = useRouter();
     const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
     const { openConnectModal } = useConnectModal();
@@ -262,13 +268,13 @@ function DappList(props) {
 
 
 
-    if (isLoading || isFetching) 
-    return <PageLayout>
-        <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
-        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
-        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
-        <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
-    </PageLayout>
+    if (isLoading || isFetching)
+        return <PageLayout>
+            <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+            <div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+        </PageLayout>
 
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
@@ -284,11 +290,18 @@ function DappList(props) {
     const history = JSON.parse(localStorage.getItem('dApps') ?? "{}");
     localStorage.setItem('dApps', JSON.stringify(Object.assign({}, history, { [dApp.dappId]: dApp })));
     const args = new URLSearchParams();
+    let viewLink;
+    let downloadLink;
     if (address) {
         args.set('userAddress', address);
+        viewLink = `${BASE_URL}/o/view/${dApp.dappId}?${args.toString()}`
+        downloadLink = `${BASE_URL}/o/download/${dApp.dappId}?${args.toString()}`
+
+    } else {
+        viewLink = dApp.appUrl;
     }
-    const viewLink = `${BASE_URL}/o/view/${dApp.dappId}?${args.toString()}`
-    const downloadLink = `${BASE_URL}/o/download/${dApp.dappId}?${args.toString()}`
+
+
 
     const isOwner = isOwnedAppsLoading ? false : (ownedApps?.data?.includes(dApp.dappId) || false)
 
@@ -350,6 +363,7 @@ function DappList(props) {
                                     <path d="M8.59003 13.51L15.42 17.49M15.41 6.51001L8.59003 10.49M21 5C21 6.65685 19.6569 8 18 8C16.3431 8 15 6.65685 15 5C15 3.34315 16.3431 2 18 2C19.6569 2 21 3.34315 21 5ZM9 12C9 13.6569 7.65685 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.65685 9 9 10.3431 9 12ZM21 19C21 20.6569 19.6569 22 18 22C16.3431 22 15 20.6569 15 19C15 17.3431 16.3431 16 18 16C19.6569 16 21 17.3431 21 19Z" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </a>
+
                             <DownloadButton href={downloadLink} dApp={dApp} />
                         </div>
                     </header>
@@ -372,15 +386,15 @@ function DappList(props) {
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
                             <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} minted={dApp.minted} />} */}
 
-                                                
-                    {!(address == undefined) ?
+
+                        {!(address == undefined) ?
                             isOwner ?
-                            <UpdateDappSection onClick={onClaimButtonClick} /> :
-                            !((dApp.minted == undefined) || (!dApp.minted)) ? (
-                                openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>
-                            ) :
-                                <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/> :
-                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal}/>
+                                <UpdateDappSection onClick={onClaimButtonClick} /> :
+                                !((dApp.minted == undefined) || (!dApp.minted)) ? (
+                                    openConnectModal && <p onClick={openConnectModal} className="text-[14px] leading-[24px] underline cursor-pointer">Do you own this dApp? Connect wallet to update</p>
+                                ) :
+                                    <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} /> :
+                            <ClaimDappSection address={address} onClick={onClaimButtonClick} onOpenConnectModal={openConnectModal} />
                         }
                     </DappDetailSection>
                 </section>
