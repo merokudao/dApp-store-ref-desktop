@@ -23,7 +23,7 @@ export function AppList(props) {
 
     return (
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-            {props.data.length ? props.data.map((app: Dapp) => <div className="cursor-pointer" onClick={() => { router.push(`/dapp?id=${app.dappId}`) }}> <Card key={app.dappId}>
+            {props.data.length ? props.data.map((app: Dapp) => <div className="cursor-pointer" key={app.dappId} onClick={() => { router.push(`/dapp?id=${app.dappId}`) }}> <Card key={app.dappId}>
                 {/* <Link href={}> */}
                 <Row className="justify-between">
                     <Image src={app.images.logo} width={64} height={64} className="rounded-lg" alt="" />
