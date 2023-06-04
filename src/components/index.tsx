@@ -21,14 +21,14 @@ function Text(props) {
 
 
 function ExpandAbleText(props) {
-    const {maxCharacters} = props;
+    const { maxCharacters } = props;
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const maxLines = isExpanded ? undefined : props.maxLines;
     const label = isExpanded ? "Read Less" : "Read More";
     let text = props.children;
     const requiresTruncation = text.length > maxCharacters
     if (requiresTruncation) {
-        text = isExpanded ? props.children : `${props.children.substring(0,maxCharacters)}...`
+        text = isExpanded ? props.children : `${props.children.substring(0, maxCharacters)}...`
     }
     return (
         <>
@@ -43,19 +43,19 @@ function ExpandAbleText(props) {
 
 function Button(props) {
     const Elm = props.as || "button";
-    return <Elm {...props} className={"py-[10px] px-[14px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-[600] text-[16px] hover:from-[#fff] hover:to-[#ddd] hover:text-black" + ' ' + props.className}>
-        <div className="text-[12px] font-[500] leading-[15.6px] flex items-center justify-center">{props.children}</div>
+    return <Elm {...props} className={"py-[10px] px-[14px] rounded-[32px] bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-[600] text-[16px] hover:from-[#fff] hover:to-[#ddd] hover:text-black disabled:cursor-not-allowed" + ' ' + props.className}>
+        < div className="text-[12px] font-[500] leading-[15.6px] flex items-center justify-center " > {props.children}</div >
         {/*<svg className="inline-block ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
         {/*    <path d="M7 17L17 7M17 7V17M17 7H7" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
         {/*</svg>*/}
-    </Elm>
+    </Elm >
 }
 
 
 
 function ClaimButton(props) {
     return <button {...props}
-                   className="flex items-center justify-center py-[10px] px-[40px] rounded-[32px] bg-gradient-to-b
+        className="flex items-center justify-center py-[10px] px-[40px] rounded-[32px] bg-gradient-to-b
                               from-[#8A46FF] to-[#6E38CC] hover:from-[#fff] hover:to-[#ddd] hover:text-black
                               disabled:cursor-not-allowed">
         <span className="text-[14px] font-[600] leading-[18px]">{props.children}</span>

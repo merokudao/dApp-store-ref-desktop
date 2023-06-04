@@ -163,7 +163,7 @@ export function StarRating(props) {
 }
 
 function ReviewDialog(props) {
-    const [postReview, result] = usePostReviewMutation();
+    const [postReview, result, isLoading, isFetching] = usePostReviewMutation();
     const [errors, setErrors] = useState();
     const { address } = useAccount();
     const [review, setReview] = useState<Review>({
@@ -174,8 +174,25 @@ function ReviewDialog(props) {
         console.log(result.isUpdating)
         postReview(review).unwrap().then(_ => {
             props.onRequestClose();
-        }).catch(err => setErrors(err));
+        }).catch(err => {
+            console.log(err);
+            setErrors(err)
+        });
         console.log(result.isUpdating);
+    }
+
+    if (errors) {
+        return <Column height="25" className={"gap-y-[40px] relative"}>
+            <h1 className="text-[20px] leading-[24px] font-[500]">Failed to add review</h1>
+            <button onClick={() => props.onRequestClose()} className="absolute right-0 "><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 6.5L18 18.5M18 6.5L6 18.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            </button>
+            <Column>
+                Have you opened or downloaded dapp before posting review?
+            </Column>
+
+        </Column >
     }
     return <>
         <Column className={"gap-y-[32px] relative"}>
@@ -192,18 +209,30 @@ function ReviewDialog(props) {
                 <label htmlFor="">Write a review</label>
                 <Input onChange={(evt) => setReview({ ...review, comment: evt.target.value })} />
             </Column>
-            <Button disabled={false} onClick={onSubmit}>Submit</Button>
+
+            <Button disabled={!(review.rating != undefined || review.comment != undefined) || (isLoading || isFetching)} onClick={onSubmit}>Submit</Button>
         </Column>
     </>
 }
 
 function AppRatingList(props) {
     const { data, isLoading, isFetching } = useGetAppRatingQuery(props.id)
+    const { openConnectModal } = useConnectModal();
+
+    const { address } = useAccount();
     if (isLoading || isFetching) return null;
     return <>
         <Row className="justify-between items-center py-[24px]">
             <h1 className="text-[24px] leading-[32px] font-[500]">{AppStrings.reviewsTitle}</h1>
-            <button className="flex items-center gap-x-[8px] text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" onClick={props.onCreateReivew}>
+            <button className="flex items-center gap-x-[8px] text-transparent bg-clip-text bg-gradient-to-b from-[#8A46FF] to-[#6E38CC] font-bold text-[14px] leading-[18px]" onClick={() => {
+                if (address) {
+                    props.onCreateReivew()
+                    return;
+
+                } else if (openConnectModal) {
+                    openConnectModal();
+                }
+            }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.4374 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" stroke="url(#paint0_linear_1089_2333)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     <defs>
