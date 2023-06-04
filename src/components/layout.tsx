@@ -2,16 +2,16 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactComponentElement, ReactElement, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Slider from "react-slick";
 import { App, posConfig, zkevmConfig } from "../app/constants.js";
 import { getApp, setApp } from "../features/app/app_slice";
 import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
+import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
-import { FeaturedCard, SliderButton } from "./card";
-import Slider from "react-slick";
 
 
 function NavBar(props) {
@@ -321,6 +321,7 @@ export default function Layout(props) {
     const router = useRouter();
     const { data, isLoading } = useGetFeaturedDappsQuery();
     const slider = useRef();
+    let dragging = false;
     const settings = {
         dots: false,
         infinite: false,
@@ -329,6 +330,8 @@ export default function Layout(props) {
         rows: 1,
         slidesToShow: 4.5,
         swipeToSlide: true,
+        beforeChange: () => dragging = true,
+        afterChange: () => dragging = false,
         responsive: [
             {
                 breakpoint: 640,
@@ -385,7 +388,7 @@ export default function Layout(props) {
                             </Row>
                             <Slider ref={slider} {...settings}>
                                 {data ? data.map((dapp) =>
-                                    <Link href={`/dapp?id=${dapp.dappId}`}><FeaturedCard app={dapp} /></Link>)
+                                    <Link href={`/dapp?id=${dapp.dappId}`} draggable={false} onClick={(e)=> dragging && e.preventDefault()}><FeaturedCard app={dapp} /></Link>)
                                     : buildLoadingCard(5)}
                             </Slider>
                         </div>
