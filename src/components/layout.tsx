@@ -328,7 +328,7 @@ export default function Layout(props) {
         speed: 500,
         rows: 1,
         slidesToShow: 4.5,
-        slidesToScroll: 1,
+        swipeToSlide: true,
         responsive: [
             {
                 breakpoint: 640,
