@@ -46,7 +46,7 @@ interface AppConfig {
 // }
 
 const posConfig: AppConfig = {
-  title: "PoS dApps",
+  title: "dApps",
   chainId: 137,
   hero: {
     title: "There are more dApps built #OnPolygon than ever before",
