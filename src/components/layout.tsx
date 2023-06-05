@@ -376,6 +376,7 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
+	const router = useRouter();
 	const app = useSelector(getApp);
 	const { data, isFetching, isLoading } = useGetCategoryListQuery(
 		{
@@ -442,16 +443,20 @@ export function PageLayout(props) {
 							</Link>
 						</div>
 						<div className="py-4">
-							<Link href="/">
+							<div
+								onClick={() => {
+									router.push("/");
+								}}
+							>
 								<span className="text-xl">
 									{AppStrings.allDapps}
 								</span>
-							</Link>
+							</div>
 						</div>
 						{child}
 					</div>
 				</aside>
-				<section className="flex-grow lg:w-9/12 lg:pl-8 md:pt-8">
+				<section className="flex-initial lg:w-9/12 lg:pl-8 md:pt-8">
 					{props.children}
 				</section>
 			</Row>
