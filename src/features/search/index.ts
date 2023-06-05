@@ -8,7 +8,7 @@ interface ISearchDataSource {
   searchById;
   searchByPackageId;
 }
-
+// API calls for search and related things.
 class SearchDataSource implements ISearchDataSource {
   registerEndpoints(this, api) {
     return api.injectEndpoints({

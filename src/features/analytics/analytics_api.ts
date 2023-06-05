@@ -1,10 +1,9 @@
-import {ApiEndpoints} from "../../api/constants";
-import {EndpointBuilder} from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import {api} from "../../api/api";
-import {Analytics} from "./models/analytics";
-
+import { ApiEndpoints } from "../../api/constants";
+import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import { Analytics } from "./models/analytics";
+//this is not being used
 interface IAnalyticsDataSource {
-    postAnalytics(build:EndpointBuilder<any, any, any>),
+    postAnalytics(build: EndpointBuilder<any, any, any>),
 }
 
 export class AnalyticsDataSource implements IAnalyticsDataSource {
@@ -16,7 +15,7 @@ export class AnalyticsDataSource implements IAnalyticsDataSource {
         })
     }
 
-    postAnalytics(build:EndpointBuilder<any, any, any>) {
+    postAnalytics(build: EndpointBuilder<any, any, any>) {
         return build.mutation<Analytics, void>({
             query: () => ({
                 url: ApiEndpoints.ANALYTICS,
@@ -36,4 +35,4 @@ export class AnalyticsDataSource implements IAnalyticsDataSource {
 }
 
 const analyticsDataSource = new AnalyticsDataSource();
-export {analyticsDataSource};
+export { analyticsDataSource };

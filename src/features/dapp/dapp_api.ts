@@ -9,9 +9,9 @@ import {
 } from "../../models/response";
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
-import { categories } from "./polygon_categories";
+import { categories } from "./custom_categories";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
+// this is a collection of endpoint call with RTK to get all the dapp related data.
 interface IDappDataSource {
   getFeaturedList(builder: EndpointBuilder<any, any, any>);
 

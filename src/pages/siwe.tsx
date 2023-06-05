@@ -4,7 +4,7 @@ import { useAccount, useConnect, useNetwork, useSignMessage } from "wagmi"
 import Layout from "../components/layout"
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { useEffect, useState } from "react"
-
+// Boilerplate code for next auth
 function Siwe() {
     const { signMessageAsync } = useSignMessage()
     const { chain } = useNetwork()

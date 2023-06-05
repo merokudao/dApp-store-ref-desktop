@@ -7,6 +7,7 @@ import { spaceMono } from "../theme";
 import { Card, RImage as Image, Text } from "./index";
 import { Row } from "./layout/flex";
 
+//tags on top of app card
 export function Tag(props: { children: ReactNode }) {
     const _classNames = classNames({
         'text-[10px] leading-[10px] uppercase': true,
@@ -17,7 +18,7 @@ export function Tag(props: { children: ReactNode }) {
     });
     return <span className={_classNames}>{props.children}</span>;
 }
-
+// List of apps 
 export function AppList(props) {
     const router = useRouter();
 

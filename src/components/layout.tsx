@@ -170,6 +170,7 @@ export function Hero(props) {
     )
 }
 
+//for mobile view
 function CategoryListSmall(props) {
     const router = useRouter();
     const data = getPolygonCategoryList();

@@ -19,6 +19,7 @@ import { AppStrings } from "../constants";
 
 Modal.setAppElement('#__next');
 
+// dapp page, shows complete dapp info
 const modalStyles = {
     overlay: {
         background: 'rgba(0,0,0,0.80)'
@@ -75,7 +76,7 @@ function DappDetailSection(props) {
         </section>
     )
 }
-
+//this button redirects to analytics url which redirects to download url if wallet is connected otherwise it calls getBuildUrl and then redirects to build url.
 function DownloadButton(props) {
     const { href, dApp } = props;
     const { data, isLoading, isFetching } = useGetBuildDownloadUrlQuery(dApp.dappId)
@@ -100,6 +101,7 @@ function DownloadButton(props) {
     </a>;
 }
 
+//Claiming a dapp on meroku .
 function ClaimDappSection(props) {
     const { onClick, address, onOpenConnectModal, minted } = props;
     return (
@@ -113,7 +115,7 @@ function ClaimDappSection(props) {
         </Row>
     );
 }
-
+// if the user is owner of the dapp, it shows update dapp button.
 function UpdateDappSection(props) {
     const { onClick } = props;
     return (
@@ -161,7 +163,7 @@ export function StarRating(props) {
         </Row>
     )
 }
-
+// review is only possible when user has either opened or downloaded dapp via store after connecting wallet.
 function ReviewDialog(props) {
     const [postReview, result, isLoading, isFetching] = usePostReviewMutation();
     const [errors, setErrors] = useState();
@@ -247,10 +249,10 @@ function AppRatingList(props) {
                 Add review
             </button>
         </Row>
-        
+
         <Row className="gap-x-[18px] ">
             <p className="text-[24px] leading-[28px] font-[600]">{Math.round((dApp?.metrics?.rating ?? 0) * 10) / 10}</p>
-            <StarRating rating={Math.round((dApp?.metrics?.rating ?? 0)  * 10) / 10} />
+            <StarRating rating={Math.round((dApp?.metrics?.rating ?? 0) * 10) / 10} />
         </Row>
         <small className="text-[14px] leading-[34px] font-[500] text-[#87868C]">{dApp?.metrics?.ratingsCount ?? 0} Ratings</small>
         <Row className="gap-x-[16px] items-stretch ">
