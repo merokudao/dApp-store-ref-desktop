@@ -235,6 +235,7 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
+    const router = useRouter();
     const app = useSelector(getApp);
     const {
         data,
@@ -289,9 +290,9 @@ export function PageLayout(props) {
                             </Link>
                         </div>
                         <div className="py-4">
-                            <Link href="/">
+                            <div onClick={()=>{router.push('/')}}>
                                 <span className="text-xl">{AppStrings.allDapps}</span>
-                            </Link>
+                            </div>
                         </div>
                         {child}
                     </div>
