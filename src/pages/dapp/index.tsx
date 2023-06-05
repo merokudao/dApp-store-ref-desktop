@@ -8,21 +8,21 @@ import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL, HOST_URL } from "../../api/constants";
 import {
-	Button,
-	ClaimButton,
-	ExpandAbleText,
-	RImage as Image,
-	PageLayout,
+    Button,
+    ClaimButton,
+    ExpandAbleText,
+    RImage as Image,
+    PageLayout,
 } from "../../components";
 import { ReviewCard } from "../../components/card";
 import { Column, Row } from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
 import { merokuToCustomCategory } from "../../features/categories";
 import {
-	useGetAppRatingQuery,
-	useGetBuildDownloadUrlQuery,
-	useGetDappByOwnerAddressQuery,
-	usePostReviewMutation,
+    useGetAppRatingQuery,
+    useGetBuildDownloadUrlQuery,
+    useGetDappByOwnerAddressQuery,
+    usePostReviewMutation,
 } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
 import { Review } from "../../features/dapp/models/review";
