@@ -4,7 +4,7 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["Open Sans"],
+				sans: ["var(--font-sans)"],
 				mono: ["var(--font-mono)"],
 			},
 			container: {
