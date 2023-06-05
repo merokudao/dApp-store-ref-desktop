@@ -1,21 +1,21 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL } from "../../api/constants";
-import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout, Card } from "../../components";
+import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout } from "../../components";
+import { ReviewCard } from "../../components/card";
 import { Column, Row } from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
 import { useGetAppRatingQuery, useGetBuildDownloadUrlQuery, useGetDappByOwnerAddressQuery, usePostReviewMutation } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
+import { Review } from "../../features/dapp/models/review";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
-import { ReviewCard } from "../../components/card";
-import Link from "next/link";
-import { Review } from "../../features/dapp/models/review";
 
 Modal.setAppElement('#__next');
 
@@ -219,6 +219,7 @@ function ReviewDialog(props) {
 function AppRatingList(props) {
     const { data, isLoading, isFetching } = useGetAppRatingQuery(props.id)
     const { openConnectModal } = useConnectModal();
+    const dApp = props.dapp;
 
     const { address } = useAccount();
     if (isLoading || isFetching) return null;
@@ -246,8 +247,12 @@ function AppRatingList(props) {
                 Add review
             </button>
         </Row>
-        {/*<p className="text-[24px] leading-[28px] font-[600]">3.0</p>*/}
-        {/*<small className="text-[14px] leading-[21px] font-[500] text-[#87868C]">3,200 Ratings</small>*/}
+        
+        <Row className="gap-x-[18px] ">
+            <p className="text-[24px] leading-[28px] font-[600]">{Math.round((dApp?.metrics?.rating ?? 0) * 10) / 10}</p>
+            <StarRating rating={Math.round((dApp?.metrics?.rating ?? 0)  * 10) / 10} />
+        </Row>
+        <small className="text-[14px] leading-[34px] font-[500] text-[#87868C]">{dApp?.metrics?.ratingsCount ?? 0} Ratings</small>
         <Row className="gap-x-[16px] items-stretch ">
             {data.data.slice(0, 2).map(review => <ReviewCard review={review} />)}
         </Row>
@@ -401,7 +406,7 @@ function DappList(props) {
                         <ExpandAbleText maxCharacters={320} maxLines={3}>{dApp.description}</ExpandAbleText>
                     </DappDetailSection>
                     <Divider />
-                    <AppRatingList id={dApp.dappId} onCreateReivew={() => setIsReviewModalOpen(true)} />
+                    <AppRatingList id={dApp.dappId} dapp={dApp} onCreateReivew={() => setIsReviewModalOpen(true)} />
                     {dApp.images.screenshots?.length && (<>
                         <DappDetailSection title={AppStrings.gallery}>
                             <div className="grid grid-cols-3 gap-4">
