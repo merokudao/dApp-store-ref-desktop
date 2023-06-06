@@ -3,6 +3,8 @@ import { AppList } from "./app_list";
 import { Card } from "./card";
 
 import { default as NXTImage } from "next/image";
+import { AppStrings } from "../pages/constants";
+import { Row } from "./layout/flex";
 
 function Text(props) {
 	const element = props.as || "p";
@@ -104,4 +106,59 @@ function RImage(props) {
 }
 
 export * from "./layout";
-export { Text, Button, ClaimButton, ExpandAbleText, RImage, AppList, Card };
+export {
+	Text,
+	Button,
+	ClaimButton,
+	ExpandAbleText,
+	RImage,
+	AppList,
+	Card,
+	DropdownButton,
+};
+
+function DropdownButton(props) {
+	const [open, setOpen] = useState<boolean>(false);
+	return (
+		<div className="relative w-max h-max">
+			<Row className="cursor-pointer items-center gap-x-[8px]">
+				<span
+					onClick={() => setOpen(!open)}
+					className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]"
+				>
+					{AppStrings.allChains}
+				</span>
+				<svg
+					width="24"
+					height="25"
+					viewBox="0 0 24 25"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M6 9.5L12 15.5L18 9.5"
+						stroke="#E2E1E6"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+				{open && (
+					<div className="absolute inset-0 top-[48px] bg-canvas-color w-full h-max z-10 rounded-[8px] border-[1px] border-[#FFFFFF66]">
+						<ul>
+							{props.items.map((item) => (
+								<li
+									key={item.title}
+									className="font-[500] cursor-pointer p-[16px]"
+									onClick={item.onClick}
+								>
+									{item.title}
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
+			</Row>
+		</div>
+	);
+}

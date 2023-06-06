@@ -18,6 +18,8 @@ const AppStrings = {
 	connectWalletTooltip: "Connect Wallet to claim and update dapps",
 	submitDappTooltip:
 		"You will be redirected to a separate webpage to submit your dApp",
+	ratings: "Ratings",
+	allChains: "All Chains",
 };
 
 export { AppStrings };

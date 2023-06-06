@@ -15,7 +15,7 @@ import {
 } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
 import { FeaturedCard, SliderButton } from "./card";
-import { Button, Card } from "./index";
+import { Button, Card, DropdownButton } from "./index";
 import { Row } from "./layout/flex";
 import ScrollToTopButton from "./scroll_to_top";
 
@@ -459,9 +459,13 @@ export function PageLayout(props) {
 		<article className="container">
 			<Row className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap lg:flex-nowrap gap-4">
 				<div className="flex-initial w-full md:w-10/12">
-					<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">
-						{app.title}
-					</span>
+					{/*<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{app.title}</span>*/}
+					<DropdownButton
+						items={[
+							{ title: "Pos", onClick: () => {} },
+							{ title: "Ethereum", onClick: () => {} },
+						]}
+					/>
 				</div>
 				<div className="flex-initial w-full md:w-3/12">
 					<Input />
