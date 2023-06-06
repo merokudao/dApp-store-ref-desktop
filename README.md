@@ -22,11 +22,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-1. Set up env as per .env file.
-2. Run `yarn`
-3. RUN `yarn build`
-4. # Start the next server with `yarn start`
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
