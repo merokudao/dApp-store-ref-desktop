@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
-import { App, } from "../app/constants.js";
+import { App, } from "../app/constants";
 import { getApp, setApp } from "../features/app/app_slice";
 import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
