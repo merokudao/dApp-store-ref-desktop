@@ -5,7 +5,7 @@ import {
 import { WC_PROJECT_ID } from "../../api/constants";
 import { chains } from "./config";
 import { publicProvider } from 'wagmi/providers/public';
-
+// exports all the necessary data for wallet connect.
 export const { connectors } = getDefaultWallets({ appName: 'DappStore', projectId: WC_PROJECT_ID ?? "", chains: chains })
 export const { publicClient } = configureChains(chains, [publicProvider()])
 

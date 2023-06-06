@@ -2,16 +2,16 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {ReactComponentElement, ReactElement, useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { App, posConfig, zkevmConfig } from "../app/constants.js";
+import Slider from "react-slick";
+import { App, } from "../app/constants.js";
 import { getApp, setApp } from "../features/app/app_slice";
-import {getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery} from "../features/dapp/dapp_api";
+import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
+import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
-import {FeaturedCard, SliderButton} from "./card";
-import Slider from "react-slick";
 
 
 function NavBar(props) {
@@ -34,15 +34,10 @@ function NavBar(props) {
             className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10 gap-[16px]">
             <div className="flex-initial">
                 <NavItem href="/" className="pr-[20px]">
-                    <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src}
+                    <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src} style={{ objectFit: "contain", height: App.logo.height }}
                         alt={`${App.name} Logo`} />
+
                 </NavItem>
-            </div>
-            <div className="flex-grow flex gap-[16px] text-[14px] leading-[20px] font-[500] text-[#87868C]">
-                <button className={isActive(posConfig)}
-                    onClick={() => onAppConfigClick(posConfig)}>{posConfig.title}</button>
-                <button className={isActive(zkevmConfig)}
-                    onClick={() => onAppConfigClick(zkevmConfig)}>{zkevmConfig.title}</button>
             </div>
             <ConnectButton chainStatus="none" showBalance={false} />
         </Row>
@@ -158,20 +153,13 @@ export function Hero(props) {
     return (
         <>
             <div className="relative">
-                <div className="bg-black bg-no-repeat bg-cover">
+                <div className="bg-black bg-no-repeat bg-cover" style={{ backgroundImage: `url("/hero_bg.png")` }}>
                     <Row
                         className="min-h-[80vh] h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] text-[#67666E] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
-                            <Button>{button.text}</Button>
-                        </div>
-                        <div className="flex-initial sm:w-1/2 md:flex-grow">
-                            <iframe src={`${video}?transparent=0&background=1&controls=1&autoplay=1&loop=1`}
-                                className="lg:w-[40vw] h-[50vh]"
-                                frameBorder="0"
-                                allow="autoplay; fullscreen"
-                                allowFullScreen />
+                            <Button><a target={"_blank"} href={"https://app.meroku.org"}>{button.text}</a></Button>
                         </div>
                     </Row>
                 </div>
@@ -182,6 +170,7 @@ export function Hero(props) {
     )
 }
 
+//for mobile view
 function CategoryListSmall(props) {
     const router = useRouter();
     const data = getPolygonCategoryList();
@@ -319,8 +308,9 @@ export function PageLayout(props) {
 export default function Layout(props) {
     const app = useSelector(getApp);
     const router = useRouter();
-    const {data, isLoading} = useGetFeaturedDappsQuery();
+    const { data, isLoading } = useGetFeaturedDappsQuery();
     const slider = useRef();
+    let dragging = false;
     const settings = {
         dots: false,
         infinite: false,
@@ -328,7 +318,9 @@ export default function Layout(props) {
         speed: 500,
         rows: 1,
         slidesToShow: 4.5,
-        slidesToScroll: 1,
+        swipeToSlide: true,
+        beforeChange: () => dragging = true,
+        afterChange: () => dragging = false,
         responsive: [
             {
                 breakpoint: 640,
@@ -361,36 +353,40 @@ export default function Layout(props) {
                 </div>
                 <main className="relative top-[70px]">
                     {router.asPath === '/' && <section>
-                      <div className="min-h-[80vh]">
-                        <Hero
-                            title={app.hero.title}
-                            subtitle={app.hero.title}
-                            button={app.hero.button}
-                            video={app.hero.video}
-                        />
-                      </div>
-                         <div className="container relative">
+                        <div className="min-h-[80vh]">
+                            <Hero
+                                title={app.hero.title}
+                                subtitle={app.hero.title}
+                                button={app.hero.button}
+                                video={app.hero.video}
+                            />
+                        </div>
+                        <div className="container relative">
                             <Row className="justify-between items-center my-[32px]">
-                              <h2 className="text-[24px] leading-[32px] lg:text-[60px] lg:leading-[72px] font-[500]">{AppStrings.featuredDapps}</h2>
-                              <div>
-                                    <SliderButton onClick={slider?.current?.slickPrev}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M19 12L5 12M5 12L12 19M5 12L12 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
+                                <h2 className="text-[24px] leading-[32px] lg:text-[60px] lg:leading-[72px] font-[500]">{AppStrings.featuredDapps}</h2>
+                                <div>
+                                    <SliderButton onClick={() => {
+                                        (slider?.current as any).slickPrev()
+                                    }}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19 12L5 12M5 12L12 19M5 12L12 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
                                     </SliderButton>
-                                    <SliderButton onClick={slider?.current?.slickNext}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
+                                    <SliderButton onClick={() => {
+                                        (slider?.current as any).slickNext()
+                                    }}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
                                     </SliderButton>
-                              </div>
+                                </div>
                             </Row>
                             <Slider ref={slider} {...settings}>
                                 {data ? data.map((dapp) =>
-                                    <Link href={`/dapp?id=${dapp.id}`}><FeaturedCard app={dapp}/></Link>)
-                              : buildLoadingCard(5)}
+                                    <Link key={app.dappId} href={`/dapp?id=${dapp.dappId}`} draggable={false} onClick={(e) => dragging && e.preventDefault()}><FeaturedCard app={dapp} /></Link>)
+                                    : buildLoadingCard(5)}
                             </Slider>
                         </div>
                     </section>
-                      }
+                    }
                     {props.children}
                 </main>
             </div>

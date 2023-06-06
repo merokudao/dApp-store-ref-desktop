@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 import { getApp } from "../../features/app/app_slice";
 import { AppStrings } from "../constants";
 import { Dapp } from "../../features/dapp/models/dapp";
-
+//This class fetches browsing history from local storage
 export default function HistoryPage(props) {
     const app = useSelector(getApp);
     const [history, setHistory] = useState({});
+
     useEffect(() => {
         let text = localStorage.getItem('dApps')
         if (text) {
             setHistory(JSON.parse(text));
         }
         console.log(history);
-
-    }, [history])
+    }, [])
     return (
         <PageLayout>
             <h1 className="text-4xl mb-8 capitalize">{AppStrings.browsingHistory}</h1>

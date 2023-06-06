@@ -4,6 +4,8 @@ export const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 export const WC_PROJECT_ID = process.env.WC_PROJECT_ID;
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
+export const HOST_URL = process.env.NEXT_PUBLIC_HOST_PATH;
+
 // export const BASE_URL = `${API_HOST}/${API_PATH}/${API_VERSION}`;
 
 export const ApiEndpoints = {
@@ -20,4 +22,6 @@ export const ApiEndpoints = {
   FETCH_USER: "fetchuser",
   POST_USER: "postuser",
   SEARCH: "api/v1/dapp/search",
+  BUILD_DOWNLOAD_URL: "dapp",
+
 };

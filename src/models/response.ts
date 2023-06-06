@@ -1,7 +1,7 @@
 export interface PagedResponse<T> {
-    page:string,
-    limit:number,
-    pageCount:number,
+    page: string,
+    limit: number,
+    pageCount: number,
     data: T[],
 }
 
@@ -16,16 +16,16 @@ export interface CategoryListResponse {
         category: string,
         subCategory: string,
     }[],
-    message:string,
+    message: string,
 }
 
 export interface IWebstoreQueryParams {
     allowedInCountries: Array<string>;
     availableOnPlatform: Array<string>;
     blockedInCountries: Array<string>;
-    categories:Array<string>;
-    chainId:Array<string>;
-    isListed:Array<string>;
+    categories: Array<string>;
+    chainId: Array<string>;
+    isListed: Array<string>;
     language: Array<string>;
     limit: Array<string>;
     listedOnOrAfter: Array<string>;
@@ -36,4 +36,9 @@ export interface IWebstoreQueryParams {
     page: Array<string>;
     search: Array<string>;
     subCategory: Array<string>;
+}
+
+export interface BuildDownloadResponse {
+    success: boolean;
+    url: string,
 }
