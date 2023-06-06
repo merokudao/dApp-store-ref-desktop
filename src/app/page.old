@@ -1,0 +1,73 @@
+import { Provider } from 'react-redux';
+import { store } from '../store';
+import type { AppProps } from 'next/app';
+import Link from 'next/link';
+// import { IWeb3ConnectConfig, Web3Connect } from '../features/wallet_connect';
+// import { WagmiConfig, mainnet, sepolia } from 'wagmi';
+// import { Web3Modal } from '@web3modal/react';
+// import { chains } from '../features/wallet_connect/config';
+// import { WC_PROJECT_ID } from '../api/constants';
+
+// export default function DappList({ Component, pageProps }: AppProps) {
+//     // const web3Config: IWeb3ConnectConfig = new Web3Connect(chains, WC_PROJECT_ID!);
+//     return (
+//         <Provider store={store}>
+//             {/*<WagmiConfig config={web3Config.wagmiConfig}>*/}
+//                 <Component {...pageProps} />
+//             {/*</WagmiConfig>*/}
+//         </Provider>
+//     )
+// }
+const Card = (props) => {
+    return (
+        <Link href="/dapp?id=com.bovine">
+        <div className="card p-4 w-full bg-gradient-to-b from-[#141217] to-[#0E0C12] rounded-lg border border-gray-700">
+            <div style={{width: "64px", height: '64px'}} className="rounded-lg bg-amber-50"></div>
+            <p className="text-2xl my-4">BovineVerse</p>
+            <p className="text-[#87868C] line-clamp-3">IoTeX was founded as an open-source platform in 2017 with a vision for the Internet of Trusted Things, a decentralized ecosystem where humans and machines can interact with guaranteed security and trust. We are on a mission to ensure everyday people and businesses can own and control their devices, as well as the data/value they generate. By connecting the physical and digital worlds, IoTeX will democratize access to machine-backed DApps, assets, and services to deliver value to users and fuel the new machine economy.</p>
+        </div>
+        </Link>
+    )
+}
+export default function Page(props) {
+    return (
+        <article className="container mx-auto">
+        <header className="flex justify-between items-center py-8 border-b border-b-border-color">
+            <div className="flex-initial w-10/12">
+                <h1 className="text-5xl">All dApps</h1>
+            </div>
+            <div className="flex-initial w-2/12">
+                <input className="w-full p-2 bg-canvas-color border border-border-color rounded-lg" type="search" placeholder="Search dApps"/>
+            </div>
+        </header>
+            <div className="flex">
+        <aside className="flex-initial w-3/12 border-r border-r-border-color">
+            <div className="py-4 border-b border-b-border-color">
+                <p className="text-xl">Browsing History</p>
+            </div>
+        </aside>
+                <section className="flex-initial w-9/12 px-8">
+                    <h1 className="text-xl my-8">dApps</h1>
+                    <div className="grid gap-8 grid-cols-2">
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                            <Card></Card>
+                        {/*<div className="flex-initial w-1/2">*/}
+                        {/*</div>*/}
+                        {/*<div className="flex-initial w-1/2">*/}
+                        {/*</div>*/}
+                        {/*<div className="flex-initial w-1/2">*/}
+                        {/*</div>*/}
+                        {/*<div className="flex-initial w-1/2">*/}
+                        {/*</div>*/}
+                    </div>
+                </section>
+            </div>
+        </article>
+    )
+}
