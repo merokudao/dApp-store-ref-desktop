@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Meroku Dapp store
 
 This is a reference dApp store implementaion for Meroku DAO.
@@ -20,3 +21,6 @@ Steps to build :
 2. Run `yarn`
 3. RUN `yarn build`
 4. Start the next server with `yarn start`
+=======
+# Ref implementation for desktop
+>>>>>>> 3adb44cc83875ab3f6cd7d762d4b8eaadd5a20ec
