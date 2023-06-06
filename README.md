@@ -1,4 +1,4 @@
-# Meroku Dapp store
+# Meroku Dapp store Reference Implementation
 
 This project was bootstrapped with [Next.js](https://nextjs.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
