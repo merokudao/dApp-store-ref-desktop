@@ -8,21 +8,21 @@ import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL, HOST_URL } from "../../api/constants";
 import {
-    Button,
-    ClaimButton,
-    ExpandAbleText,
-    RImage as Image,
-    PageLayout,
+	Button,
+	ClaimButton,
+	ExpandAbleText,
+	RImage as Image,
+	PageLayout,
 } from "../../components";
 import { ReviewCard } from "../../components/card";
 import { Column, Row } from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
 import { merokuToCustomCategory } from "../../features/categories";
 import {
-    useGetAppRatingQuery,
-    useGetBuildDownloadUrlQuery,
-    useGetDappByOwnerAddressQuery,
-    usePostReviewMutation,
+	useGetAppRatingQuery,
+	useGetBuildDownloadUrlQuery,
+	useGetDappByOwnerAddressQuery,
+	usePostReviewMutation,
 } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
 import { Review } from "../../features/dapp/models/review";
@@ -514,10 +514,15 @@ function DappList(props) {
 
 	const dApp: Dapp = data.data[0];
 
-	const customCategory: string = merokuToCustomCategory(
-		dApp.category,
-		dApp.subCategory
-	).category as string;
+	if (isLoading || isFetching)
+		return (
+			<PageLayout>
+				<div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
+				<div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+				<div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+				<div className="shimmer w-full h-[100px] mb-[16px] rounded-lg" />
+			</PageLayout>
+		);
 
 	if (!dApp) {
 		return <PageLayout>Missing post!</PageLayout>;
@@ -540,6 +545,10 @@ function DappList(props) {
 	} else {
 		viewLink = dApp.appUrl;
 	}
+	const customCategory: string = merokuToCustomCategory(
+		dApp.category,
+		dApp.subCategory
+	).category as string;
 
 	const isOwner = isOwnedAppsLoading
 		? false

@@ -158,6 +158,32 @@ const merokuToCustomCategory = (
   }
   return output;
 };
+
+const merokuToCustomCategory = (
+  category: string | string[] | undefined,
+  subCategory?: string | string[] | undefined
+): CatSubCat => {
+  let output: CatSubCat = { category: "others" };
+  const mapping = customToMerokuMapping;
+
+  const value = subCategory
+    ? [category, subCategory].join(".")
+    : (category as string);
+
+  const keys = Object.keys(JSON.parse(polygonMapping));
+  for (const key of keys) {
+    if (mapping.get(key) === value) {
+      if (key) {
+        const [c, sc] = key.split(".");
+        output["category"] = c;
+        if (sc) {
+          output["subCategory"] = sc;
+        }
+      }
+    }
+  }
+  return output;
+};
 // const getOthersCategoryList = (
 //   merokuCategoryAPIData: Array<{
 //     category: string,
