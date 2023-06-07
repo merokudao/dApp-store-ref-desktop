@@ -120,8 +120,8 @@ function Input(props) {
 
     useEffect(() => {
         if (value) {
+            if(router.asPath.includes(`/search?search=`))
             router.push(`/search?search=${value}`, undefined, { shallow: true });
-            //  document.getElementById("searchBar")?.focus({ preventScroll: true});
         }
     }, [value])
 
@@ -137,7 +137,13 @@ function Input(props) {
                 </div>
                 <input value={value} id='searchBar'
                     onChange={(evt) => {
-                        setValue(evt.target.value);
+                        setValue(evt.currentTarget.value);
+                    }}
+                    onKeyDown={(evt)=>{
+                        if(evt.key === 'Enter')
+                        {
+                        router.push(`/search?search=${value}`, undefined, { shallow: true });
+                    }
                     }}
                     className="w-full p-2 pl-[48px] bg-canvas-color border border-border-color rounded-lg"
                     type="search"
