@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { AppList } from "./app_list";
 import { Card } from "./card";
 
+import classNames from "classnames";
 import { default as NXTImage } from "next/image";
+import { useSelector } from "react-redux";
+import { getApp } from "../features/app/app_slice";
 import { AppStrings } from "../pages/constants";
 import { Row } from "./layout/flex";
 
@@ -105,27 +108,30 @@ function RImage(props) {
 	return <NXTImage {...props} ref={imgRef} src={src} />;
 }
 
-export * from "./layout";
-export {
-	Text,
-	Button,
-	ClaimButton,
-	ExpandAbleText,
-	RImage,
-	AppList,
-	Card,
-	DropdownButton,
-};
+function DropdownItem(props) {
+	const app = useSelector(getApp);
+	const itemClassName = classNames({
+		"flex flex-row gap-x-[10px] font-[500] rounded-[8px] cursor-pointer p-[8px] hover:bg-[#FFFFFF1F]":
+			true,
+		"bg-[#FFFFFF1F]": app.chainId === props.chainId,
+	});
+	console.log(app.chainId, props.chainId);
+	return (
+		<div className={itemClassName} {...props}>
+			{props.children}
+		</div>
+	);
+}
 
 function DropdownButton(props) {
 	const [open, setOpen] = useState<boolean>(false);
 	return (
 		<div className="relative w-max h-max">
-			<Row className="cursor-pointer items-center gap-x-[8px]">
-				<span
-					onClick={() => setOpen(!open)}
-					className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]"
-				>
+			<Row
+				onClick={() => setOpen(!open)}
+				className="cursor-pointer items-center gap-x-[8px]"
+			>
+				<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">
 					{AppStrings.allChains}
 				</span>
 				<svg
@@ -144,21 +150,43 @@ function DropdownButton(props) {
 					/>
 				</svg>
 				{open && (
-					<div className="absolute inset-0 top-[48px] bg-canvas-color w-full h-max z-10 rounded-[8px] border-[1px] border-[#FFFFFF66]">
-						<ul>
-							{props.items.map((item) => (
-								<li
-									key={item.title}
-									className="font-[500] cursor-pointer p-[16px]"
-									onClick={item.onClick}
-								>
-									{item.title}
-								</li>
-							))}
-						</ul>
+					<div className="absolute inset-0 top-[56px] bg-card-bg w-max h-max z-10 rounded-[8px] border-[1px] border-[#FFFFFF66] p-[16px]">
+						{props.items.map((item) => (
+							<DropdownItem
+								key={item.name}
+								chainId={item.chainId}
+								onClick={() => {
+									item.onClick();
+									setOpen(false);
+								}}
+							>
+								{item.image && (
+									<div className="relative h-[20px] w-[20px]">
+										<NXTImage
+											alt={`${item.name} Logo`}
+											fill
+											src={item.image}
+										/>
+									</div>
+								)}
+								<div>{item.name}</div>
+							</DropdownItem>
+						))}
 					</div>
 				)}
 			</Row>
 		</div>
 	);
 }
+
+export * from "./layout";
+export {
+	Text,
+	Button,
+	ClaimButton,
+	ExpandAbleText,
+	RImage,
+	AppList,
+	Card,
+	DropdownButton,
+};

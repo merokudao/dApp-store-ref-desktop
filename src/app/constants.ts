@@ -19,7 +19,7 @@ export const App = {
 
 interface AppConfig {
 	title: string;
-	chainId: number;
+	chainId: number | null;
 	hero: {
 		title: string;
 		subtitle: string;

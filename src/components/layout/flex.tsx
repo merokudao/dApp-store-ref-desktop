@@ -1,7 +1,11 @@
 import classNames from "classnames";
 
 function Flex(props) {
-	return <div className={`flex ${props.className}`}>{props.children}</div>;
+	return (
+		<div {...props} className={`flex ${props.className}`}>
+			{props.children}
+		</div>
+	);
 }
 
 function Row(props) {
@@ -13,7 +17,7 @@ function Row(props) {
 	const classes = classNames(config);
 
 	return (
-		<Flex className={`${props.className} ${classes} `}>
+		<Flex {...props} className={`${props.className} ${classes} `}>
 			{props.children}
 		</Flex>
 	);

@@ -22,7 +22,43 @@ const AppStrings = {
 	allChains: "All Chains",
 };
 
-export { AppStrings };
+const allChains: {
+	name: string;
+	chainId: number | null;
+	image: string | null;
+}[] = [
+	{
+		name: "All",
+		chainId: null,
+		image: null,
+	},
+	{
+		name: "Ethereum",
+		chainId: 137,
+		image: "/assets/images/chains/ethereum.png",
+	},
+	{
+		name: "Polygon",
+		chainId: 138,
+		image: "/assets/images/chains/polygon.png",
+	},
+	{
+		name: "BNB",
+		chainId: 139,
+		image: "/assets/images/chains/bnb.png",
+	},
+	{
+		name: "Starknet",
+		chainId: 140,
+		image: "/assets/images/chains/starknet.png",
+	},
+	{
+		name: "Fandom",
+		chainId: 150,
+		image: "/assets/images/chains/fandom.png",
+	},
+];
 
+export { AppStrings, allChains };
 const defaultExport = () => {};
 export default defaultExport;

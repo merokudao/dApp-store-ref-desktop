@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import { Tooltip } from "react-tooltip";
 import { App } from "../app/constants";
-import { getApp, setApp } from "../features/app/app_slice";
+import { getApp, setApp, setChainId } from "../features/app/app_slice";
 import {
 	getPolygonCategoryList,
 	useGetCategoryListQuery,
 	useGetFeaturedDappsQuery,
 } from "../features/dapp/dapp_api";
-import { AppStrings } from "../pages/constants";
+import { AppStrings, allChains } from "../pages/constants";
 import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card, DropdownButton } from "./index";
 import { Row } from "./layout/flex";
@@ -430,8 +430,10 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
-	const app = useSelector(getApp);
 	const router = useRouter();
+	const app = useSelector(getApp);
+	// const [chainId, setChainId] = useState<number|undefined>();
+	const dispatch = useDispatch();
 	const { data, isFetching, isLoading } = useGetCategoryListQuery(
 		{
 			chainId: app.chainId,
@@ -461,10 +463,10 @@ export function PageLayout(props) {
 				<div className="flex-initial w-full md:w-10/12">
 					{/*<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{app.title}</span>*/}
 					<DropdownButton
-						items={[
-							{ title: "Pos", onClick: () => {} },
-							{ title: "Ethereum", onClick: () => {} },
-						]}
+						items={allChains.map((e) => ({
+							...e,
+							onClick: () => dispatch(setChainId(e.chainId)),
+						}))}
 					/>
 				</div>
 				<div className="flex-initial w-full md:w-3/12">
