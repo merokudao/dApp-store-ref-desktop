@@ -111,6 +111,7 @@ function CategoriesList(props) {
     }
     else{
     if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || ((items[0] as any)?.subCategory !== categoryMapped.subCategory))) 
+    {
     return <PageLayout>
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
@@ -118,7 +119,8 @@ function CategoriesList(props) {
                 {buildLoadingItems()}
             </div>
         </div>
-    </PageLayout>}
+    </PageLayout>
+    }}
 
     child = (<AppList data={items}>
     </AppList>);

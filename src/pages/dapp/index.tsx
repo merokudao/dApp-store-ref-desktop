@@ -11,6 +11,7 @@ import { Button, ClaimButton, ExpandAbleText, RImage as Image, PageLayout } from
 import { ReviewCard } from "../../components/card";
 import { Column, Row } from "../../components/layout/flex";
 import { getApp } from "../../features/app/app_slice";
+import { merokuToCustomCategory } from "../../features/categories";
 import { useGetAppRatingQuery, useGetBuildDownloadUrlQuery, useGetDappByOwnerAddressQuery, usePostReviewMutation } from "../../features/dapp/dapp_api";
 import { Dapp } from "../../features/dapp/models/dapp";
 import { Review } from "../../features/dapp/models/review";
@@ -304,7 +305,6 @@ function DappList(props) {
     });
 
 
-
     if (isLoading || isFetching)
         return <PageLayout>
             <div className="shimmer w-full h-[400px] mb-[16px] rounded-lg" />
@@ -316,6 +316,8 @@ function DappList(props) {
     if (!data) return <PageLayout>Missing post!</PageLayout>
 
     const dApp: Dapp = data.data[0];
+
+    const customCategory : string = (merokuToCustomCategory(dApp.category,dApp.subCategory).category as string);
 
 
 
@@ -381,7 +383,7 @@ function DappList(props) {
                                     alt="" />
                             </div>
                             <div className="flex-auto  pt-4">
-                                <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{dApp.category}</p>
+                                <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">{customCategory}</p>
                                 <p className="text-[16px] leading-[20px] md:text-[32px] md:leading-[38px] font-[600] line-clamp-1">{dApp.name}</p>
                             </div>
                         </div>
