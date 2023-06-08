@@ -73,7 +73,7 @@ const Index = (props) => {
         <>
             <PageLayout>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
-                <div className="h-[54px] w-full" />
+
                 {child}
                 <div className='max-lg:mr-0 mr-20 my-10 justify-center flex flex-grow'>
                     <ReactPaginate
