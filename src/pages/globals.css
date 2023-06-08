@@ -35,6 +35,6 @@ details summary::marker {
 }
 
 .input .icon:hover ,.icon-filled {
-    color: white;
-    fill: white;
+    color: #667085;
+    fill: #667085;
 }
