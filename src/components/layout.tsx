@@ -285,6 +285,7 @@ export function Hero(props) {
 //for mobile view
 function CategoryListSmall(props) {
 	const router = useRouter();
+	const query = router.query;
 	const data = getPolygonCategoryList();
 	const currentCategory = router.query.categories as string | undefined;
 	const [openKey, setOpenKey] = useState<string>(currentCategory ?? "");
@@ -302,7 +303,13 @@ function CategoryListSmall(props) {
 						setOpenKey(e.category);
 					}}
 				>
-					<summary className="cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]">
+					<summary
+						className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${
+							query?.categories === e.category
+								? " rounded-[12px] bg-[#8A46FF] "
+								: ""
+						}`}
+					>
 						<Link href={`/categories/?categories=${e.category}`}>
 							<div className="capitalize whitespace-nowrap text-[14px] leading-[21px]">
 								{e.subCategory.includes(selected)
@@ -368,7 +375,7 @@ function CategoryListSmall(props) {
 										stroke="#E2E1E6"
 										stroke-width="2"
 										stroke-linecap="round"
-										strokeLinejoin="round"
+										stroke-linejoin="round"
 									/>
 								</svg>
 							)
