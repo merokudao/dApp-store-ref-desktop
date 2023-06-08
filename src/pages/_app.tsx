@@ -31,7 +31,7 @@ export default function App({
 				>
 					<RainbowKitSiweNextAuthProvider>
 						<RainbowKitProvider chains={chains} theme={darkTheme()}>
-							<Layout classname={generalSans.className}>
+							<Layout className={generalSans.className}>
 								<Component {...pageProps} />
 							</Layout>
 						</RainbowKitProvider>
