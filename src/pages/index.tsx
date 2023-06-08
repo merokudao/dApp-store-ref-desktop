@@ -77,7 +77,7 @@ const Index = (props) => {
         <>
             <PageLayout>
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
-                <div className="h-[54px] w-full" />
+
                 {child}
                 {(isLoading || isFetching) ? <div>
                     <div className="h-[35px] w-full" />
