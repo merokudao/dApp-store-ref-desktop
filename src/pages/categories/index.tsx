@@ -110,8 +110,9 @@ function CategoriesList(props) {
         </PageLayout>   
     }
     else{
-    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || ((items[0] as any)?.subCategory !== categoryMapped.subCategory))) 
+    if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory))) 
     {
+        console.log("true",(items[0] as any)?.subCategory !== categoryMapped.subCategory);
     return <PageLayout>
         <div>
             <div className="bg-border-color w-[240px] h-[32px] my-4" />
