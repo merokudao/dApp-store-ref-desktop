@@ -109,13 +109,11 @@ function RImage(props) {
 }
 
 function DropdownItem(props) {
-	const app = useSelector(getApp);
 	const itemClassName = classNames({
 		"flex flex-row gap-x-[10px] font-[500] rounded-[8px] cursor-pointer p-[8px] hover:bg-[#FFFFFF1F]":
 			true,
-		"bg-[#FFFFFF1F]": app.chainId === props.chainId,
+		"bg-[#FFFFFF1F]": props.isActive,
 	});
-	console.log(app.chainId, props.chainId);
 	return (
 		<div className={itemClassName} {...props}>
 			{props.children}
@@ -124,7 +122,9 @@ function DropdownItem(props) {
 }
 
 function DropdownButton(props) {
+	const app = useSelector(getApp);
 	const [open, setOpen] = useState<boolean>(false);
+	const [title, setTitle] = useState<string>(AppStrings.allChains);
 	return (
 		<div className="relative w-max h-max">
 			<Row
@@ -132,7 +132,7 @@ function DropdownButton(props) {
 				className="cursor-pointer items-center gap-x-[8px]"
 			>
 				<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">
-					{AppStrings.allChains}
+					{title}
 				</span>
 				<svg
 					width="24"
@@ -151,12 +151,17 @@ function DropdownButton(props) {
 				</svg>
 				{open && (
 					<div className="absolute inset-0 top-[56px] bg-card-bg w-max h-max z-10 rounded-[8px] border-[1px] border-[#FFFFFF66] p-[16px]">
-						{props.items.map((item) => (
+						{props.items.map((item, index) => (
 							<DropdownItem
 								key={item.name}
-								chainId={item.chainId}
+								isActive={app.chainId === item.chainId}
 								onClick={() => {
 									item.onClick();
+									setTitle(
+										index === 0
+											? AppStrings.allChains
+											: item.name
+									);
 									setOpen(false);
 								}}
 							>
