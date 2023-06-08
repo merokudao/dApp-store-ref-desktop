@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps<{
                     <RainbowKitSiweNextAuthProvider >
                         {/* Rainbow kit is being used for wallet conection */}
                         <RainbowKitProvider chains={chains} theme={darkTheme()}>
-                            <Layout classname={generalSans.className}>
+                            <Layout className={generalSans.className}>
                                 <Component {...pageProps} />
                             </Layout>
                         </RainbowKitProvider>

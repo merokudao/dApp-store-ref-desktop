@@ -297,7 +297,7 @@ export function PageLayout(props) {
                         {child}
                     </div>
                 </aside>
-                <section className="flex-grow lg:w-9/12 lg:pl-8 md:pt-8">
+                <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8">
                     {props.children}
                 </section>
             </Row>
