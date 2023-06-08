@@ -52,31 +52,39 @@ function NavItem(props) {
 
 
 function ExpansionPanel(props) {
+    const { query } = useRouter();
     const { open, onClick, category } = props;
     // const [isExpanded, setExpanded] = useState<boolean>(open);
     const isExpanded = open;
     const hasSubCategories = props.category.subCategory.length > 0;
     // console.log(open)
     return (
-        <div onClick={() => onClick(category.category)} className="pr-4">
-            <div className="flex items-center justify-between">
-                <Link href={`/categories/?categories=${category.category}`}>
-                    <p className="text-[20px] py-[10px] capitalize">{category.category}</p>
-                </Link>
-                {hasSubCategories &&
-                    <div className={isExpanded ? "rotate-180" : ""}>
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
-                                strokeLinejoin="round" />
-                        </svg>
-                    </div>}
+        <div className={`pr-4  `}>
+
+            <div className=" items-center  justify-between" onClick={() => onClick(category.category)}>
+                <Row className={` grow  align-middle ${((query?.categories === category.category) && (query?.subCategory == undefined)) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''} `}>
+                    <div className='grow'>
+                        <Link href={`/categories/?categories=${category.category}`}>
+                            <p className="text-[20px] py-[10px] capitalize">{category.category}</p>
+                        </Link>
+                    </div>
+                    {hasSubCategories &&
+                        <div className={`self-center   ${isExpanded ? "rotate-180 pl-[8px]" : " pr-[8px]"}`}>
+                            <svg className='self-center' width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" strokeWidth="2" strokeLinecap="round"
+                                    strokeLinejoin="round" />
+                            </svg>
+                        </div>}
+                </Row>
             </div>
 
             {open && hasSubCategories && category.subCategory.map((e) =>
-            (<div className="pl-5">
+            (<div className={`pl-5 ${query?.subCategory === e ? ' rounded-[12px] bg-[#8A46FF] pl-[16px] ' : ''}`}>
+
                 <Link href={`/categories/?categories=${category.category}&subCategory=${e}`}>
-                    <p className="text-[16px] text-[#87868C] font-[500] py-[10px] hover:text-[#fff] capitalize">{e}</p>
+                    <p className={`text-[16px] font-[500] py-[10px] hover:text-[#fff] capitalize ${query?.subCategory === e ? ' text-white ' : 'text-[#87868C]'}`}>{e}</p>
                 </Link>
+
             </div>)
             )
             }
@@ -243,8 +251,8 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
-    const router = useRouter()
     const app = useSelector(getApp);
+    const router = useRouter();
     const {
         data,
         isFetching,
@@ -285,20 +293,22 @@ export function PageLayout(props) {
             <Row className="items-start justify-start">
                 <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
-                        <div className="py-4 border-b border-b-border-color">
-                            <Link href="/history">
-                                <svg className="inline-block mr-4" width="24" height="25" viewBox="0 0 24 25"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M22 12.5C22 18.0228 17.5228 22.5 12 22.5M22 12.5C22 6.97715 17.5228 2.5 12 2.5M22 12.5H2M12 22.5C6.47715 22.5 2 18.0228 2 12.5M12 22.5C14.5013 19.7616 15.9228 16.208 16 12.5C15.9228 8.79203 14.5013 5.23835 12 2.5M12 22.5C9.49872 19.7616 8.07725 16.208 8 12.5C8.07725 8.79203 9.49872 5.23835 12 2.5M2 12.5C2 6.97715 6.47715 2.5 12 2.5"
-                                        stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <span className="text-xl">{AppStrings.browsingHistory}</span>
-                            </Link>
+                        <div className='border-b border-b-border-color'>
+                            <div className={` align-middle items-center pt-2 pb-2 mr-4 my-2 ${((router?.asPath == "/history")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
+                                <Link href="/history" >
+                                    <svg className="inline-block mr-2 pb-[5px]" width="24" height="25" viewBox="0 0 24 25"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22 12.5C22 18.0228 17.5228 22.5 12 22.5M22 12.5C22 6.97715 17.5228 2.5 12 2.5M22 12.5H2M12 22.5C6.47715 22.5 2 18.0228 2 12.5M12 22.5C14.5013 19.7616 15.9228 16.208 16 12.5C15.9228 8.79203 14.5013 5.23835 12 2.5M12 22.5C9.49872 19.7616 8.07725 16.208 8 12.5C8.07725 8.79203 9.49872 5.23835 12 2.5M2 12.5C2 6.97715 6.47715 2.5 12 2.5"
+                                            stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    <span className="text-xl  ">{AppStrings.browsingHistory}</span>
+                                </Link>
+                            </div>
                         </div>
-                        <div className={`pt-2 pb-2 mr-4 my-2 ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
-                            <Link href="/#allDappsScroll"  >
+                        <div className={`pt-2 pb-2 mr-4 my-2 ${((router?.asPath == "/")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
+                            <Link href="/">
                                 <span className="text-xl">{AppStrings.allDapps}</span>
                             </Link>
                         </div>
