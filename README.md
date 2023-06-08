@@ -1,14 +1,8 @@
-# Meroku Dapp store
+# Meroku Explorer
 
-This project was bootstrapped with [Next.js](https://nextjs.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+Best place to view all apps published on the [Meroku protocol](https://meroku.org)
 
 ---
-
-## Authors
-
-- Akshit Ostwal [Github](https://github.com/AkshitOstwal) [Twitter](https://twitter.com/Akshitostwal)
-- Abhimanyu Shekhawat [Github](https://github.com/abhimanyu121) [Twitter](https://twitter.com/sokkkkaaa)
-- Rohan Thacker [Github](https://github.com/rohanthacker)
 
 ## Available Scripts
 
