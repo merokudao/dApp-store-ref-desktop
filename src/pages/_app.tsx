@@ -14,6 +14,7 @@ import { WagmiConfig } from "wagmi";
 import Layout from "../components/layout";
 import { wagmiConfig } from "../features/wallet_connect";
 import { chains } from "../features/wallet_connect/config";
+import { generalSans } from "../theme";
 
 export default function App({
 	Component,
@@ -30,7 +31,7 @@ export default function App({
 				>
 					<RainbowKitSiweNextAuthProvider>
 						<RainbowKitProvider chains={chains} theme={darkTheme()}>
-							<Layout>
+							<Layout classname={generalSans.className}>
 								<Component {...pageProps} />
 							</Layout>
 						</RainbowKitProvider>
