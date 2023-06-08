@@ -16,6 +16,7 @@ import { AppStrings } from "../pages/constants";
 import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
+import ScrollToTopButton from "./scroll_to_top";
 
 function NavBar(props) {
 	const app = useSelector(getApp);
@@ -649,6 +650,7 @@ export default function Layout(props) {
 						</section>
 					)}
 					{props.children}
+					<ScrollToTopButton />
 				</main>
 			</div>
 		</>
