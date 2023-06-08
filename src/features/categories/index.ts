@@ -2,15 +2,14 @@
 this file contains a mapping from meroku categories to dappstore categories and all the necessary conversions
 */
 var dappstoreMaping = `{
-	"Tooling": "developer tools",
-	"Tooling.Security": "developer tools.security",
-	"Tooling.Monitoring": "developer tools.monitoring",
-	"Tooling.Storage": "developer tools.storage",
-	"Tooling.Front Ends": "developer tools.front ends",
-	"Tooling.Messaging": "social networking.messaging",
-	"Tooling.Block Explorers": "developer tools.block explorers",
-	"Tooling.Indexer": "developer tools.indexer",
-	"Tooling.Wallet": "utilities.wallets",
+	"Dev Tools": "developer tools",
+	"Dev Tools.Security": "developer tools.security",
+	"Dev Tools.Monitoring": "developer tools.monitoring",
+	"Dev Tools.Storage": "developer tools.storage",
+	"Dev Tools.Front Ends": "developer tools.front ends",
+	"Dev Tools.Messaging": "social networking.messaging",
+	"Dev Tools.Block Explorers": "developer tools.block explorers",
+	"Dev Tools.Indexer": "developer tools.indexer",
 
     "Social": "social",
 
@@ -19,10 +18,7 @@ var dappstoreMaping = `{
 	"Infrastructure.Node Infra": "developer tools.node infra",
 	"Infrastructure.Bridges": "developer tools.bridges",
 	"Infrastructure.Identity": "developer tools.identity",
-	"Infrastructure.Payments": "defi.payments",
 	"Infrastructure.Analytics": "developer tools.analytics",
-
-    "Metaverse": "games.metaverse",
 
     "Gaming": "games",
 	"Gaming.Puzzle and strategy games": "games.puzzle",
@@ -32,6 +28,7 @@ var dappstoreMaping = `{
 	"Gaming.Sports and racing games": "games.racing",
 	"Gaming.Simulation games": "games.simulation",
 	"Gaming.Studios": "games.studios",
+	"Gaming.Metaverse": "games.metaverse",
 
     "NFT": "nft",
 	"NFT.Marketplace": "nft.marketplace",
@@ -42,10 +39,11 @@ var dappstoreMaping = `{
 	"NFT.Art": "nft.art",
 	"NFT.Tooling / Infra": "nft.tooling",
 
-    "DAO": "productivity.decentralized-collaboration-tools",
-	"DAO.Investing": "productivity.decentralized-collaboration-tools-investing",
-	"DAO.Tooling": "productivity.decentralized-collaboration-tools-tools",
-	"DAO.DAO - Misc": "productivity.decentralized-collaboration-tools-misc",
+	"Productivity": "productivity",
+    "Productivity:DAO": "productivity.decentralized-collaboration-tools",
+	"Productivity:DAO Investing": "productivity.decentralized-collaboration-tools-investing",
+	"Productivity:DAO Tooling": "productivity.decentralized-collaboration-tools-tools",
+	"Productivity:DAO - Misc": "productivity.decentralized-collaboration-tools-misc",
 
     "DeFi": "defi",
 	"DeFi.Stablecoins": "defi.stablecoins",
@@ -55,18 +53,18 @@ var dappstoreMaping = `{
 	"DeFi.Yield Aggregation / Farming": "defi.farming",
 	"DeFi.Real World Assets / Tokenization": "defi.tokenization",
 	"DeFi.Insurance": "defi.insurance",
+	"DeFi.Payments": "defi.payments",
 	"DeFi.Prediction Markets": "defi.product markets",
 	"DeFi.DeFi - Other": "defi.others",
+	"DeFi.On-Ramp/Off-Ramp": "defi.on-ramping, defi.off-ramping",
+	"DeFi.Trading": "defi.trading",
 
-    "B2B": "business",
+    "Business": "business",
 
-    "Utility": "utilities",
+    "Utilities": "utilities",
+	"Utilities:Wallets": "utilities.wallets",
 
-	"Infrastructure.On-Ramp/Off-Ramp": "defi.on-ramping, defi.off-ramping",
-
-	"DeFi.Derivatives, Perps, Trading": "defi.trading",
-
-  "Education" : "education"
+  	"Education" : "education"
 }`;
 // var merokuAPIData = JSON.parse(merokuJsonString).data;
 var dappstoreMapingData = JSON.parse(dappstoreMaping);
