@@ -14,6 +14,8 @@ import { SessionProvider } from 'next-auth/react';
 import { darkTheme, RainbowKitProvider, } from '@rainbow-me/rainbowkit';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { generalSans } from '../theme';
+
 
 export default function App({ Component, pageProps }: AppProps<{
     session: Session;
@@ -28,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps<{
                     <RainbowKitSiweNextAuthProvider >
                         {/* Rainbow kit is being used for wallet conection */}
                         <RainbowKitProvider chains={chains} theme={darkTheme()}>
-                            <Layout>
+                            <Layout classname={generalSans.className}>
                                 <Component {...pageProps} />
                             </Layout>
                         </RainbowKitProvider>
