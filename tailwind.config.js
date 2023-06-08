@@ -26,8 +26,9 @@ module.exports = {
 			},
 			colors: {
 				"text-color": "#ffffff",
-				"canvas-color": "#0a090d",
+				"nav-color": "#0a090d",
 				"border-color": "#2D2C33",
+				"canvas-color": "#07070B",
 			},
 			fontSize: {
 				"4xl": ["2rem", "120%"],
