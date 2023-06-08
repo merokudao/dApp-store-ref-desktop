@@ -545,14 +545,14 @@ function DappList(props) {
 	} else {
 		viewLink = dApp.appUrl;
 	}
-	const customCategory: string = merokuToCustomCategory(
-		dApp.category,
-		dApp.subCategory
-	).category as string;
 
 	const isOwner = isOwnedAppsLoading
 		? false
 		: ownedApps?.data?.includes(dApp.dappId) || false;
+	const customCategory: string = merokuToCustomCategory(
+		dApp?.category,
+		dApp?.subCategory
+	).category as string;
 
 	const getIframeSrc = (): string => {
 		return isOwner
