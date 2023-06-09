@@ -1,6 +1,6 @@
 import CategoriesList from "./index";
 
 function Page() {
-    return <CategoriesList />
+	return <CategoriesList />;
 }
 export default Page;

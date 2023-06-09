@@ -13,6 +13,7 @@ const AppStrings = {
 	contactUs: "Contact Us",
 	reviewsTitle: "All Reviews",
 	featuredDapps: "Featured Dapps",
+	back: "Back",
 	faq: "FAQ",
 	connectWalletTooltip: "Connect Wallet to claim and update dapps",
 	submitDappTooltip:
