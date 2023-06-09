@@ -376,8 +376,6 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
-<<<<<<< HEAD
-	const router = useRouter();
 	const app = useSelector(getApp);
 	const { data, isFetching, isLoading } = useGetCategoryListQuery(
 		{
@@ -414,47 +412,9 @@ export function PageLayout(props) {
 					<Input />
 				</div>
 			</Row>
-=======
-    const app = useSelector(getApp);
-    const {
-        data,
-        isFetching,
-        isLoading,
-    } = useGetCategoryListQuery({
-        chainId: app.chainId,
-    }, {
-        refetchOnMountOrArgChange: false
-    });
-    let child;
-    if (isLoading || isFetching) {
-        child = (<div className="mr-[16px]">
-            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-            <div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-        </div>)
-    }
-    // else if (!data.data) child= <h1>Error</h1>
-    else {
-        child = <CategoryList />;
-    }
-    return (
-        <article className="container">
-            <Row
-                className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap lg:flex-nowrap gap-4">
-                <div className="flex-initial w-full md:w-10/12">
-                    <span
-                        className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">{app.title}</span>
-                </div>
-                <div className="flex-initial w-full md:w-3/12">
-                    <Input />
-                </div>
-            </Row>
->>>>>>> 7304933 (NA)
 
 			{data && <CategoryListSmall data={data} />}
 
-<<<<<<< HEAD
 			<Row className="items-start justify-start">
 				<aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
 					<div className="w-full">
@@ -482,15 +442,11 @@ export function PageLayout(props) {
 							</Link>
 						</div>
 						<div className="py-4">
-							<div
-								onClick={() => {
-									router.push("/");
-								}}
-							>
+							<Link href="/">
 								<span className="text-xl">
 									{AppStrings.allDapps}
 								</span>
-							</div>
+							</Link>
 						</div>
 						{child}
 					</div>
@@ -501,37 +457,6 @@ export function PageLayout(props) {
 			</Row>
 		</article>
 	);
-=======
-            <Row className="items-start justify-start">
-                <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
-                    <div className="w-full">
-                        <div className="py-4 border-b border-b-border-color">
-                            <Link href="/history">
-                                <svg className="inline-block mr-4" width="24" height="25" viewBox="0 0 24 25"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M22 12.5C22 18.0228 17.5228 22.5 12 22.5M22 12.5C22 6.97715 17.5228 2.5 12 2.5M22 12.5H2M12 22.5C6.47715 22.5 2 18.0228 2 12.5M12 22.5C14.5013 19.7616 15.9228 16.208 16 12.5C15.9228 8.79203 14.5013 5.23835 12 2.5M12 22.5C9.49872 19.7616 8.07725 16.208 8 12.5C8.07725 8.79203 9.49872 5.23835 12 2.5M2 12.5C2 6.97715 6.47715 2.5 12 2.5"
-                                        stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <span className="text-xl">{AppStrings.browsingHistory}</span>
-                            </Link>
-                        </div>
-                        <div className="py-4">
-                            <Link href="/">
-                                <span className="text-xl">{AppStrings.allDapps}</span>
-                            </Link>
-                        </div>
-                        {child}
-                    </div>
-                </aside>
-                <section className="flex-initial lg:w-9/12 lg:pl-8 md:pt-8">
-                    {props.children}
-                </section>
-            </Row>
-        </article>
-    );
->>>>>>> 7304933 (NA)
 }
 
 export default function Layout(props) {
