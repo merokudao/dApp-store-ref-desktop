@@ -32,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps<{
                         <RainbowKitProvider chains={chains} theme={darkTheme()}>
                             <Layout className={generalSans.className}>
                                 <Component {...pageProps} />
+
                             </Layout>
+
                         </RainbowKitProvider>
                     </RainbowKitSiweNextAuthProvider>
                 </SessionProvider>

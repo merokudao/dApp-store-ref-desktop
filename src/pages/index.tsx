@@ -7,11 +7,12 @@ import { AppStrings } from "./constants";
 import Dapp from "./dapp";
 import ReactPaginate from 'react-paginate';
 import { useRouter } from "next/router";
+import { Row } from "../components/layout/flex";
 
 const Index = (props) => {
     const router = useRouter();
     const app = useSelector(getApp);
-    const limit = 8;
+    const limit = 10;
     const [page, setPage] = useState<number>(0);
     console.log("Current page", page)
     const [page2, setPage2] = useState<number>(0);
@@ -26,13 +27,13 @@ const Index = (props) => {
         page: (app.chainId === 137) ? page + 1 : page2 + 1,
         limit: limit,
         chainId: app.chainId,
+        orderBy: ["name:asc"]
     }, {
         refetchOnMountOrArgChange: true,
     });
 
     const selectedPage = (app.chainId === 137) ? page : page2;
 
-    // since now data is being merged in RTK itself
     useEffect(() => {
         if (data) {
             setItems([...data?.response])
@@ -56,26 +57,6 @@ const Index = (props) => {
 
     }
 
-
-    // this one doesn't need to be refreshed to listen to scroll events
-    // useEffect(() => {
-    //     const onScroll = () => {
-    //         const scrolledToBottom =
-    //             window.innerHeight + window.scrollY + window.innerHeight / 3 >= document.body.offsetHeight;
-    //         if (scrolledToBottom && !isFetching && (((app.chainId === 137) ? page : page2) < (data?.pageCount || 0))) {
-    //             console.log("Fetching more data...");
-
-    //             (app.chainId === 137) ? setPage(page + 1) : setPage2(page2 + 1);
-    //         }
-    //     };
-
-    //     document.addEventListener("scroll", onScroll);
-
-    //     return function () {
-    //         document.removeEventListener("scroll", onScroll);
-    //     };
-    // }, [selectedPage, isFetching, app.chainId, data?.pageCount, page, page2]);
-
     let child;
 
     if ((isLoading || isFetching) && ((items.length === 0) || ((dataPage - 1) !== selectedPage) || ((items[0] as any).chains as Array<number>).indexOf(app.chainId) === -1)) return <PageLayout>
@@ -95,20 +76,34 @@ const Index = (props) => {
                 <h1 className="text-4xl mb-8 capitalize">{AppStrings.allDapps}</h1>
                 <div className="h-[54px] w-full" />
                 {child}
-                <ReactPaginate className="mt-4 "
-                    breakLabel="..."
-                    nextLabel="next"
-                    onPageChange={handlePageChange}
-                    pageRangeDisplayed={3}
-                    // initialPage={1}
-                    forcePage={page}
-                    pageCount={data.pageCount}
-                    previousLabel="previous"
-                    renderOnZeroPageCount={null}
-                    marginPagesDisplayed={1}
+                <div className='mr-20 my-10 justify-center flex flex-grow'>
+                    <ReactPaginate
+                        containerClassName="text-[20px]"
 
+                        pageClassName="items-center justify-between inline-block px-2 py-1 border border-[#212026]"
+                        pageLinkClassName="inline-block px-2 py-1 m-1"
 
-                />
+                        breakClassName="row-start-auto inline-block px-2 py-1 m-1"
+                        breakLinkClassName="inline-block px-2 py-1 m-1"
+
+                        previousClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
+                        previousLinkClassName={`inline-block px-2 py-1 m-1 ${selectedPage == 0 ? 'text-[#212026]' : ''}`}
+
+                        nextClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
+                        nextLinkClassName={`inline-block px-2 py-1 m-1 ${data.pageCount === selectedPage + 1 ? 'text-[#212026]' : ''}`}
+
+                        activeClassName="bg-[#212026]"
+                        // breakLabel="..."
+                        nextLabel="＞"
+                        onPageChange={handlePageChange}
+                        pageRangeDisplayed={3}
+                        forcePage={selectedPage}
+                        pageCount={data.pageCount}
+                        previousLabel="＜"
+                        renderOnZeroPageCount={null}
+                        marginPagesDisplayed={1}
+                    />
+                </div>
             </PageLayout>
         </>
     )
