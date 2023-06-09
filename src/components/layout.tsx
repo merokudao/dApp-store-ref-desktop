@@ -162,7 +162,7 @@ export function Hero(props) {
             <div className="relative">
                 <div className="bg-black bg-no-repeat bg-cover" style={{ backgroundImage: `url("/hero_bg.png")` }}>
                     <Row
-                        className="min-h-[80vh] h-[80vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
+                        className="min-h-[65vh] h-[65vh] pt-[20vh] pb-[10vh] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
                         <div className="flex-initial w-full md:w-1/2">
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] text-[#67666E] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
@@ -243,6 +243,7 @@ function CategoryListSmall(props) {
 }
 
 export function PageLayout(props) {
+    const router = useRouter()
     const app = useSelector(getApp);
     const {
         data,
@@ -296,8 +297,8 @@ export function PageLayout(props) {
                                 <span className="text-xl">{AppStrings.browsingHistory}</span>
                             </Link>
                         </div>
-                        <div className="py-4">
-                            <Link href="/">
+                        <div className={`pt-2 pb-2 mr-4 my-2 ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
+                            <Link href="/#allDappsScroll"  >
                                 <span className="text-xl">{AppStrings.allDapps}</span>
                             </Link>
                         </div>
@@ -372,13 +373,14 @@ export default function Layout(props) {
                             video={app.hero.video}
                         />
                     </div>
-                    </div>}
+                        <div className="pt-[70px]" id="allDappsScroll" />
+                    </div >}
 
                     <div className={` ${router.pathname === '/' ? `pt-[70px]` : `pt-[45px]`}`} id="allDappsScroll" />
 
                     {props.children}
-                </main>
-            </div>
+                </main >
+            </div >
         </>
     )
 }
