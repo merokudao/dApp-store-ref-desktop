@@ -7,6 +7,8 @@ import { getApp } from "../../features/app/app_slice";
 import { customToMerokuCategory } from "../../features/categories";
 import { useGetCategoryListQuery, useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
+import ReactPaginate from 'react-paginate';
+import { Row } from "../../components/layout/flex";
 
 
 function CategoriesList(props) {
@@ -39,6 +41,7 @@ function CategoriesList(props) {
     }, [merokuData])
 
 
+
     const {
         data,
         isFetching,
@@ -53,7 +56,6 @@ function CategoriesList(props) {
     }, {
         refetchOnMountOrArgChange: false,
     });
-
 
     // since now data is being merge in RTK itself
     useEffect(() => {
@@ -70,22 +72,22 @@ function CategoriesList(props) {
     // };
 
     // this one doesn't need to be refrished to listen to scroll events
-    useEffect(() => {
-        const onScroll = () => {
-            const scrolledToBottom =
-                window.innerHeight + window.scrollY + window.innerHeight / 3 >= document.body.offsetHeight;
-            if (scrolledToBottom && !isFetching && (page < (data?.pageCount || 0))) {
-                console.log("Fetching more search data...");
-                setPage(page + 1);
-            }
-        };
+    // useEffect(() => {
+    //     const onScroll = () => {
+    //         const scrolledToBottom =
+    //             window.innerHeight + window.scrollY + window.innerHeight / 3 >= document.body.offsetHeight;
+    //         if (scrolledToBottom && !isFetching && (page < (data?.pageCount || 0))) {
+    //             console.log("Fetching more search data...");
+    //             setPage(page + 1);
+    //         }
+    //     };
 
-        document.addEventListener("scroll", onScroll);
+    //     document.addEventListener("scroll", onScroll);
 
-        return function () {
-            document.removeEventListener("scroll", onScroll);
-        };
-    }, [page, isFetching, data?.pageCount]);
+    //     return function () {
+    //         document.removeEventListener("scroll", onScroll);
+    //     };
+    // }, [page, isFetching, data?.pageCount]);
 
 
     const buildLoadingItems = (count: number = 10) => {
@@ -130,12 +132,8 @@ function CategoriesList(props) {
 
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             {child}
-            {(isLoading || isFetching) ? <div>
-                <div className="h-[35px] w-full" />
-                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-                    {buildLoadingItems(4)}
-                </div>
-            </div> : null}
+
+
         </PageLayout>
     )
 }

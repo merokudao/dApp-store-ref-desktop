@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Slider from "react-slick";
 import { App, } from "../app/constants";
 import { getApp, setApp } from "../features/app/app_slice";
 import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
@@ -12,6 +11,8 @@ import { AppStrings } from "../pages/constants";
 import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
+
+import ReactPaginate from 'react-paginate';
 
 
 function NavBar(props) {
@@ -37,10 +38,10 @@ function NavBar(props) {
                     <NXTImage width={App.logo.width} height={App.logo.height} src={App.logo.src} style={{ objectFit: "contain", height: App.logo.height }}
                         alt={`${App.name} Logo`} />
 
-                </NavItem>
-            </div>
+                </NavItem >
+            </div >
             <ConnectButton chainStatus="none" showBalance={false} />
-        </Row>
+        </Row >
     )
 }
 
@@ -295,12 +296,17 @@ export function PageLayout(props) {
                             </Link>
                         </div>
                         {child}
+
                     </div>
+
                 </aside>
+
                 <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8">
                     {props.children}
                 </section>
+
             </Row>
+
         </article>
     );
 }
@@ -352,41 +358,16 @@ export default function Layout(props) {
                     <NavBar />
                 </div>
                 <main className="relative top-[70px]">
-                    {router.asPath === '/' && <section>
-                        <div className="min-h-[80vh]">
-                            <Hero
-                                title={app.hero.title}
-                                subtitle={app.hero.title}
-                                button={app.hero.button}
-                                video={app.hero.video}
-                            />
-                        </div>
-                        <div className="container relative">
-                            <Row className="justify-between items-center my-[32px]">
-                                <h2 className="text-[24px] leading-[32px] lg:text-[60px] lg:leading-[72px] font-[500]">{AppStrings.featuredDapps}</h2>
-                                <div>
-                                    <SliderButton onClick={() => {
-                                        (slider?.current as any).slickPrev()
-                                    }}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 12L5 12M5 12L12 19M5 12L12 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </SliderButton>
-                                    <SliderButton onClick={() => {
-                                        (slider?.current as any).slickNext()
-                                    }}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </SliderButton>
-                                </div>
-                            </Row>
-                            <Slider ref={slider} {...settings}>
-                                {data ? data.map((dapp) =>
-                                    <Link key={app.dappId} href={`/dapp?id=${dapp.dappId}`} draggable={false} onClick={(e) => dragging && e.preventDefault()}><FeaturedCard app={dapp} /></Link>)
-                                    : buildLoadingCard(5)}
-                            </Slider>
-                        </div>
-                    </section>
-                    }
+                    {router.pathname === '/' && <div><div className="">
+                        <Hero
+                            title={app.hero.title}
+                            subtitle={app.hero.title}
+                            button={app.hero.button}
+                            video={app.hero.video}
+                        />
+                    </div>
+                        <div className="pt-[70px]" id="allDappsScroll" />
+                    </div>}
                     {props.children}
                 </main>
             </div>
