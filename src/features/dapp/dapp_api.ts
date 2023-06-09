@@ -72,6 +72,9 @@ export class DappDataSource implements IDappDataSource {
         if (queryArgs?.categories) {
           key += queryArgs?.categories;
         }
+        if (queryArgs?.page) {
+          key += queryArgs?.page;
+        }
         if (queryArgs?.subCategory) {
           key += queryArgs?.subCategory;
         }

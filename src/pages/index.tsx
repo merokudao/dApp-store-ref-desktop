@@ -14,7 +14,6 @@ const Index = (props) => {
     const app = useSelector(getApp);
     const limit = 10;
     const [page, setPage] = useState<number>(0);
-    console.log("Current page", page)
     const [page2, setPage2] = useState<number>(0);
     const [dataPage, setDataPage] = useState<number>(1);
 

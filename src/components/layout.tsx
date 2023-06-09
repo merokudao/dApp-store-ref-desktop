@@ -366,8 +366,10 @@ export default function Layout(props) {
                             video={app.hero.video}
                         />
                     </div>
-                        <div className="pt-[70px]" id="allDappsScroll" />
                     </div>}
+
+                    <div className={` ${router.pathname === '/' ? `pt-[70px]` : `pt-[45px]`}`} id="allDappsScroll" />
+
                     {props.children}
                 </main>
             </div>

@@ -8,29 +8,17 @@ import { customToMerokuCategory } from "../../features/categories";
 import { useGetCategoryListQuery, useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
 import ReactPaginate from 'react-paginate';
-import { Row } from "../../components/layout/flex";
 
 
 function CategoriesList(props) {
     const router = useRouter();
-    // const limit = 8;
-    // const {
-    //     data,
-    //     isFetching,
-    //     isLoading,
-    // } = useGetDappListQuery({
-    //     ...router.query
-    // }, {
-    //     page:1,
-    //     limit:8,
-    // },{
-    //     refetchOnMountOrArgChange:true
-    // });
-    const limit = 8;
+    const limit = 10;
     const app = useSelector(getApp);
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
     const [items, setItems] = useState<Array<typeof Dapp>>([]);
     const merokuData = useGetCategoryListQuery({});
+    const [dataPage, setDataPage] = useState<number>(1);
+
 
     let categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
 
@@ -40,7 +28,9 @@ function CategoriesList(props) {
         }
     }, [merokuData])
 
-
+    useEffect(() => {
+        setPage(0)
+    }, [router?.query?.categories, router?.query?.subCategory, router.query?.search])
 
     const {
         data,
@@ -50,9 +40,10 @@ function CategoriesList(props) {
         search: router.query.search,
         categories: categoryMapped.category,
         subCategory: categoryMapped.subCategory,
-        page,
+        page: page + 1,
         limit,
         chainId: app.chainId,
+        orderBy: ["name:asc"]
     }, {
         refetchOnMountOrArgChange: false,
     });
@@ -62,34 +53,19 @@ function CategoriesList(props) {
         if (data) {
             console.log("data", data);
             setItems([...data?.response])
+            setDataPage(data.page)
         }
     }, [data]);
 
-    // const observerTarget = useRef(null);
-
-    // const opt = {
-    //     threshold: 1,
-    // };
-
-    // this one doesn't need to be refrished to listen to scroll events
-    // useEffect(() => {
-    //     const onScroll = () => {
-    //         const scrolledToBottom =
-    //             window.innerHeight + window.scrollY + window.innerHeight / 3 >= document.body.offsetHeight;
-    //         if (scrolledToBottom && !isFetching && (page < (data?.pageCount || 0))) {
-    //             console.log("Fetching more search data...");
-    //             setPage(page + 1);
-    //         }
-    //     };
-
-    //     document.addEventListener("scroll", onScroll);
-
-    //     return function () {
-    //         document.removeEventListener("scroll", onScroll);
-    //     };
-    // }, [page, isFetching, data?.pageCount]);
 
 
+    const handlePageChange = (pageData) => {
+        console.log("On Page change", pageData)
+        let selected = pageData.selected;
+        setPage(selected);
+        router.push('#allDappsScroll')
+
+    }
     const buildLoadingItems = (count: number = 10) => {
         const _items: any[] = [];
         for (let i = 0; i < (count); i++) {
@@ -112,7 +88,7 @@ function CategoriesList(props) {
     }
     else {
 
-        if (isLoading || isFetching && ((items.length === 0) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory)))
+        if (isLoading || isFetching && ((items.length === 0) || ((dataPage - 1) !== page) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory)))
 
             return <PageLayout>
                 <div>
@@ -123,6 +99,8 @@ function CategoriesList(props) {
                 </div>
             </PageLayout>
     }
+    console.log("data", data)
+    console.log("page", page)
 
     child = (<AppList data={items}>
     </AppList>);
@@ -133,7 +111,34 @@ function CategoriesList(props) {
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             {child}
 
+            <div className='mr-20 my-10 justify-center flex flex-grow'>
+                <ReactPaginate
+                    containerClassName="text-[20px]"
 
+                    pageClassName="items-center justify-between inline-block px-2 py-1 border border-[#212026]"
+                    pageLinkClassName="inline-block px-2 py-1 m-1"
+
+                    breakClassName="row-start-auto inline-block px-2 py-1 m-1"
+                    breakLinkClassName="inline-block px-2 py-1 m-1"
+
+                    previousClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
+                    previousLinkClassName={`inline-block px-2 py-1 m-1 ${page == 0 ? 'text-[#212026]' : ''}`}
+
+                    nextClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
+                    nextLinkClassName={`inline-block px-2 py-1 m-1 ${data.pageCount === page + 1 ? 'text-[#212026]' : ''}`}
+
+                    activeClassName="bg-[#212026]"
+                    // breakLabel="..."
+                    nextLabel="＞"
+                    onPageChange={handlePageChange}
+                    pageRangeDisplayed={3}
+                    forcePage={page}
+                    pageCount={data.pageCount}
+                    previousLabel="＜"
+                    renderOnZeroPageCount={null}
+                    marginPagesDisplayed={1}
+                />
+            </div>
         </PageLayout>
     )
 }
