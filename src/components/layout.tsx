@@ -511,7 +511,7 @@ export function PageLayout(props) {
 									: ""
 							}`}
 						>
-							<Link href="/">
+							<Link href="/#allDappsTitle">
 								<span className="text-xl">
 									{AppStrings.allDapps}
 								</span>
