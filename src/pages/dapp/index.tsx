@@ -631,11 +631,11 @@ function DappList(props) {
 						<div className="flex-initial flex">
 							<Button
 								as="a"
-								className="flex flex-grow"
+								className="flex flex-grow justify-center"
 								target="_blank"
 								href={viewLink}
 							>
-								<div className="text-[12px] leading-[16px] lg:text-[14px] font-[500]">
+								<div className="text-[12px] mx-2 lg:text-[14px] font-[500]">
 									{AppStrings.visitDapp}
 								</div>
 								<svg
