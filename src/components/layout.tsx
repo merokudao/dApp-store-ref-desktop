@@ -200,7 +200,7 @@ function CategoryListSmall(props) {
             {data.data.map((e, index) => (
                 <details key={JSON.stringify(e)} onToggle={() => { setOpenKey(e.category) }}>
                     <summary
-                        className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${ ((query?.categories === e.category) ) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                        className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
                         <Link href={`/categories/?categories=${e.category}`} >
                             <div
                                 className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
@@ -308,8 +308,8 @@ export function PageLayout(props) {
                                 </Link>
                             </div>
                         </div>
-                        <div className={`pt-2 pb-2 mr-4 my-2 ${((router?.asPath == "/")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
-                            <Link href="/">
+                        <div className={`pt-2 pb-2 mr-4 my-2 ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
+                            <Link href="/#allDappsScroll"  >
                                 <span className="text-xl">{AppStrings.allDapps}</span>
                             </Link>
                         </div>
@@ -372,10 +372,10 @@ export default function Layout(props) {
     return (
         <>
             <div {...props}>
-                <div className="fixed h-[70px] w-full z-20">
+                <div className="fixed h-[50px] w-full z-20">
                     <NavBar />
                 </div>
-                <main className="relative top-[70px]">
+                <main className="relative top-[30px]">
                     {router.pathname === '/' && <div><div className="">
                         <Hero
                             title={app.hero.title}
@@ -385,7 +385,8 @@ export default function Layout(props) {
                         />
                     </div>
                         <div className="pt-[70px]" id="allDappsScroll" />
-                    </div >}
+                    </div>}
+                    {props.children}
 
                     <div className={` ${router.pathname === '/' ? `pt-[70px]` : `pt-[45px]`}`} id="allDappsScroll" />
 
