@@ -71,12 +71,12 @@ var dappstoreMaping = `{
 // var merokuAPIData = JSON.parse(merokuJsonString).data;
 var dappstoreMapingData = JSON.parse(dappstoreMaping);
 // var merokuCategoryList: string[] = [];
-var polygonMappedList: string[] = [];
+var dappstoreMappedList: string[] = [];
 
 // merokuAPIData.map((e) => merokuCategoryList.push(e.category));
 
 (Object.values(dappstoreMapingData) as string[]).map((e) => {
-	polygonMappedList.push(e.split(".")[0]);
+	dappstoreMappedList.push(e.split(".")[0]);
 });
 
 // var othersList: string[] = merokuCategoryList.filter(
@@ -109,7 +109,7 @@ const customToMerokuCategory = (
 	if (merokuData !== undefined) {
 		merokuData.data.map((e) => merokuCategoryList.push(e.category));
 		var othersList: string[] = merokuCategoryList.filter(
-			(value) => !polygonMappedList.includes(value.toLowerCase())
+			(value) => !dappstoreMappedList.includes(value.toLowerCase())
 		);
 		if (category === "Others") {
 			output["category"] = othersList;
@@ -134,56 +134,31 @@ const customToMerokuCategory = (
 };
 
 const merokuToCustomCategory = (
-  category: string | string[] | undefined,
-  subCategory?: string | string[] | undefined
+	category: string | string[] | undefined,
+	subCategory?: string | string[] | undefined
 ): CatSubCat => {
-  let output: CatSubCat = { category: "others" };
-  const mapping = customToMerokuMapping;
+	let output: CatSubCat = { category: "others" };
+	const mapping = customToMerokuMapping;
 
-  const value = subCategory
-    ? [category, subCategory].join(".")
-    : (category as string);
+	const value = subCategory
+		? [category, subCategory].join(".")
+		: (category as string);
 
-  const keys = Object.keys(JSON.parse(polygonMapping));
-  for (const key of keys) {
-    if (mapping.get(key) === value) {
-      if (key) {
-        const [c, sc] = key.split(".");
-        output["category"] = c;
-        if (sc) {
-          output["subCategory"] = sc;
-        }
-      }
-    }
-  }
-  return output;
+	const keys = Object.keys(JSON.parse(dappstoreMaping));
+	for (const key of keys) {
+		if (mapping.get(key) === value) {
+			if (key) {
+				const [c, sc] = key.split(".");
+				output["category"] = c;
+				if (sc) {
+					output["subCategory"] = sc;
+				}
+			}
+		}
+	}
+	return output;
 };
 
-const merokuToCustomCategory = (
-  category: string | string[] | undefined,
-  subCategory?: string | string[] | undefined
-): CatSubCat => {
-  let output: CatSubCat = { category: "others" };
-  const mapping = customToMerokuMapping;
-
-  const value = subCategory
-    ? [category, subCategory].join(".")
-    : (category as string);
-
-  const keys = Object.keys(JSON.parse(polygonMapping));
-  for (const key of keys) {
-    if (mapping.get(key) === value) {
-      if (key) {
-        const [c, sc] = key.split(".");
-        output["category"] = c;
-        if (sc) {
-          output["subCategory"] = sc;
-        }
-      }
-    }
-  }
-  return output;
-};
 // const getOthersCategoryList = (
 //   merokuCategoryAPIData: Array<{
 //     category: string,
@@ -198,4 +173,4 @@ const merokuToCustomCategory = (
 //   return othersList;
 // };
 
-export { polygonMappedList, customToMerokuCategory, merokuToCustomCategory };
+export { dappstoreMappedList, customToMerokuCategory, merokuToCustomCategory };

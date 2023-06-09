@@ -37,7 +37,7 @@ function NavBar(props) {
 	return (
 		<Row
 			center
-			className="py-4 px-10 border-b border-b-[#141217] bg-canvas-color px-4 py-2 md:py-4 md:px-10 gap-[16px]"
+			className="py-4 px-10 border-b border-b-[#141217] bg-nav-color px-4 py-2 md:py-4 md:px-10 gap-[16px]"
 		>
 			<div className="flex-initial">
 				<NavItem href="/" className="pr-[20px]">
@@ -270,7 +270,7 @@ export function Hero(props) {
 					className="bg-black bg-no-repeat bg-cover"
 					style={{ backgroundImage: `url("/hero_bg.png")` }}
 				>
-					<Row className="min-h-[65vh] h-[65vh] pt-[20vh] pb-[10vh] max-md:pt-[40px] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
+					<Row className="min-h-[80vh] h-[80vh] pt-[20vh] pb-[10vh] max-md:pt-[40px] justify-center flex-col-reverse md:flex-row md:justify-start items-center text-center md:text-left container z-10">
 						<div className="flex-initial w-full md:w-1/2">
 							<h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">
 								{title}
@@ -506,12 +506,12 @@ export function PageLayout(props) {
 						</div>
 						<div
 							className={`pt-2 pb-2 mr-4 my-2 ${
-								router?.asPath == "/"
+								router?.pathname == "/"
 									? " rounded-[12px] bg-[#8A46FF] pl-[16px]"
 									: ""
 							}`}
 						>
-							<Link href="/#allDappsTitle">
+							<Link href="/#allDappsScroll">
 								<span className="text-xl">
 									{AppStrings.allDapps}
 								</span>
@@ -659,8 +659,10 @@ export default function Layout(props) {
 										: buildLoadingCard(5)}
 								</Slider>
 							</div>
+							<div className="pt-[70px]" id="allDappsScroll" />
 						</section>
 					)}
+
 					{props.children}
 					<ScrollToTopButton />
 				</main>
