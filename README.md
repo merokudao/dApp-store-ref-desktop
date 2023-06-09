@@ -6,9 +6,9 @@ This project was bootstrapped with [Next.js](https://nextjs.org/) and [Redux Too
 
 ## Authors
 
-- Akshit Ostwal [Github](https://github.com/AkshitOstwal) [Twitter](https://twitter.com/Akshitostwal)
-- Abhimanyu Shekhawat [Github](https://github.com/abhimanyu121) [Twitter](https://twitter.com/sokkkkaaa)
-- Rohan Thacker [Github](https://github.com/rohanthacker)
+-   Akshit Ostwal [Github](https://github.com/AkshitOstwal) [Twitter](https://twitter.com/Akshitostwal)
+-   Abhimanyu Shekhawat [Github](https://github.com/abhimanyu121) [Twitter](https://twitter.com/sokkkkaaa)
+-   Rohan Thacker [Github](https://github.com/rohanthacker)
 
 ## Available Scripts
 
@@ -40,27 +40,27 @@ Next.js can be configured using next.config.js [Read More](https://nextjs.org/do
 
 ### File Structure
 
-- /src/api/api => Redux Query Setup
-- /src/api/constants => API Constant Values
+-   /src/api/api => Redux Query Setup
+-   /src/api/constants => API Constant Values
 
-- /src/app/constants => Application constants such as Site title, Menu etc
+-   /src/app/constants => Application constants such as Site title, Menu etc
 
-- /src/components => UI Components
+-   /src/components => UI Components
 
-- /src/features => Application Features
-- /src/features/dapp => Integration with the dApp registry
+-   /src/features => Application Features
+-   /src/features/dapp => Integration with the dApp registry
 
-- /src/models => Generic Global models
+-   /src/models => Generic Global models
 
-- /src/pages => Public Pages following the Next.js convention [Read More](https://nextjs.org/docs/getting-started/project-structure#pages-routing-conventions)
+-   /src/pages => Public Pages following the Next.js convention [Read More](https://nextjs.org/docs/getting-started/project-structure#pages-routing-conventions)
 
-- /src/store => Redux Store Setup and Middleware Setup
-- /src/store/hooks => Typed Hooks for usage within the Application
+-   /src/store => Redux Store Setup and Middleware Setup
+-   /src/store/hooks => Typed Hooks for usage within the Application
 
-- /src/theme => Application theme public export, export all theme variable from this file
-- /src/theme/fonts => Application fonts using Next/font
+-   /src/theme => Application theme public export, export all theme variable from this file
+-   /src/theme/fonts => Application fonts using Next/font
 
-- /public => Public files and Static Assets
+-   /public => Public files and Static Assets
 
 ### Styling
 
@@ -70,11 +70,11 @@ The global config file is `tailwind.config.js`
 
 ### Helpful Links
 
-- [React](https://react.dev/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Redux](https://redux.js.org/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [TailwindCSS](https://tailwindcss.com)
+-   [React](https://react.dev/)
+-   [Typescript](https://www.typescriptlang.org/)
+-   [Redux](https://redux.js.org/)
+-   [Redux Toolkit](https://redux-toolkit.js.org/)
+-   [TailwindCSS](https://tailwindcss.com)
 
 ### Adding new API endpoints
 
