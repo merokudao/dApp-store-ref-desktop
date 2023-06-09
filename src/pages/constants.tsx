@@ -1,6 +1,5 @@
 const AppStrings = {
 	title: "Polygon dApps",
-	back: "Back",
 	allDapps: "All dApps",
 	visitDapp: "Visit Dapp",
 	searchDapps: "Search dApps",
@@ -11,13 +10,15 @@ const AppStrings = {
 	social: "Social",
 	readMore: "Read More",
 	readLess: "Read Less",
-	featuredDapps: "Featured dApps",
-	reviewsTitle: "Ratings & Reviews",
-	ratings: "Ratings",
 	contactUs: "Contact Us",
 	faq: "FAQ",
+	connectWalletTooltip: "Connect Wallet to claim and update dapps",
+	submitDappTooltip:
+		"You will be redirected to a separate webpage to submit your dApp",
 };
 
 export { AppStrings };
+export { AppStrings };
+
 const defaultExport = () => {};
 export default defaultExport;

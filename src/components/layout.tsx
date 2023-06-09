@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
+import { Tooltip } from "react-tooltip";
 import { App } from "../app/constants";
 import { getApp, setApp } from "../features/app/app_slice";
 import {
@@ -52,7 +53,18 @@ function NavBar(props) {
 					/>
 				</NavItem>
 			</div>
-			<ConnectButton chainStatus="none" showBalance={false} />
+			<div
+				className={"justify-center"}
+				data-tooltip-id="connect-wallet"
+				data-tooltip-content={AppStrings.connectWalletTooltip}
+			>
+				<ConnectButton
+					label={"Connect Wallet"}
+					chainStatus="none"
+					showBalance={false}
+				/>
+			</div>
+			<Tooltip id="connect-wallet" />
 		</Row>
 	);
 }

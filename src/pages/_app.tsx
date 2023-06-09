@@ -8,6 +8,7 @@ import "./globals.css";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { RainbowKitSiweNextAuthProvider } from "@rainbow-me/rainbowkit-siwe-next-auth";
 import { SessionProvider } from "next-auth/react";
+import "react-tooltip/dist/react-tooltip.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { WagmiConfig } from "wagmi";
