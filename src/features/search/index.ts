@@ -1,6 +1,6 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import { api } from "../../api/api";
-import { ApiEndpoints } from "../../api/constants";
+import { ApiEndpoints, MEROKU_API_KEY } from "../../api/constants";
 import { PagedResponse } from "../../models/response";
 import { Dapp } from "../dapp/models/dapp";
 
@@ -27,8 +27,13 @@ class SearchDataSource implements ISearchDataSource {
 
   searchByPackageId(builder: EndpointBuilder<any, any, any>) {
     return builder.query<PagedResponse<Dapp>, Array<string>>({
-      query: (pkgIds) =>
-        `${ApiEndpoints.SEARCH_BY_PKG_ID}?packages=${pkgIds.join(",")}`,
+
+        query: (pkgIds) => ({
+          url: `${ApiEndpoints.SEARCH_BY_PKG_ID}?packages=${pkgIds.join(",")}`,
+          headers: {
+            "apiKey": MEROKU_API_KEY
+          }
+        }),
     });
   }
 }

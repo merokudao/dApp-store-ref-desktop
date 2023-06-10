@@ -116,19 +116,34 @@ export class DappDataSource implements IDappDataSource {
 
   getFeaturedList(builder: EndpointBuilder<any, any, any>) {
     return builder.query<PagedResponse<Dapp>, void>({
-      query: () => ApiEndpoints.FEATURED,
+      query: () => ({
+        url: `${ApiEndpoints.FEATURED}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        }
+      }),
     });
   }
 
   getDappReviews(builder: EndpointBuilder<any, any, any>) {
     return builder.query<PagedResponse<Review>, string>({
-      query: (appId) => `${ApiEndpoints.REVIEWS}?dappId=${appId}`,
+      query: (appId) => ({
+        url: `${ApiEndpoints.REVIEWS}?dappId=${appId}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        }
+      }),
     });
   }
 
   getCategoryList(builder: EndpointBuilder<any, any, any>) {
     return builder.query<CategoryListResponse, any>({
-      query: () => ApiEndpoints.APP_CATEGORIES_LIST,
+      query: () => ({
+        url: `${ApiEndpoints.APP_CATEGORIES_LIST}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        }
+      }),
       keepUnusedDataFor: 3600,
     });
   }

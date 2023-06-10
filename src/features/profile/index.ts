@@ -20,7 +20,13 @@ class UserDataSource implements IUserDataSource {
     }
     getUser(builder: EndpointBuilder<any, any, any>) {
         return builder.query<User, string>({
-            query: (walletAddress) => `${ApiEndpoints.FETCH_USER}?walletAddress=${walletAddress}`,
+            query: (walletAddress) => ({
+                url: `${ApiEndpoints.FETCH_USER}?walletAddress=${walletAddress}`,
+                headers: {
+                  "apiKey": MEROKU_API_KEY
+                }
+              }),
+
             transformResponse: (response, _, __) => {
                 let keys = Object.keys(response);
                 return {
