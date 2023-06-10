@@ -138,7 +138,7 @@ function Input(props) {
                 <input value={value} id='searchBar'
                     onChange={(evt) => {
                         setValue(evt.target.value);
-                        router.push(`/search?search=${value}`, undefined, { shallow: true });
+                        router.push(`/search?search=${evt.target.value}`, undefined, { shallow: true });
 
                     }}
                     // onKeyDown={(evt) => {
