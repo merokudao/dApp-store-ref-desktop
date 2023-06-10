@@ -1,6 +1,6 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import { api } from "../../api/api";
-import { ApiEndpoints } from "../../api/constants";
+import { ApiEndpoints, MEROKU_API_KEY } from "../../api/constants";
 import {
   BuildDownloadResponse,
   CategoryListResponse,
@@ -55,6 +55,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<PagedResponse<Dapp>, PagedRequest>({
       query: (args) => ({
         url: `${ApiEndpoints.APP_LIST}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
         params: args,
       }),
     });
@@ -65,6 +68,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<any, any>({
       query: (args) => ({
         url: `${ApiEndpoints.APP_LIST}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
         params: args,
       }),
       serializeQueryArgs: ({ queryArgs, endpointDefinition, endpointName }) => {
@@ -131,6 +137,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<PagedResponse<Dapp>, Array<string>>({
       query: (params) => ({
         url: `/api/v1/dapp/search`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
         params: params,
       }),
     });
@@ -140,6 +149,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<any, string>({
       query: (ownerAddress) => ({
         url: `api/v1/dapp/search/address/${ownerAddress}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
       }),
     });
   }
@@ -171,6 +183,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<any, string>({
       query: (id) => ({
         url: `${ApiEndpoints.RATING}/${id}`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
       })
     })
   }
@@ -180,6 +195,9 @@ export class DappDataSource implements IDappDataSource {
 
         return {
           url: `${ApiEndpoints.RATING}`,
+          headers: {
+            "apiKey": MEROKU_API_KEY
+          },
           method: 'POST',
           body: body,
         }
@@ -190,6 +208,9 @@ export class DappDataSource implements IDappDataSource {
     return builder.query<BuildDownloadResponse, string>({
       query: (id) => ({
         url: `${ApiEndpoints.BUILD_DOWNLOAD_URL}/${id}/build`,
+        headers: {
+          "apiKey": MEROKU_API_KEY
+        },
       })
     })
   }

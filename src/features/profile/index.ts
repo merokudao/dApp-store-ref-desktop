@@ -1,5 +1,5 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import { ApiEndpoints } from "../../api/constants";
+import { ApiEndpoints, MEROKU_API_KEY } from "../../api/constants";
 import { api } from "../../api/api";
 import { User } from "./models/user";
 
@@ -35,6 +35,9 @@ class UserDataSource implements IUserDataSource {
         return builder.mutation<User, User>({
             query: (user) => ({
                 url: ApiEndpoints.POST_USER,
+                headers: {
+                    "apiKey": MEROKU_API_KEY
+                },
                 method: "POST",
                 body: {
                     [user.address]: user.name,

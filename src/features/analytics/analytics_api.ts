@@ -1,4 +1,4 @@
-import { ApiEndpoints } from "../../api/constants";
+import { ApiEndpoints, MEROKU_API_KEY } from "../../api/constants";
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import { Analytics } from "./models/analytics";
 //this is not being used
@@ -20,6 +20,9 @@ export class AnalyticsDataSource implements IAnalyticsDataSource {
             query: () => ({
                 url: ApiEndpoints.ANALYTICS,
                 method: "POST",
+                headers: {
+                    "apiKey": MEROKU_API_KEY
+                },
                 body: {
                     "analytics": {
                         "dappId": "com.axieinfinity.dapp",
