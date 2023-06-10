@@ -111,24 +111,24 @@ function CategoriesList(props) {
             {router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
             {child}
 
-            <div className='mr-20 my-10 justify-center flex flex-grow'>
+            <div className='max-lg:mr-0 mr-20 my-10 justify-center flex flex-grow'>
                 <ReactPaginate
-                    containerClassName="text-[20px]"
+                    containerClassName="max-md:text-[13px] text-[20px] max:md-flex"
 
-                    pageClassName="items-center justify-between inline-block px-2 py-1 border border-[#212026]"
-                    pageLinkClassName="inline-block px-2 py-1 m-1"
+                    pageClassName="items-center justify-between inline-block max-sm:px-1 px-2 py-1 border border-[#212026]"
+                    pageLinkClassName="inline-block max-sm:px-1 px-2 py-1 m-1"
 
-                    breakClassName="row-start-auto inline-block px-2 py-1 m-1"
-                    breakLinkClassName="inline-block px-2 py-1 m-1"
+                    breakClassName="row-start-auto inline-block  max-sm:px-1 px-2 py-1 max-sm:m m-1"
+                    breakLinkClassName="inline-block max-sm:px-1 px-2 py-1 max-sm:m m-1"
 
-                    previousClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
-                    previousLinkClassName={`inline-block px-2 py-1 m-1 ${page == 0 ? 'text-[#212026]' : ''}`}
+                    previousClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
+                    previousLinkClassName={`inline-block max-sm:px-1 px-2 py-1 m-1 ${page == 0 ? 'text-[#212026]' : ''}`}
 
-                    nextClassName={`items-center justify-between inline-block px-1 py-1  border border-[#212026]`}
-                    nextLinkClassName={`inline-block px-2 py-1 m-1 ${data.pageCount === page + 1 ? 'text-[#212026]' : ''}`}
+                    nextClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
+                    nextLinkClassName={`inline-block max-sm:px-1 px-2 py-1  max-sm:m m-1 ${data.pageCount === page + 1 ? 'text-[#212026]' : ''}`}
 
                     activeClassName="bg-[#212026]"
-                    // breakLabel="..."
+                    breakLabel=".."
                     nextLabel="＞"
                     onPageChange={handlePageChange}
                     pageRangeDisplayed={3}
