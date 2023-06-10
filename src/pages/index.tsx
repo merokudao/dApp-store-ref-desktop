@@ -1,13 +1,12 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import ReactPaginate from 'react-paginate';
 import { useSelector } from "react-redux";
 import { AppList, PageLayout } from '../components';
 import { getApp } from "../features/app/app_slice";
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
 import Dapp from "./dapp";
-import ReactPaginate from 'react-paginate';
-import { useRouter } from "next/router";
-import { Row } from "../components/layout/flex";
 
 const Index = (props) => {
     const router = useRouter();
@@ -17,7 +16,7 @@ const Index = (props) => {
     const [page2, setPage2] = useState<number>(0);
     const [dataPage, setDataPage] = useState<number>(1);
 
-    const [items, setItems] = useState<Array<typeof Dapp>>([]);
+    const [items, setItems] = useState<Array<typeof Dapp>>();
     const {
         data,
         isFetching,
@@ -35,7 +34,7 @@ const Index = (props) => {
 
     useEffect(() => {
         if (data) {
-            setItems([...data?.response])
+            setItems([...data?.response] as any)
             setDataPage(data.page)
         }
     }, [data]);
@@ -58,14 +57,15 @@ const Index = (props) => {
 
     let child;
 
-    if ((isLoading || isFetching) && ((items.length === 0) || ((dataPage - 1) !== selectedPage) || ((items[0] as any).chains as Array<number>).indexOf(app.chainId) === -1)) return <PageLayout>
-        <div>
-            <div className="bg-border-color w-[240px] h-[32px] my-4" />
-            <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-                {buildLoadingItems(items.length || 10)}
+    if ((items === undefined) || (isLoading || isFetching) && ((items.length === 0) || ((dataPage - 1) !== selectedPage) || ((items[0] as any).chains as Array<number>).indexOf(app.chainId) === -1))
+        return <PageLayout>
+            <div>
+                <div className="bg-border-color w-[240px] h-[32px] my-4" />
+                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+                    {buildLoadingItems(items?.length || 10)}
+                </div>
             </div>
-        </div>
-    </PageLayout>
+        </PageLayout>
 
     child = <AppList data={items} />;
 
