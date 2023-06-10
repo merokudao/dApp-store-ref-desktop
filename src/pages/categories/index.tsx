@@ -57,7 +57,9 @@ function CategoriesList(props) {
         }
     }, [data]);
 
-
+    if (router.query.search !== undefined) {
+        document.getElementById('searchBar')?.focus();
+    }
 
     const handlePageChange = (pageData) => {
         console.log("On Page change", pageData)

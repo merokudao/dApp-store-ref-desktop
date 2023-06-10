@@ -122,7 +122,6 @@ function Input(props) {
     useEffect(() => {
         if (value) {
             router.push(`/search?search=${value}`, undefined, { shallow: true });
-            //  document.getElementById("searchBar")?.focus({ preventScroll: true});
         }
     }, [value])
 
@@ -139,7 +138,14 @@ function Input(props) {
                 <input value={value} id='searchBar'
                     onChange={(evt) => {
                         setValue(evt.target.value);
+                        router.push(`/search?search=${value}`, undefined, { shallow: true });
+
                     }}
+                    // onKeyDown={(evt) => {
+                    //     if (evt.key === 'Enter') {
+                    //         router.push(`/search?search=${value}`, undefined, { shallow: true });
+                    //     }
+                    // }}
                     className="w-full p-2 pl-[48px] bg-canvas-color border border-border-color rounded-lg"
                     type="search"
                     placeholder={AppStrings.searchDapps} />
