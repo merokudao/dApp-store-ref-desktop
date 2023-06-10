@@ -1,13 +1,13 @@
 import { PageLayout } from "@/components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import ReactPaginate from 'react-paginate';
 import { useSelector } from "react-redux";
 import { AppList } from "../../components/app_list";
 import { getApp } from "../../features/app/app_slice";
 import { customToMerokuCategory } from "../../features/categories";
 import { useGetCategoryListQuery, useGetInfiniteDappListQuery } from "../../features/dapp/dapp_api";
 import Dapp from "../dapp";
-import ReactPaginate from 'react-paginate';
 
 
 function CategoriesList(props) {
@@ -15,7 +15,7 @@ function CategoriesList(props) {
     const limit = 10;
     const app = useSelector(getApp);
     const [page, setPage] = useState<number>(0);
-    const [items, setItems] = useState<Array<typeof Dapp>>([]);
+    const [items, setItems] = useState<Array<typeof Dapp>>();
     const merokuData = useGetCategoryListQuery({});
     const [dataPage, setDataPage] = useState<number>(1);
 
@@ -78,7 +78,7 @@ function CategoriesList(props) {
 
     let child;
     if (router.query.categories === 'Others' || router.query.search) {
-        if (isLoading || isFetching && (items.length === 0))
+        if ((items === undefined) || (isLoading || isFetching) && (items.length === 0))
             return <PageLayout>
                 <div>
                     <div className="bg-border-color w-[240px] h-[32px] my-4" />
@@ -89,9 +89,7 @@ function CategoriesList(props) {
             </PageLayout>
     }
     else {
-
-        if (isLoading || isFetching && ((items.length === 0) || ((dataPage - 1) !== page) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory)))
-
+        if ((items === undefined) || (isLoading || isFetching) && ((items.length === 0) || ((dataPage - 1) !== page) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory)))
             return <PageLayout>
                 <div>
                     <div className="bg-border-color w-[240px] h-[32px] my-4" />
