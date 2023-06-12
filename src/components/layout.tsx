@@ -197,57 +197,66 @@ function CategoryListSmall(props) {
 
     return (
         <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
-            {data.data.map((e, index) => (
-                <details key={JSON.stringify(e)} onToggle={() => { setOpenKey(e.category) }}>
-                    <summary
-                        className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
-                        <Link href={`/categories/?categories=${e.category}`} >
-                            <div
-                                className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
-                        {
-                            (e.subCategory.length > 0) ?
-                                (e.subCategory.includes(selected)) ?
+            {
+                [<summary
+                    className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]  ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                    <Link href="/#allDappsScroll"  >
+                        <div
+                            className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{AppStrings.allDapps}</div></Link>
+                    {
+                    }
+                </summary>,
+                ...[data.data.map((e, index) => (
+                    <details key={JSON.stringify(e)} onToggle={() => { setOpenKey(e.category) }}>
+                        <summary
+                            className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                            <Link href={`/categories/?categories=${e.category}`} >
+                                <div
+                                    className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
+                            {
+                                (e.subCategory.length > 0) ?
+                                    (e.subCategory.includes(selected)) ?
 
-                                    <svg className="ml-[16px]" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {
-                                        router.push(`/categories/?categories=${data.data[0].category}`, undefined, { shallow: true })
-                                        setSelected('');
-                                        setOpenKey('')
-                                    }}>
-                                        <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    :
-                                    (openKey === e.category) ?
-                                        (
+                                        <svg className="ml-[16px]" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {
+                                            router.push(`/categories/?categories=${data.data[0].category}`, undefined, { shallow: true })
+                                            setSelected('');
+                                            setOpenKey('')
+                                        }}>
+                                            <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        :
+                                        (openKey === e.category) ?
+                                            (
+                                                <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            ) :
                                             <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-                                        ) :
-                                        <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                : <></>
-                        }
-                    </summary>
-                    {openKey === e.category && e.subCategory.length > 0 &&
-                        <div className="cursor-pointer mt-[16px] inset-0">
-                            <Card>
-                                {
-                                    e.subCategory.map((f) => {
-                                        return <p key={JSON.stringify(e)} onClick={() => {
-                                            router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
-                                            setSelected(f);
-                                            setOpenKey('');
-                                        }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
-                                            {f}
-                                        </p>
-                                    })
-                                }
-                            </Card>
-                        </div>}
-                </details>
-            ))
+                                    : <></>
+                            }
+                        </summary>
+                        {openKey === e.category && e.subCategory.length > 0 &&
+                            <div className="cursor-pointer mt-[16px] inset-0">
+                                <Card>
+                                    {
+                                        e.subCategory.map((f) => {
+                                            return <p key={JSON.stringify(e)} onClick={() => {
+                                                router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
+                                                setSelected(f);
+                                                setOpenKey('');
+                                            }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
+                                                {f}
+                                            </p>
+                                        })
+                                    }
+                                </Card>
+                            </div>}
+                    </details>
+                ))]]
             }
-        </Row>
+        </Row >
     );
 }
 
@@ -292,7 +301,7 @@ export function PageLayout(props) {
             {data && <CategoryListSmall data={data} />}
 
             <Row className="items-start justify-start">
-                <aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
+                <aside className="hidden 2xl:flex lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
                     <div className="w-full">
                         <div className='border-b border-b-border-color'>
                             <div className={` align-middle items-center pt-2 pb-2 mr-4 my-2 ${((router?.asPath == "/history")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
