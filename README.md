@@ -6,9 +6,13 @@ Best place to view all apps published on the [Meroku protocol](https://meroku.or
 
 ## Available Scripts
 
+### Configure env
+
+`cp .env.example .env`
+
 In the project directory, you can run:
 
-### `npm dev`
+### `yarn dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -16,10 +20,31 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+### Docker Support
+
+Build docker image using
+
+```shell
+docker build -t dexp .
+```
+
+Run docker image using
+
+```shell
+docker run \
+  -it \
+  --env-file .env \
+  -p 3000:3000 \
+  dexp
+```
+
+Exit the instance by CTRL+C
+
 
 ---
 
