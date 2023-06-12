@@ -43,7 +43,7 @@ function CategoriesList(props) {
         page: page + 1,
         limit,
         chainId: app.chainId,
-        orderBy: ["name:asc"]
+        orderBy: router.query.search === undefined ? ["name:asc"] : []
     }, {
         refetchOnMountOrArgChange: false,
     });
