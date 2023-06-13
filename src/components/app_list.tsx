@@ -61,8 +61,10 @@ export function AppList(props) {
 				</div>
 			) : (
 				<Column className="flex items-center w-full gap-y-4">
-					<p className="text-xl">No app found with the search!</p>
-					<p className="text-xl">
+					<p className="text-xl text-center">
+						No app found with the search!
+					</p>
+					<p className="text-xl text-center">
 						But you can claim it on the Meroku protocol rightaway.
 					</p>
 					<Button

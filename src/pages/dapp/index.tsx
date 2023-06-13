@@ -514,7 +514,30 @@ function DappList(props) {
 	const dApp: Dapp = data.data[0];
 
 	if (!dApp) {
-		return <PageLayout>Missing post!</PageLayout>;
+		return (
+			<PageLayout>
+				<Column className="flex items-center w-full gap-y-4">
+					<p className="text-xl text-center">
+						{query.id} has not been pulished yet!
+					</p>
+					<p className="text-xl text-center">
+						If you are the owner, you can update the app on Meroku
+						Protocol Dapp & publish.
+					</p>
+					<Button
+						onClick={() => {
+							window.gtag("event", "update-app", {
+								location: "unpublished-app-page",
+							});
+						}}
+					>
+						<a target={"_blank"} href={"https://app.meroku.org"}>
+							Update App
+						</a>
+					</Button>
+				</Column>
+			</PageLayout>
+		);
 	}
 
 	const history = JSON.parse(localStorage.getItem("dApps") ?? "{}");
