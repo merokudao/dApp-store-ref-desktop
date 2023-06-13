@@ -86,19 +86,30 @@ const Index = (props) => {
                         breakLinkClassName="inline-block max-sm:px-1 px-2 py-1 max-sm:m m-1"
 
                         previousClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
-                        previousLinkClassName={`inline-block max-sm:px-1 px-2 py-1 m-1 ${selectedPage == 0 ? 'text-[#212026]' : ''}`}
+                        previousLinkClassName={`inline-block max-sm:px-1 px-4 py-1 m-1 `}
 
                         nextClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
-                        nextLinkClassName={`inline-block max-sm:px-1 px-2 py-1  max-sm:m m-1 ${data.pageCount === selectedPage + 1 ? 'text-[#212026]' : ''}`}
+                        nextLinkClassName={`inline-block max-sm:px-1 px-4 py-1  max-sm:m m-1 `}
 
                         activeClassName="bg-[#212026]"
                         breakLabel=".."
-                        nextLabel="＞"
+                        nextLabel={<div className="mt-2" >
+                            <svg className={data.pageCount === selectedPage + 1 ? 'stroke-[#212026]' : 'stroke-[#E2E1E6]'} width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 13L7 7L1 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                        </div>}
+
                         onPageChange={handlePageChange}
                         pageRangeDisplayed={3}
                         forcePage={selectedPage}
                         pageCount={data.pageCount}
-                        previousLabel="＜"
+                        previousLabel={<div className="mt-2" >
+                            <svg className={selectedPage == 0 ? 'stroke-[#212026]' : 'stroke-[#E2E1E6]'} width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 13L1 7L7 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                        </div>}
                         renderOnZeroPageCount={null}
                         marginPagesDisplayed={1}
                     />
