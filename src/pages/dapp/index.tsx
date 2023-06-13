@@ -549,7 +549,10 @@ function DappList(props) {
 		window.gtag("event", "claim-app", {
 			location: "dapp-page",
 		});
-		window.open("https://app.meroku.org", "_blank");
+		window.open(
+			"https://app.meroku.org/?search=" + String(dApp.name),
+			"_blank"
+		);
 		// if (!!address) {
 		// 	setClaimOpen(true);
 		// 	return;
