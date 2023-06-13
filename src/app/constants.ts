@@ -49,7 +49,7 @@ interface AppConfig {
 // }
 
 const posConfig: AppConfig = {
-	title: "Meroku Explorer",
+	title: "Meroku Protocol Explorer",
 	chainId: 137,
 	hero: {
 		title: "The world of apps on Meroku",
