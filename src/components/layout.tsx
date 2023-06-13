@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
@@ -8,11 +9,10 @@ import { App, } from "../app/constants";
 import { getApp, setApp } from "../features/app/app_slice";
 import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
-import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
 
-import ReactPaginate from 'react-paginate';
+import { usePopper } from 'react-popper';
 
 
 function NavBar(props) {
@@ -193,69 +193,98 @@ function CategoryListSmall(props) {
     const data = getPolygonCategoryList();
     const currentCategory = (router.query.categories as string | undefined);
     const [openKey, setOpenKey] = useState<string>(currentCategory ?? '');
-
     const [selected, setSelected] = useState<string>((router.query.subCategory as string | undefined) || '')
+
+
+    const RenderElement = ({ e }) => {
+        const [referenceElement, setReferenceElement] = useState<any>(null);
+        const [popperElement, setPopperElement] = useState<any>(null);
+        const { styles, attributes } = usePopper(referenceElement, popperElement, {
+            placement: 'bottom',
+            modifiers: [
+                {
+                    name: 'flip',
+                    options: {
+                        fallbackPlacements: ['bottom']
+                    }
+                },
+                {
+                    name: 'offset',
+                    options: {
+                        enabled: true,
+                        offset: [10, 16]
+                    }
+                }
+            ]
+        });
+        return <>
+            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category) }}>
+                <div ref={setReferenceElement} className={`relative cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                    <Link href={`/categories/?categories=${e.category}`} >
+                        <div
+                            className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
+                    {
+                        (e.subCategory.length > 0) ?
+                            (e.subCategory.includes(selected)) ?
+
+                                <svg className="ml-[16px]" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {
+                                    router.push(`/categories/?categories=${data.data[0].category}`, undefined, { shallow: true })
+                                    setSelected('');
+                                    setOpenKey('')
+                                }}>
+                                    <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                :
+                                (openKey === e.category) ?
+                                    (
+                                        <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    ) :
+                                    <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                            : <></>
+                    }
+                </div>
+                {openKey === e.category && e.subCategory.length > 0 &&
+                    <div ref={setPopperElement}
+                        style={styles.popper}
+                        {...attributes.popper} className="cursor-pointer z-10">
+                        <Card>
+                            {
+                                e.subCategory.map((f) => {
+                                    return <p key={JSON.stringify(e)} onClick={() => {
+                                        router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
+                                        setSelected(f);
+                                        setOpenKey('');
+                                    }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
+                                        {f}
+                                    </p>
+                                })
+                            }
+                        </Card>
+                    </div>}
+            </div>
+        </>
+    }
+
+
 
     return (
         <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
             {
-                [<summary
-                    className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]  ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
-                    <Link href="/#allDappsScroll"  >
-                        <div
-                            className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{AppStrings.allDapps}</div></Link>
-                    {
-                    }
-                </summary>,
-                ...[data.data.map((e, index) => (
-                    <details key={JSON.stringify(e)} onToggle={() => { setOpenKey(e.category) }}>
-                        <summary
-                            className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
-                            <Link href={`/categories/?categories=${e.category}`} >
-                                <div
-                                    className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{e.subCategory.includes(selected) ? selected : e.category}</div></Link>
-                            {
-                                (e.subCategory.length > 0) ?
-                                    (e.subCategory.includes(selected)) ?
+                [<details key={"smallAllDapps"} >
+                    <summary
+                        className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]  ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                        <Link href="/#allDappsScroll"  >
+                            <div
+                                className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{AppStrings.allDapps}</div></Link>
+                        {<></>
+                        }
 
-                                        <svg className="ml-[16px]" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {
-                                            router.push(`/categories/?categories=${data.data[0].category}`, undefined, { shallow: true })
-                                            setSelected('');
-                                            setOpenKey('')
-                                        }}>
-                                            <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        :
-                                        (openKey === e.category) ?
-                                            (
-                                                <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            ) :
-                                            <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                    : <></>
-                            }
-                        </summary>
-                        {openKey === e.category && e.subCategory.length > 0 &&
-                            <div className="cursor-pointer mt-[16px] inset-0">
-                                <Card>
-                                    {
-                                        e.subCategory.map((f) => {
-                                            return <p key={JSON.stringify(e)} onClick={() => {
-                                                router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
-                                                setSelected(f);
-                                                setOpenKey('');
-                                            }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
-                                                {f}
-                                            </p>
-                                        })
-                                    }
-                                </Card>
-                            </div>}
-                    </details>
-                ))]]
+                    </summary> </details>,
+                ...[data.data.map((e, index) => <RenderElement e={e} />)]]
             }
         </Row >
     );
