@@ -346,7 +346,7 @@ export function PageLayout(props) {
             {data && <CategoryListSmall data={data} />}
 
             <Row className="items-start justify-start">
-                <aside className="hidden 2xl:flex lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
+                <aside className={`hidden 2xl:flex lg:flex md:flex-initial w-3/12 border-r border-r-border-color h-full`}>
                     <div className="w-full">
                         <div className='border-b border-b-border-color'>
                             <div className={` align-middle items-center pt-2 pb-2 mr-4 my-2 ${((router?.asPath == "/history")) ? ' rounded-[12px] bg-[#8A46FF] pl-[16px]' : ''}`}>
@@ -358,7 +358,7 @@ export function PageLayout(props) {
                                             stroke="#E2E1E6" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <span className="text-xl  ">{AppStrings.browsingHistory}</span>
+                                    <span className="text-xl">{AppStrings.browsingHistory}</span>
                                 </Link>
                             </div>
                         </div>
@@ -368,12 +368,13 @@ export function PageLayout(props) {
                             </Link>
                         </div>
                         {child}
-
                     </div>
-
                 </aside>
 
-                <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8">
+
+
+                <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8 border-l border-l-border-color h-full'
+">
                     {props.children}
                 </section>
 
