@@ -373,8 +373,7 @@ export function PageLayout(props) {
 
 
 
-                <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8 border-l border-l-border-color h-full'
-">
+                <section className="flex-auto lg:w-9/12 lg:pl-8 md:pt-8 max-lg:border-0 border-l border-l-border-color h-full">
                     {props.children}
                 </section>
 
