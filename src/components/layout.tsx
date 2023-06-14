@@ -289,17 +289,14 @@ function CategoryListSmall(props) {
     return (
         <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
             {
-                [<details key={"smallAllDapps"} >
-                    <summary
-                        className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]  ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
+                [
+                    <div className={`cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px]  ${((router?.pathname == "/")) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
                         <Link href="/#allDappsScroll"  >
                             <div
                                 className="capitalize whitespace-nowrap text-[14px] leading-[21px]">{AppStrings.allDapps}</div></Link>
-                        {<></>
-                        }
 
-                    </summary> </details>,
-                ...[data.data.map((e, index) => <RenderElement e={e} />)]]
+                    </div>,
+                    ...[data.data.map((e, index) => <RenderElement e={e} />)]]
             }
         </Row >
     );
