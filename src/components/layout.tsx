@@ -201,6 +201,7 @@ function CategoryListSmall(props) {
     const RenderElement = ({ e }) => {
         const [referenceElement, setReferenceElement] = useState<any>(null);
         const [popperElement, setPopperElement] = useState<any>(null);
+        const [isOpen, setIsOpen] = useState<bool>(false);
         const { styles, attributes } = usePopper(referenceElement, popperElement, {
             placement: 'bottom',
             modifiers: [
@@ -219,8 +220,20 @@ function CategoryListSmall(props) {
                 }
             ]
         });
+        useEffect(() => {
+            document.addEventListener('click', onDocumentClick);
+            return () => document.removeEventListener('click', onDocumentClick)
+        }, [referenceElement])
+
+        const onDocumentClick = (evt) => {
+            if (referenceElement && referenceElement.contains(evt.target)) {
+                return;
+            }
+            setIsOpen(false)
+        }
+
         return <>
-            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category) }}>
+            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category); setIsOpen(true) }}>
                 <div ref={setReferenceElement} className={`relative cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
                     <Link href={`/categories/?categories=${e.category}`} >
                         <div
@@ -247,7 +260,10 @@ function CategoryListSmall(props) {
                 </div>
                 {openKey === e.category && e.subCategory.length > 0 &&
                     <div ref={setPopperElement}
-                        style={styles.popper}
+                        style={{
+                            ...styles.popper,
+                            visibility: isOpen ? 'visible' : 'hidden',
+                        }}
                         {...attributes.popper} className="cursor-pointer z-10">
                         <Card>
                             {
@@ -255,6 +271,7 @@ function CategoryListSmall(props) {
                                     return <p key={JSON.stringify(e)} onClick={() => {
                                         router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
                                         setSelected(f);
+                                        setIsOpen(false)
                                         setOpenKey('');
                                     }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
                                         {f}
@@ -270,7 +287,7 @@ function CategoryListSmall(props) {
 
 
     return (
-        <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
+        <Row className=" overflow-scroll gap-[16px] py-[32px]">
             {
                 [<details key={"smallAllDapps"} >
                     <summary
