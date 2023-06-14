@@ -4,6 +4,8 @@ import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { usePopper } from 'react-popper';
 import { useDispatch, useSelector } from "react-redux";
 import { App, } from "../app/constants";
 import { getApp, setApp } from "../features/app/app_slice";
@@ -235,15 +237,11 @@ function CategoryListSmall(props) {
                                     <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 :
-                                (openKey === e.category) ?
-                                    (
-                                        <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    ) :
-                                    <svg className="ml-[16px]" width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+
+                                <svg className={`self-center ml-[16px] ${(openKey === e.category) ? "rotate-180" : " "}`} width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
                             : <></>
                     }
                 </div>
