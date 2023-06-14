@@ -287,7 +287,7 @@ function CategoryListSmall(props) {
 
 
     return (
-        <Row className=" overflow-scroll gap-[16px] py-[32px]">
+        <Row className="lg:hidden overflow-scroll gap-[16px] py-[32px]">
             {
                 [<details key={"smallAllDapps"} >
                     <summary
