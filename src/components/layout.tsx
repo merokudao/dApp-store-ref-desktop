@@ -220,6 +220,13 @@ function CategoryListSmall(props) {
                 }
             ]
         });
+
+        useEffect(() => {
+            if (openKey === e.category) {
+                setIsOpen(true)
+            }
+        }, [openKey])
+
         useEffect(() => {
             document.addEventListener('click', onDocumentClick);
             return () => document.removeEventListener('click', onDocumentClick)
@@ -229,11 +236,15 @@ function CategoryListSmall(props) {
             if (referenceElement && referenceElement.contains(evt.target)) {
                 return;
             }
-            setIsOpen(!isOpen)
+            setIsOpen(false)
         }
 
         return <>
-            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category); setIsOpen(!isOpen) }}>
+            <div key={JSON.stringify(e)} onClick={(evt) => {
+                evt.stopPropagation()
+                setOpenKey(e.category)
+                setIsOpen(!isOpen)
+            }}>
                 <div ref={setReferenceElement} className={`relative cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
                     <Link href={`/categories/?categories=${e.category}`} >
                         <div
@@ -250,7 +261,6 @@ function CategoryListSmall(props) {
                                     <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 :
-
                                 <svg className={`self-center ml-[16px] ${((openKey === e.category) && isOpen) ? "rotate-180" : " "}`} width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
@@ -268,11 +278,12 @@ function CategoryListSmall(props) {
                         <Card>
                             {
                                 e.subCategory.map((f) => {
-                                    return <p key={JSON.stringify(e)} onClick={() => {
+                                    return <p key={JSON.stringify(e)} onClick={(evt) => {
+                                        evt.stopPropagation()
                                         router.push(`/categories/?categories=${e.category}&subCategory=${f.toString()}`, undefined, { shallow: true });
                                         setSelected(f);
-                                        setIsOpen(false)
                                         setOpenKey('');
+                                        setIsOpen(false)
                                     }} className="capitalize whitespace-nowrap py-[12px] text-[14px] leading-[21px]">
                                         {f}
                                     </p>
