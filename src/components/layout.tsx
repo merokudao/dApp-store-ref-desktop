@@ -229,11 +229,11 @@ function CategoryListSmall(props) {
             if (referenceElement && referenceElement.contains(evt.target)) {
                 return;
             }
-            setIsOpen(false)
+            setIsOpen(!isOpen)
         }
 
         return <>
-            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category); setIsOpen(true) }}>
+            <div key={JSON.stringify(e)} onClick={() => { setOpenKey(e.category); setIsOpen(!isOpen) }}>
                 <div ref={setReferenceElement} className={`relative cursor-pointer bg-[#212026] rounded-[32px] flex justify-between items-center py-[8px] px-[12px] ${((query?.categories === e.category)) ? ' rounded-[12px] bg-[#8A46FF] ' : ''}`}>
                     <Link href={`/categories/?categories=${e.category}`} >
                         <div
@@ -243,15 +243,15 @@ function CategoryListSmall(props) {
                             (e.subCategory.includes(selected)) ?
 
                                 <svg className="ml-[16px]" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {
-                                    router.push(`/categories/?categories=${data.data[0].category}`, undefined, { shallow: true })
+                                    router.push(`/#allDappsScroll`, undefined, { shallow: true })
                                     setSelected('');
-                                    setOpenKey('')
+                                    setOpenKey('');
                                 }}>
                                     <path d="M1 1L11 11M11 1L1 11" stroke="#E2E1E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 :
 
-                                <svg className={`self-center ml-[16px] ${(openKey === e.category) ? "rotate-180" : " "}`} width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg className={`self-center ml-[16px] ${((openKey === e.category) && isOpen) ? "rotate-180" : " "}`} width="18" height="18" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6 9.5L12 15.5L18 9.5" stroke="#E2E1E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
 
