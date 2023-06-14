@@ -453,43 +453,12 @@ function CategoryListSmall(props) {
 
 export function PageLayout(props) {
 	const app = useSelector(getApp);
-	const { data, isFetching, isLoading } = useGetCategoryListQuery(
-		{
-			chainId: app.chainId,
-		},
-		{
-			refetchOnMountOrArgChange: false,
-		}
-	);
-	let child;
-	if (isLoading || isFetching) {
-		child = (
-			<div className="mr-[16px]">
-				<div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-				<div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-				<div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-				<div className="shimmer w-full h-[48px] mb-[16px] rounded-lg" />
-			</div>
-		);
-	}
-	// else if (!data.data) child= <h1>Error</h1>
-	else {
-		child = <CategoryList />;
-	}
+
 	return (
 		<article className="container">
-			{/* <Row className="justify-between items-center py-8 md:border-b md:border-b-border-color flex-wrap lg:flex-nowrap gap-4">
-				<div className="flex-initial w-full md:w-10/12">
-					<span className="text-[20px] leading-[27px] lg:text-[42px] lg:leading-[48px] font-[500]">
-						{app.title}
-					</span>
-				</div>
-				<div className="flex-initial w-full md:w-3/12">
-					<Input />
-				</div>
-			</Row> */}
-
-			{data && <CategoryListSmall data={data} />}
+			{props.categoryList && (
+				<CategoryListSmall data={props.categoryList} />
+			)}
 
 			<Row className="items-start justify-start">
 				<aside className="hidden lg:flex md:flex-initial w-3/12 border-r border-r-border-color">
@@ -524,7 +493,7 @@ export function PageLayout(props) {
 								</span>
 							</Link>
 						</div>
-						{child}
+						<CategoryList />
 						<div className="py-4 border-t border-b-border-color">
 							<Footer text={app.footer.text} />
 						</div>
