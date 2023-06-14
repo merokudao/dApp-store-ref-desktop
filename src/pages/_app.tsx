@@ -15,31 +15,35 @@ import { darkTheme, RainbowKitProvider, } from '@rainbow-me/rainbowkit';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { generalSans } from '../theme';
+import Head from 'next/head';
 
 
 export default function App({ Component, pageProps }: AppProps<{
     session: Session;
 }>) {
     return (
-        // redux state store
-        <Provider store={store}>
-            {/* This provides all the necssary config for wallet connections */}
-            <WagmiConfig config={wagmiConfig}>
-                {/* Session store and rainbow kit store is used for authenticting wallet */}
-                <SessionProvider refetchInterval={0} session={pageProps.session}>
-                    <RainbowKitSiweNextAuthProvider >
-                        {/* Rainbow kit is being used for wallet conection */}
-                        <RainbowKitProvider chains={chains} theme={darkTheme()}>
-                            <Layout className={generalSans.className}>
-                                <Component {...pageProps} />
+        <>
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <Provider store={store}>
+                {/* This provides all the necssary config for wallet connections */}
+                <WagmiConfig config={wagmiConfig}>
+                    {/* Session store and rainbow kit store is used for authenticting wallet */}
+                    <SessionProvider refetchInterval={0} session={pageProps.session}>
+                        <RainbowKitSiweNextAuthProvider >
+                            {/* Rainbow kit is being used for wallet conection */}
+                            <RainbowKitProvider chains={chains} theme={darkTheme()}>
+                                <Layout className={generalSans.className}>
+                                    <Component {...pageProps} />
 
-                            </Layout>
+                                </Layout>
 
-                        </RainbowKitProvider>
-                    </RainbowKitSiweNextAuthProvider>
-                </SessionProvider>
-            </WagmiConfig>
-        </Provider>
-
+                            </RainbowKitProvider>
+                        </RainbowKitSiweNextAuthProvider>
+                    </SessionProvider>
+                </WagmiConfig>
+            </Provider>
+        </>
     )
 }
