@@ -78,14 +78,17 @@ const Index = ({ categoryList, featuredList }) => {
 				-1)
 	)
 		return (
-			<PageLayout>
-				<div>
-					<div className="bg-border-color w-[240px] h-[32px] my-4" />
-					<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-						{buildLoadingItems(items.length || 10)}
+			<>
+				<FeaturedLayout featuredList={featuredList} />
+				<PageLayout categoryList={categoryList}>
+					<div>
+						<div className="bg-border-color w-[240px] h-[32px] my-4" />
+						<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+							{buildLoadingItems(items.length || 10)}
+						</div>
 					</div>
-				</div>
-			</PageLayout>
+				</PageLayout>
+			</>
 		);
 
 	child = <AppList data={items} />;
