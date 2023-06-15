@@ -57,7 +57,7 @@ function ExpansionPanel(props) {
     // const [isExpanded, setExpanded] = useState<boolean>(open);
     const isExpanded = open;
     const hasSubCategories = props.category.subCategory.length > 0;
-    // console.log(open)
+    console.log(category.category, open)
     return (
         <div className={`pr-4  `}>
 
@@ -96,7 +96,8 @@ function ExpansionPanel(props) {
 function CategoryList(props) {
     // const chainId = useSelector(getApp).chainId;
     const data = getPolygonCategoryList();
-    const [openKey, setOpenKey] = useState<string>('');
+    const { query } = useRouter();
+    const [openKey, setOpenKey] = useState<string>((query?.categories as string | undefined) ?? "");
     // const {data, isLoading, isError} = useGetCategoryListQuery({chainId}, {
     //     refetchOnMountOrArgChange: false
     // });
