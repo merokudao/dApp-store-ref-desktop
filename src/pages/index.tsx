@@ -1,98 +1,11 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { AppList, FeaturedLayout, PageLayout } from "../components";
-import { getApp } from "../features/app/app_slice";
-import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
-import { AppStrings } from "./constants";
-import Dapp from "./dapp";
+import { AppList, Button, FeaturedLayout, PageLayout } from "../components";
+import { Column } from "../components/layout/flex";
+import { fetchApps } from "../fetch/fetchApps";
 import { fetchCategories } from "../fetch/fetchCategories";
-import { FeaturedCard } from "../components/card";
-import { FeaturedList } from "../features/dapp/presentation";
 import { fetchFeatured } from "../fetch/fetchFeatured";
+import { AppStrings } from "./constants";
 
-const Index = ({ categoryList, featuredList }) => {
-	const app = useSelector(getApp);
-	const limit = 8;
-	const [page, setPage] = useState<number>(1);
-	const [page2, setPage2] = useState<number>(1);
-	const [items, setItems] = useState<Array<typeof Dapp>>([]);
-	const { data, isFetching, isLoading } = useGetInfiniteDappListQuery(
-		{
-			page: app.chainId === 137 ? page : page2,
-			limit: limit,
-			chainId: app.chainId,
-		},
-		{
-			refetchOnMountOrArgChange: true,
-		}
-	);
-
-	const selectedPage = app.chainId === 137 ? page : page2;
-
-	// since now data is being merged in RTK itself
-	useEffect(() => {
-		if (data) {
-			setItems([...data?.response]);
-		}
-	}, [data]);
-
-	const buildLoadingItems = (count: number = 10) => {
-		const _items: any[] = [];
-		for (let i = 0; i < count; i++) {
-			_items.push(
-				<div key={i} className="shimmer w-full h-[160px] rounded-lg" />
-			);
-		}
-		return _items;
-	};
-
-	// this one doesn't need to be refreshed to listen to scroll events
-	useEffect(() => {
-		const onScroll = () => {
-			const scrolledToBottom =
-				window.innerHeight + window.scrollY + window.innerHeight / 3 >=
-				document.body.offsetHeight;
-			if (
-				scrolledToBottom &&
-				!isFetching &&
-				(app.chainId === 137 ? page : page2) < (data?.pageCount || 0)
-			) {
-				console.log("Fetching more data...");
-
-				app.chainId === 137 ? setPage(page + 1) : setPage2(page2 + 1);
-			}
-		};
-
-		document.addEventListener("scroll", onScroll);
-
-		return function () {
-			document.removeEventListener("scroll", onScroll);
-		};
-	}, [selectedPage, isFetching, app.chainId, data?.pageCount, page, page2]);
-
-	let child;
-	if (
-		(isLoading || isFetching) &&
-		(items.length === 0 ||
-			((items[0] as any).chains as Array<number>).indexOf(app.chainId) ===
-				-1)
-	)
-		return (
-			<>
-				<FeaturedLayout featuredList={featuredList} />
-				<PageLayout categoryList={categoryList}>
-					<div>
-						<div className="bg-border-color w-[240px] h-[32px] my-4" />
-						<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-							{buildLoadingItems(items.length || 10)}
-						</div>
-					</div>
-				</PageLayout>
-			</>
-		);
-
-	child = <AppList data={items} />;
-
+const Index = ({ categoryList, featuredList, homePageApps }) => {
 	return (
 		<>
 			<FeaturedLayout featuredList={featuredList} />
@@ -101,15 +14,26 @@ const Index = ({ categoryList, featuredList }) => {
 					{AppStrings.allDapps}
 				</h1>
 				<div className="h-[54px] w-full" />
-				{child}
-				{isLoading || isFetching ? (
-					<div>
-						<div className="h-[35px] w-full" />
-						<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-							{buildLoadingItems(4)}
-						</div>
-					</div>
-				) : null}
+				<AppList data={homePageApps} />
+				<div className="w-full my-8">
+					<Column className="flex items-center w-full gap-y-4">
+						<p className="text-md text-center">
+							You have seen a lot of apps. How about exploring
+							specific categories?
+						</p>
+
+						<Button
+							onClick={() => {
+								window.scrollTo({
+									top: 0,
+									behavior: "smooth",
+								});
+							}}
+						>
+							Go to top
+						</Button>
+					</Column>
+				</div>
 			</PageLayout>
 		</>
 	);
@@ -120,10 +44,13 @@ export default Index;
 export async function getStaticProps() {
 	const categories = await fetchCategories();
 	const featured = await fetchFeatured();
+	const homePageApps = await fetchApps();
+
 	return {
 		props: {
 			categoryList: categories,
 			featuredList: featured,
+			homePageApps: homePageApps,
 		},
 		revalidate: 86400, // revalidate once every day
 	};
