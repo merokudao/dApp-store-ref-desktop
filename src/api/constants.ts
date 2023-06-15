@@ -21,7 +21,7 @@ export const ApiEndpoints = {
   RATING: "dapp/rate",
   FETCH_USER: "fetchuser",
   POST_USER: "postuser",
-  SEARCH: "api/v1/dapp/search",
+  SEARCH: "dapp/search",
   BUILD_DOWNLOAD_URL: "dapp",
 
 };
