@@ -17,9 +17,8 @@ export async function fetchFeatured() {
 	const appIds = merokuFeaturedExplorer ? merokuFeaturedExplorer.dappIds : [];
 	const result = <any>[];
 	for (const idx in appIds) {
-		// console.log(`${MEROKU_BASE_URL}/api/v1/dapp/search/${appIds[idx]}`);
 		const appReq = await fetch(
-			`${MEROKU_BASE_URL}/api/v1/dapp/search/${appIds[idx]}`,
+			`${MEROKU_BASE_URL}/dapp/search/${appIds[idx]}`,
 			{
 				headers: {
 					apiKey: process.env.NEXT_PUBLIC_MEROKU_API_KEY || "",
