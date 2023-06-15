@@ -153,7 +153,7 @@ export class DappDataSource implements IDappDataSource {
 	getAppsInCategoryList(builder: EndpointBuilder<any, any, any>) {
 		return builder.query<PagedResponse<Dapp>, Array<string>>({
 			query: (params) => ({
-				url: `/api/v1/dapp/search`,
+				url: `/dapp/search`,
 				headers: {
 					apiKey: MEROKU_API_KEY,
 				},
@@ -165,7 +165,7 @@ export class DappDataSource implements IDappDataSource {
 	getDappByOwnerAddress(builder: EndpointBuilder<any, any, any>) {
 		return builder.query<any, string>({
 			query: (ownerAddress) => ({
-				url: `api/v1/dapp/search/address/${ownerAddress}`,
+				url: `/dapp/search/address/${ownerAddress}`,
 				headers: {
 					apiKey: MEROKU_API_KEY,
 				},
@@ -194,7 +194,7 @@ export class DappDataSource implements IDappDataSource {
 				const result = <any>[];
 				for (const idx in appIds) {
 					const appReq = await fetchWithBQ(
-						`/api/v1/dapp/search/${appIds[idx]}`
+						`/dapp/search/${appIds[idx]}`
 					);
 					result.push(appReq.data.data[0]);
 				}
