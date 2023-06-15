@@ -507,6 +507,125 @@ export function PageLayout(props) {
 	);
 }
 
+export function FeaturedLayout(props) {
+	const app = useSelector(getApp);
+	const router = useRouter();
+	// const { data, isLoading } = useGetFeaturedDappsQuery();
+	const slider = useRef();
+	let dragging = false;
+	const settings = {
+		dots: false,
+		infinite: false,
+		arrows: false,
+		speed: 500,
+		rows: 1,
+		slidesToShow: 4.5,
+		swipeToSlide: true,
+		beforeChange: () => (dragging = true),
+		afterChange: () => (dragging = false),
+		responsive: [
+			{
+				breakpoint: 640,
+				settings: {
+					slidesToShow: 2.15,
+				},
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 3.15,
+				},
+			},
+		],
+	};
+
+	function buildLoadingCard(number: number) {
+		let output = Array<React.JSX.Element>();
+		for (let i = 0; i < number; i++) {
+			output.push(
+				<div className="shimmer h-[240px] lg:h-[320px] mb-[16px] rounded-lg" />
+			);
+		}
+		return output;
+	}
+
+	return (
+		<div>
+			{router.asPath === "/" && (
+				<section>
+					<div className="container relative">
+						<Row className="justify-between items-center my-[32px]">
+							<h2 className="text-[24px] leading-[32px] lg:text-[60px] lg:leading-[72px] font-[500]">
+								{AppStrings.featuredDapps}
+							</h2>
+							<div>
+								<SliderButton
+									onClick={() => {
+										(slider?.current as any).slickPrev();
+									}}
+								>
+									<svg
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M19 12L5 12M5 12L12 19M5 12L12 5"
+											stroke="#101828"
+											strokeWidth="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								</SliderButton>
+								<SliderButton
+									onClick={() => {
+										(slider?.current as any).slickNext();
+									}}
+								>
+									<svg
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M5 12H19M19 12L12 5M19 12L12 19"
+											stroke="#101828"
+											strokeWidth="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								</SliderButton>
+							</div>
+						</Row>
+						<Slider ref={slider} {...settings}>
+							{props.featuredList
+								? props.featuredList.map((dapp) => (
+										<Link
+											key={app.dappId}
+											href={`/dapp?id=${dapp.dappId}`}
+											draggable={false}
+											onClick={(e) =>
+												dragging && e.preventDefault()
+											}
+										>
+											<FeaturedCard app={dapp} />
+										</Link>
+								  ))
+								: buildLoadingCard(5)}
+						</Slider>
+					</div>
+				</section>
+			)}
+		</div>
+	);
+}
+
 export default function Layout(props) {
 	const app = useSelector(getApp);
 	const router = useRouter();
@@ -556,7 +675,7 @@ export default function Layout(props) {
 					<NavBar />
 				</div>
 				<main className="relative top-[70px]">
-					{router.asPath === "/" && (
+					{/* {router.asPath === "/" && (
 						<section>
 							<div className="container relative">
 								<Row className="justify-between items-center my-[32px]">
@@ -631,7 +750,7 @@ export default function Layout(props) {
 								</Slider>
 							</div>
 						</section>
-					)}
+					)} */}
 					{props.children}
 				</main>
 			</div>

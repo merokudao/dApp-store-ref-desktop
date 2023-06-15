@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { AppList, PageLayout } from "../components";
+import { AppList, FeaturedLayout, PageLayout } from "../components";
 import { getApp } from "../features/app/app_slice";
 import { useGetInfiniteDappListQuery } from "../features/dapp/dapp_api";
 import { AppStrings } from "./constants";
 import Dapp from "./dapp";
 import { fetchCategories } from "../fetch/fetchCategories";
+import { FeaturedCard } from "../components/card";
+import { FeaturedList } from "../features/dapp/presentation";
+import { fetchFeatured } from "../fetch/fetchFeatured";
 
-const Index = ({ categoryList }) => {
+const Index = ({ categoryList, featuredList }) => {
 	const app = useSelector(getApp);
 	const limit = 8;
 	const [page, setPage] = useState<number>(1);
@@ -89,6 +92,7 @@ const Index = ({ categoryList }) => {
 
 	return (
 		<>
+			<FeaturedLayout featuredList={featuredList} />
 			<PageLayout categoryList={categoryList}>
 				<h1 className="text-4xl mb-8 capitalize">
 					{AppStrings.allDapps}
@@ -111,10 +115,12 @@ const Index = ({ categoryList }) => {
 export default Index;
 
 export async function getServerSideProps() {
-	const data = await fetchCategories();
+	const categories = await fetchCategories();
+	const featured = await fetchFeatured();
 	return {
 		props: {
-			categoryList: data,
+			categoryList: categories,
+			featuredList: featured,
 		},
 	};
 }
