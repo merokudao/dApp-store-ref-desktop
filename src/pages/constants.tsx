@@ -13,7 +13,8 @@ const AppStrings = {
     readLess: 'Read Less',
     featuredDapps: 'Featured dApps',
     reviewsTitle: 'Ratings & Reviews',
-    ratings: 'Ratings'
+    ratings: 'Ratings',
+    anonymousAnalyticsTag: 'anonymous_udde',
 }
 
 export {

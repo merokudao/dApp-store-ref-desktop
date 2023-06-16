@@ -331,13 +331,12 @@ function DappList(props) {
     let downloadLink;
     if (address) {
         args.set('userAddress', address);
-        viewLink = `${BASE_URL}/o/view/${dApp.dappId}?${args.toString()}`
-        downloadLink = `${BASE_URL}/o/download/${dApp.dappId}?${args.toString()}`
 
     } else {
-        viewLink = dApp.appUrl;
+        args.set('userId', AppStrings.anonymousAnalyticsTag)
     }
-
+    viewLink = `${BASE_URL}/o/view/${dApp.dappId}?${args.toString()}`
+    downloadLink = `${BASE_URL}/o/download/${dApp.dappId}?${args.toString()}`
 
 
     const isOwner = isOwnedAppsLoading ? false : (ownedApps?.data?.includes(dApp.dappId) || false)
