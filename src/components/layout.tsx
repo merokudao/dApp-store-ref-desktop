@@ -2,36 +2,18 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import { App } from "../app/constants";
-import { getApp, setApp } from "../features/app/app_slice";
-import {
-	getPolygonCategoryList,
-	useGetCategoryListQuery,
-	useGetFeaturedDappsQuery,
-} from "../features/dapp/dapp_api";
+import { getApp } from "../features/app/app_slice";
+import { getPolygonCategoryList } from "../features/dapp/dapp_api";
 import { AppStrings } from "../pages/constants";
 import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
 
 function NavBar(props) {
-	const app = useSelector(getApp);
-
-	const dispatch = useDispatch();
-	const router = useRouter();
-	const onAppConfigClick = (app) => {
-		dispatch(setApp(app));
-		router.push("/");
-	};
-	const isActive = (config) => {
-		if (app.title === config.title) {
-			return "text-[#fff]";
-		}
-		return "";
-	};
 	return (
 		<Row center className="flex w-full items-center px-10 gap-[16px]">
 			<div className="flex-initial">

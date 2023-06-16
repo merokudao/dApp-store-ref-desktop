@@ -10,7 +10,6 @@ export const HOST_URL = process.env.NEXT_PUBLIC_HOST_PATH;
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
 // export const BASE_URL = `${API_HOST}/${API_PATH}/${API_VERSION}`;
-// https://api-a.meroku.store/store/featured?storeKey=meroku-explorer-featured
 export const ApiEndpoints = {
 	ANALYTICS: "analytics",
 	APP_LIST: "dapp",

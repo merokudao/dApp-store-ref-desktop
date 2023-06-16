@@ -1,5 +1,5 @@
 const AppStrings = {
-	title: "Meroku Apps",
+	title: "Meroku Protocol Apps",
 	back: "Back",
 	allDapps: "All Apps",
 	visitDapp: "Visit App",

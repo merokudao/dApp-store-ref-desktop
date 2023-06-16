@@ -1,5 +1,5 @@
 export const App = {
-	name: "Web Store",
+	name: "Meroku Explorer",
 	logo: {
 		height: 40,
 		width: 190,
@@ -33,20 +33,6 @@ interface AppConfig {
 		text: string;
 	};
 }
-
-// const zkevmConfig:AppConfig = {
-//     title: "zkEVM dApps",
-//     chainId: 1101,
-//     hero: {
-//         title: "Experience the newest   and your favourite  dApps on #zkEVM ",
-//         subtitle: "The dApps in our ecosystem set the standard for privacy, security and content quality.",
-//         button: {
-//             text: 'Submit your dApp',
-//             href: '',
-//         },
-//         video:"https://player.vimeo.com/video/791153931?h=969d328799"
-//     },
-// }
 
 const posConfig: AppConfig = {
 	title: "Meroku Protocol Explorer",
