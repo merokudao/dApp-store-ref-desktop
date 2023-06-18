@@ -162,7 +162,7 @@ export class DappDataSource implements IDappDataSource {
         const appIds = appIdsReq.data[0].dappIds
         const result = <any>[];
         for (const idx in appIds) {
-          const appReq = await fetchWithBQ(`/api/v1/dapp/search/${appIds[idx]}`)
+          const appReq = await fetchWithBQ(`/dapp/search/${appIds[idx]}`)
           result.push(appReq.data.data[0])
         }
         return result.length
