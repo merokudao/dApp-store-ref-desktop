@@ -13,12 +13,6 @@ import { getPolygonCategoryList, useGetCategoryListQuery, useGetFeaturedDappsQue
 import { AppStrings } from "../pages/constants";
 import { Button, Card } from "./index";
 import { Row } from "./layout/flex";
-<<<<<<< HEAD
-
-import { usePopper } from 'react-popper';
-=======
-import ScrollToTopButton from './scroll_to_top';
->>>>>>> a1892e9 (fix category initialisation issue)
 
 
 function NavBar(props) {
