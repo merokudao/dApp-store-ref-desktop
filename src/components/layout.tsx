@@ -4,7 +4,6 @@ import { default as NXTImage } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import { useEffect, useState } from "react";
 import { usePopper } from 'react-popper';
 import { useDispatch, useSelector } from "react-redux";
 import { App, } from "../app/constants";
