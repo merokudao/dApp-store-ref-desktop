@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL, HOST_URL } from "../../api/constants";
+import { Chat } from "@pushprotocol/uiweb";
 import {
   Button,
   ClaimButton,
@@ -28,7 +29,9 @@ import { Dapp } from "../../features/dapp/models/dapp";
 import { Review } from "../../features/dapp/models/review";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
-import { SupportChat } from "../../components/push";
+import { SupportChat } from "./supportchat";
+import { ethers } from "ethers";
+import { getAddress } from "viem";
 
 Modal.setAppElement("#__next");
 
@@ -449,6 +452,7 @@ function AppRatingList(props) {
   );
 }
 
+
 function DappList(props) {
   const router = useRouter();
   const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
@@ -687,6 +691,12 @@ function DappList(props) {
               <Divider />
             </>
           )}
+          <section className="z-10 absolute">
+            <SupportChat
+            address = {address}
+            supportAddress='0x56AeF9d1da974d654D5719E81b365205779161aF'
+            />
+          </section>
           <DappDetailSection>
             {/* {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
@@ -719,9 +729,7 @@ function DappList(props) {
               />
             )}
           </DappDetailSection>
-          <SupportChat
-            dappDevAddress={"0x1A3cDE21e27CA9a2670C2c647550D39a72d9637C"}
-          />
+          
         </section>
       </div>
       {isReviewModalOpen && (
