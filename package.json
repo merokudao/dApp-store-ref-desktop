@@ -5,6 +5,7 @@
   "dependencies": {
     "@netlify/plugin-nextjs": "^4.37.4",
     "@next/font": "^13.4.4",
+    "@pushprotocol/uiweb": "^1.0.2",
     "@rainbow-me/rainbowkit": "1.0.0",
     "@rainbow-me/rainbowkit-siwe-next-auth": "0.2.0",
     "@reduxjs/toolkit": "1.9.5",
@@ -17,6 +18,7 @@
     "@types/node": "^17.0.45",
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
+    "@wagmi/core": "^1.2.1",
     "classnames": "^2.3.2",
     "eth-sig-util": "^3.0.1",
     "ethers": "5.7.2",
@@ -26,15 +28,15 @@
     "react-dom": "18.2.0",
     "react-modal": "3.16.1",
     "react-redux": "8.0.5",
-    "react-slick": "^0.29.0",
     "react-responsive": "^9.0.2",
     "react-scroll-to-top": "^3.0.0",
+    "react-slick": "^0.29.0",
     "react-tooltip": "^5.13.1",
     "siwe": "2.1.4",
     "slick-carousel": "^1.8.1",
     "typescript": "4.9.5",
     "viem": "0.3.35",
-    "wagmi": "1.0.5",
+    "wagmi": "^1.2.0",
     "web-vitals": "2.1.4"
   },
   "scripts": {

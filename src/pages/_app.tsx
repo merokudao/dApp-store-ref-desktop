@@ -18,27 +18,22 @@ import { chains } from "../features/wallet_connect/config";
 import { generalSans } from "../theme";
 
 export default function App({
-	Component,
-	pageProps,
+  Component,
+  pageProps,
 }: AppProps<{
-	session: Session;
+  session: Session;
 }>) {
-	return (
-		<Provider store={store}>
-			<WagmiConfig config={wagmiConfig}>
-				<SessionProvider
-					refetchInterval={0}
-					session={pageProps.session}
-				>
-					<RainbowKitSiweNextAuthProvider>
-						<RainbowKitProvider chains={chains} theme={darkTheme()}>
-							<Layout className={generalSans.className}>
-								<Component {...pageProps} />
-							</Layout>
-						</RainbowKitProvider>
-					</RainbowKitSiweNextAuthProvider>
-				</SessionProvider>
-			</WagmiConfig>
-		</Provider>
-	);
+  return (
+    <Provider store={store}>
+      <WagmiConfig config={wagmiConfig}>
+        <SessionProvider refetchInterval={0} session={pageProps.session}>
+          <RainbowKitProvider chains={chains} theme={darkTheme()}>
+            <Layout className={generalSans.className}>
+              <Component {...pageProps} />
+            </Layout>
+          </RainbowKitProvider>
+        </SessionProvider>
+      </WagmiConfig>
+    </Provider>
+  );
 }
