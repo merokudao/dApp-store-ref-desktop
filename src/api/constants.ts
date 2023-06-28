@@ -1,8 +1,8 @@
 export const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
 export const API_PATH = process.env.NEXT_PUBLIC_API_PATH;
 export const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION;
-export const WC_PROJECT_ID = process.env.WC_PROJECT_ID;
-
+export const WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID;
+export const MEROKU_API_KEY = process.env.NEXT_PUBLIC_MEROKU_API_KEY;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 export const HOST_URL = process.env.NEXT_PUBLIC_HOST_PATH;
 
@@ -21,6 +21,6 @@ export const ApiEndpoints = {
 	RATING: "dapp/rate",
 	FETCH_USER: "fetchuser",
 	POST_USER: "postuser",
-	SEARCH: "api/v1/dapp/search",
+	SEARCH: "dapp/search",
 	BUILD_DOWNLOAD_URL: "dapp",
 };

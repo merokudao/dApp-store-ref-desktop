@@ -21,7 +21,7 @@ class SearchDataSource implements ISearchDataSource {
 
 	searchById(builder: EndpointBuilder<any, any, any>) {
 		return builder.query<PagedResponse<Dapp>, string>({
-			query: (appId) => `/api/v1/dapp/search/${appId}`,
+			query: (appId) => `dapp/search/${appId}`,
 		});
 	}
 
