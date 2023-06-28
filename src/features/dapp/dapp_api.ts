@@ -12,6 +12,8 @@ import { categories } from "./custom_categories";
 import { Dapp } from "./models/dapp";
 import { Review } from "./models/review";
 // this is a collection of endpoint call with RTK to get all the dapp related data.
+
+
 interface IDappDataSource {
 	getFeaturedList(builder: EndpointBuilder<any, any, any>);
 

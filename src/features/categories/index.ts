@@ -1,72 +1,281 @@
-/*
-this file contains a mapping from meroku categories to dappstore categories and all the necessary conversions
-*/
+// let merokuJsonString = `{
+//     "message": "success",
+//     "data": [
+//       {
+//         "category": "books",
+//         "subCategory": [
+//           "ebooks",
+//           "audiobooks",
+//           "document-readers"
+//         ]
+//       },
+//       {
+//         "category": "business",
+//         "subCategory": [
+//           "communication",
+//           "project-management",
+//           "human-resources",
+//           "decentralized-business-tools"
+//         ]
+//       },
+//       {
+//         "category": "developer tools",
+//         "subCategory": [
+//           "discovery tool",
+//           "developer infra"
+//         ]
+//       },
+//       {
+//         "category": "education",
+//         "subCategory": [
+//           "learning tools",
+//           "reference",
+//           "language-learning",
+//           "stem"
+//         ]
+//       },
+//       {
+//         "category": "entertainment",
+//         "subCategory": [
+//           "music",
+//           "video",
+//           "video-streaming",
+//           "music-streaming",
+//           "live-events",
+//           "nft-marketplaces"
+//         ]
+//       },
+//       {
+//         "category": "defi",
+//         "subCategory": [
+//           "banking",
+//           "personal-finance",
+//           "exchanges",
+//           "insurance",
+//           "on-ramping",
+//           "off-ramping",
+//           "payments",
+//           "finance",
+//           "airdrop tool",
+//           "others",
+//           "tooling",
+//           "prediction markets",
+//           "lending-and-borrowing",
+//           "infrastructure"
+//         ]
+//       },
+//       {
+//         "category": "food and drink",
+//         "subCategory": [
+//           "cooking",
+//           "recipes",
+//           "restaurant-finding"
+//         ]
+//       },
+//       {
+//         "category": "games",
+//         "subCategory": [
+//           "action",
+//           "adventure",
+//           "puzzle",
+//           "role-playing",
+//           "strategy",
+//           "racing",
+//           "board ",
+//           "simulation",
+//           "word",
+//           "metaverse"
+//         ]
+//       },
+//       {
+//         "category": "health and fitness",
+//         "subCategory": [
+//           "workout-apps",
+//           "meditation",
+//           "nutrition",
+//           "sleep-trackers",
+//           "medical"
+//         ]
+//       },
+//       {
+//         "category": "lifestyle",
+//         "subCategory": [
+//           "home-automation",
+//           "fashion",
+//           "dating"
+//         ]
+//       },
+//       {
+//         "category": "kids",
+//         "subCategory": []
+//       },
+//       {
+//         "category": "news",
+//         "subCategory": [
+//           "sports-news",
+//           "magazines",
+//           "decentralized-news-platforms",
+//           "newspapers",
+//           "live-news"
+//         ]
+//       },
+//       {
+//         "category": "photography",
+//         "subCategory": [
+//           "photo-editing",
+//           "camera-apps",
+//           "photo-sharing"
+//         ]
+//       },
+//       {
+//         "category": "productivity",
+//         "subCategory": [
+//           "note-taking",
+//           "task-management",
+//           "time-management",
+//           "calendar",
+//           "decentralized-collaboration-tools",
+//           "graphics and design"
+//         ]
+//       },
+//       {
+//         "category": "shopping",
+//         "subCategory": [
+//           "ecommerce",
+//           "nft-marketplaces",
+//           "price aggregator"
+//         ]
+//       },
+//       {
+//         "category": "social networking",
+//         "subCategory": [
+//           "decentralized-social-networks",
+//           "messaging"
+//         ]
+//       },
+//       {
+//         "category": "sports",
+//         "subCategory": [
+//           "team-management",
+//           "live-scores"
+//         ]
+//       },
+//       {
+//         "category": "travel",
+//         "subCategory": [
+//           "navigation",
+//           "accommodation-booking",
+//           "transportation",
+//           "trip-planning"
+//         ]
+//       },
+//       {
+//         "category": "utilities",
+//         "subCategory": [
+//           "file-management",
+//           "browsers",
+//           "security-and-privacy",
+//           "wallets",
+//           "weather"
+//         ]
+//       },
+//       {
+//         "category": "nft",
+//         "subCategory": [
+//           "art",
+//           "pfps",
+//           "domain names"
+//         ]
+//       },
+//       {
+//         "category": "gambling",
+//         "subCategory": []
+//       },
+//       {
+//         "category": "social",
+//         "subCategory": [
+//           "social media"
+//         ]
+//       },
+//       {
+//         "category": "personalization",
+//         "subCategory": [
+//           "themes",
+//           "wallpapers",
+//           "customization-tools"
+//         ]
+//       }
+//     ]
+//   }`;
+
 var dappstoreMaping = `{
-	"Tooling": "developer tools",
-	"Tooling.Security": "developer tools.security",
-	"Tooling.Monitoring": "developer tools.monitoring",
-	"Tooling.Storage": "developer tools.storage",
-	"Tooling.Front Ends": "developer tools.front ends",
-	"Tooling.Messaging": "social networking.messaging",
-	"Tooling.Block Explorers": "developer tools.block explorers",
-	"Tooling.Indexer": "developer tools.indexer",
-	"Tooling.Wallet": "utilities.wallets",
+  "B2B": "business",
 
-    "Social": "social",
+  "DAO": "productivity.decentralized-collaboration-tools",
+  "DAO.DAO - Misc": "productivity.decentralized-collaboration-tools-misc",
+  "DAO.Investing": "productivity.decentralized-collaboration-tools-investing",
+  "DAO.Tooling": "productivity.decentralized-collaboration-tools-tools",
 
-    "Infrastructure": "developer tools.developer infra",
-	"Infrastructure.Oracles": "developer tools.oracles",
-	"Infrastructure.Node Infra": "developer tools.node infra",
-	"Infrastructure.Bridges": "developer tools.bridges",
-	"Infrastructure.Identity": "developer tools.identity",
-	"Infrastructure.Payments": "defi.payments",
-	"Infrastructure.Analytics": "developer tools.analytics",
+  "DeFi": "finance.defi",
+  "DeFi.Decentralized Exchanges": "finance.exchanges",
+  "DeFi.Derivatives, Perps, Trading": "finance.trading",
+  "DeFi.Insurance": "finance.insurance",
+  "DeFi.Lending and Borrowing": "finance.lending-and-borrowing",
+  "DeFi.Liquid Staking": "finance.liquid-staking",
+  "DeFi.Prediction Markets": "finance.prediction-markets",
+  "DeFi.Real World Assets / Tokenization": "finance.tokenization",
+  "DeFi.Stablecoins": "finance.stablecoins",
+  "DeFi.Yield Aggregation / Farming": "finance.farming",
+  "DeFi.DeFi - Other": "finance.others",
 
-    "Metaverse": "games.metaverse",
+  "Education": "education",
 
-    "Gaming": "games",
-	"Gaming.Puzzle and strategy games": "games.puzzle",
-	"Gaming.Action and adventure games": "games.adventure",
-	"Gaming.First-person action games": "games.action",
-	"Gaming.Role-playing games (RPG)": "games.role-playing",
-	"Gaming.Sports and racing games": "games.racing",
-	"Gaming.Simulation games": "games.simulation",
-	"Gaming.Studios": "games.studios",
+  "Gaming": "games",
+  "Gaming.Action and adventure games": "games.adventure",
+  "Gaming.First-person action games": "games.action",
+  "Gaming.Puzzle and strategy games": "games.puzzle",
+  "Gaming.Role-playing games (RPG)": "games.role-playing",
+  "Gaming.Simulation games": "games.simulation",
+  "Gaming.Sports and racing games": "games.racing",
+  "Gaming.Studios": "games.studios",
 
-    "NFT": "nft",
-	"NFT.Marketplace": "nft.marketplace",
-	"NFT.Music": "entertainment.music",
-	"NFT.Domain Names": "nft.domain names",
-	"NFT.PFPs": "nft.peps",
-	"NFT.Social Graph": "nft.social graph",
-	"NFT.Art": "nft.art",
-	"NFT.Tooling / Infra": "nft.tooling",
+  "Infrastructure": "developer-tools.developer-infra",
+  "Infrastructure.Analytics": "developer-tools.analytics",
+  "Infrastructure.Bridges": "developer-tools.bridges",
+  "Infrastructure.Identity": "developer-tools.identity",
+  "Infrastructure.Indexer": "developer-tools.indexer",
+  "Infrastructure.Node Infra": "developer-tools.node-infra",
+  "Infrastructure.Oracles": "developer-tools.oracle",
+  "Infrastructure.Payments": "finance.payments",
+  "Infrastructure.Block Explorers": "developer-tools.block-explorer",
+  "Infrastructure.Storage": "developer-tools.storage",
 
-    "DAO": "productivity.decentralized-collaboration-tools",
-	"DAO.Investing": "productivity.decentralized-collaboration-tools-investing",
-	"DAO.Tooling": "productivity.decentralized-collaboration-tools-tools",
-	"DAO.DAO - Misc": "productivity.decentralized-collaboration-tools-misc",
+  "Metaverse": "games.metaverse",
 
-    "DeFi": "defi",
-	"DeFi.Stablecoins": "defi.stablecoins",
-	"DeFi.Decentralized Exchanges": "defi.exchanges",
-	"DeFi.Lending and Borrowing": "defi.lending-and-borrowing",
-	"DeFi.Liquid Staking": "defi.liquid staking",
-	"DeFi.Yield Aggregation / Farming": "defi.farming",
-	"DeFi.Real World Assets / Tokenization": "defi.tokenization",
-	"DeFi.Insurance": "defi.insurance",
-	"DeFi.Prediction Markets": "defi.product markets",
-	"DeFi.DeFi - Other": "defi.others",
+  "NFT": "nft",
+  "NFT.Art": "nft.art",
+  "NFT.Domain Names": "nft.domain-names",
+  "NFT.Marketplace": "nft.nft-marketplaces",
+  "NFT.Music": "entertainment.music",
+  "NFT.PFPs": "nft.peps",
+  "NFT.Social Graph": "social-networking.social-graph",
+  "NFT.Tooling / Infra": "nft.tooling",
 
-    "B2B": "business",
+  "Social": "social-networking",
 
-    "Utility": "utilities",
+  "Tooling": "developer-tools",
+  "Tooling.Block Explorers": "developer-tools.block-explorer",
+  "Tooling.Front Ends": "developer-tools.front-ends",
+  "Tooling.Indexer": "developer-tools.indexer",
+  "Tooling.Monitoring": "developer-tools.monitoring",
+  "Tooling.Security": "developer-tools.security",
+  "Tooling.Storage": "developer-tools.storage",
+  "Tooling.Messaging": "social-networking.messaging",
+  "Tooling.Wallet": "utilities.wallets",
 
-	"Infrastructure.On-Ramp/Off-Ramp": "defi.on-ramping, defi.off-ramping",
+  "Utility": "utilities",
 
-	"DeFi.Derivatives, Perps, Trading": "defi.trading",
-
-  "Education" : "education"
+  "Infrastructure.On-Ramp/Off-Ramp": "finance.ramp"
 }`;
 // var merokuAPIData = JSON.parse(merokuJsonString).data;
 var dappstoreMapingData = JSON.parse(dappstoreMaping);
@@ -76,7 +285,7 @@ var dappstoreMappedList: string[] = [];
 // merokuAPIData.map((e) => merokuCategoryList.push(e.category));
 
 (Object.values(dappstoreMapingData) as string[]).map((e) => {
-	dappstoreMappedList.push(e.split(".")[0]);
+  dappstoreMappedList.push(e.split(".")[0]);
 });
 
 // var othersList: string[] = merokuCategoryList.filter(
@@ -84,13 +293,13 @@ var dappstoreMappedList: string[] = [];
 // );
 
 interface CatSubCat {
-	category: string | string[];
-	subCategory?: string;
+  category: string | string[];
+  subCategory?: string;
 }
 
 // Create a Map object to be passed
 const customToMerokuMapping: Map<string, string> = new Map(
-	Object.entries(JSON.parse(dappstoreMaping))
+  Object.entries(JSON.parse(dappstoreMaping))
 );
 
 /**
@@ -99,64 +308,64 @@ const customToMerokuMapping: Map<string, string> = new Map(
  */
 
 const customToMerokuCategory = (
-	category: string | string[] | undefined,
-	merokuData: any,
-	subCategory?: string | string[] | undefined
+  category: string | string[] | undefined,
+  merokuData: any,
+  subCategory?: string | string[] | undefined
 ): CatSubCat => {
-	let output: CatSubCat = { category: "" };
-	var merokuCategoryList: string[] = [];
+  let output: CatSubCat = { category: "" };
+  var merokuCategoryList: string[] = [];
 
-	if (merokuData !== undefined) {
-		merokuData.data.map((e) => merokuCategoryList.push(e.category));
-		var othersList: string[] = merokuCategoryList.filter(
-			(value) => !dappstoreMappedList.includes(value.toLowerCase())
-		);
-		if (category === "Others") {
-			output["category"] = othersList;
-		}
-	}
+  if (merokuData !== undefined) {
+    merokuData.data.map((e) => merokuCategoryList.push(e.category));
+    var othersList: string[] = merokuCategoryList.filter(
+      (value) => !dappstoreMappedList.includes(value.toLowerCase())
+    );
+    if (category === "Others") {
+      output["category"] = othersList;
+    }
+  }
 
-	const mapping = customToMerokuMapping;
+  const mapping = customToMerokuMapping;
 
-	const key = subCategory
-		? [category, subCategory].join(".")
-		: (category as string);
-	const value = mapping.get(key);
-	if (value) {
-		const [c, sc] = value.split(".");
-		output["category"] = c;
-		if (sc) {
-			output["subCategory"] = sc;
-		}
-	}
+  const key = subCategory
+    ? [category, subCategory].join(".")
+    : (category as string);
+  const value = mapping.get(key);
+  if (value) {
+    const [c, sc] = value.split(".");
+    output["category"] = c;
+    if (sc) {
+      output["subCategory"] = sc;
+    }
+  }
 
-	return output;
+  return output;
 };
 
 const merokuToCustomCategory = (
-	category: string | string[] | undefined,
-	subCategory?: string | string[] | undefined
+  category: string | string[] | undefined,
+  subCategory?: string | string[] | undefined
 ): CatSubCat => {
-	let output: CatSubCat = { category: "others" };
-	const mapping = customToMerokuMapping;
+  let output: CatSubCat = { category: "others" };
+  const mapping = customToMerokuMapping;
 
-	const value = subCategory
-		? [category, subCategory].join(".")
-		: (category as string);
+  const value = subCategory
+    ? [category, subCategory].join(".")
+    : (category as string);
 
-	const keys = Object.keys(JSON.parse(dappstoreMaping));
-	for (const key of keys) {
-		if (mapping.get(key) === value) {
-			if (key) {
-				const [c, sc] = key.split(".");
-				output["category"] = c;
-				if (sc) {
-					output["subCategory"] = sc;
-				}
-			}
-		}
-	}
-	return output;
+  const keys = Object.keys(JSON.parse(dappstoreMaping));
+  for (const key of keys) {
+    if (mapping.get(key) === value) {
+      if (key) {
+        const [c, sc] = key.split(".");
+        output["category"] = c;
+        if (sc) {
+          output["subCategory"] = sc;
+        }
+      }
+    }
+  }
+  return output;
 };
 
 // const getOthersCategoryList = (

@@ -20,35 +20,37 @@ const AppStrings = {
 		"You will be redirected to a separate webpage to submit your dApp",
 	ratings: "Ratings",
 	allChains: "All Chains",
-};
+	anonymousAnalyticsTag: 'anonymous_odde',
+
+}
 
 const allChains: {
 	name: string;
 	chainId: number | null;
 	image: string | null;
 }[] = [
-	{
-		name: "All",
-		chainId: null,
-		image: null,
-	},
-	{
-		name: "Ethereum",
-		chainId: 1,
-		image: "/assets/images/chains/ethereum.png",
-	},
-	{
-		name: "Polygon",
-		chainId: 137,
-		image: "/assets/images/chains/polygon.png",
-	},
-	{
-		name: "zkEVM",
-		chainId: 1101,
-		image: "/assets/images/chains/polygon.png",
-	},
-];
+		{
+			name: "All",
+			chainId: null,
+			image: null,
+		},
+		{
+			name: "Ethereum",
+			chainId: 1,
+			image: "/assets/images/chains/ethereum.png",
+		},
+		{
+			name: "Polygon",
+			chainId: 137,
+			image: "/assets/images/chains/polygon.png",
+		},
+		{
+			name: "zkEVM",
+			chainId: 1101,
+			image: "/assets/images/chains/polygon.png",
+		},
+	];
 
 export { AppStrings, allChains };
-const defaultExport = () => {};
+const defaultExport = () => { };
 export default defaultExport;

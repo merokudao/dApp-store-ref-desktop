@@ -1,6 +1,7 @@
 import { PageLayout } from "@/components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import ReactPaginate from 'react-paginate';
 import { useSelector } from "react-redux";
 import { AppList } from "../../components/app_list";
 import { getApp } from "../../features/app/app_slice";
@@ -32,6 +33,9 @@ function CategoriesList(props) {
 	const [items, setItems] = useState<Array<typeof Dapp>>([]);
 	const merokuData = useGetCategoryListQuery({});
 
+	const [dataPage, setDataPage] = useState<number>(1);
+
+
 	let categoryMapped = customToMerokuCategory(
 		router.query.categories,
 		merokuData.data,
@@ -40,134 +44,135 @@ function CategoriesList(props) {
 
 	useEffect(() => {
 		if (merokuData) {
-			categoryMapped = customToMerokuCategory(
-				router.query.categories,
-				merokuData.data,
-				router.query.subCategory
-			);
+			categoryMapped = customToMerokuCategory(router.query.categories, merokuData.data, router.query.subCategory);
 		}
-	}, [merokuData]);
+	}, [merokuData])
 
-	const { data, isFetching, isLoading } = useGetInfiniteDappListQuery(
-		{
-			search: router.query.search,
-			categories: categoryMapped.category,
-			subCategory: categoryMapped.subCategory,
-			page,
-			limit,
-			chainId: app.chainId,
-		},
-		{
-			refetchOnMountOrArgChange: false,
-		}
-	);
+	useEffect(() => {
+		setPage(0)
+	}, [router?.query?.categories, router?.query?.subCategory, router.query?.search])
+
+	const {
+		data,
+		isFetching,
+		isLoading,
+	} = useGetInfiniteDappListQuery({
+		search: router.query.search,
+		categories: categoryMapped.category,
+		subCategory: categoryMapped.subCategory,
+		page: page + 1,
+		limit,
+		chainId: app.chainId,
+		orderBy: router.query.search === undefined ? ["name:asc"] : []
+	}, {
+		refetchOnMountOrArgChange: false,
+	});
 
 	// since now data is being merge in RTK itself
 	useEffect(() => {
 		if (data) {
 			console.log("data", data);
-			setItems([...data?.response]);
+			setItems([...data?.response])
+			setDataPage(data.page)
 		}
 	}, [data]);
 
-	// const observerTarget = useRef(null);
-
-	// const opt = {
-	//     threshold: 1,
-	// };
-
-	// this one doesn't need to be refrished to listen to scroll events
-	useEffect(() => {
-		const onScroll = () => {
-			const scrolledToBottom =
-				window.innerHeight + window.scrollY + window.innerHeight / 3 >=
-				document.body.offsetHeight;
-			if (
-				scrolledToBottom &&
-				!isFetching &&
-				page < (data?.pageCount || 0)
-			) {
-				console.log("Fetching more search data...");
-				setPage(page + 1);
-			}
-		};
-
-		document.addEventListener("scroll", onScroll);
-
-		return function () {
-			document.removeEventListener("scroll", onScroll);
-		};
-	}, [page, isFetching, data?.pageCount]);
-
-	const buildLoadingItems = (count: number = 10) => {
-		const _items: any[] = [];
-		for (let i = 0; i < count; i++) {
-			_items.push(
-				<div key={i} className="shimmer w-full h-[160px] rounded-lg" />
-			);
-		}
-		return _items;
-	};
-
-	let child;
-	if (router.query.categories === "Others" || router.query.search) {
-		if (isLoading || (isFetching && items.length === 0))
-			return (
-				<PageLayout>
-					<div>
-						<div className="bg-border-color w-[240px] h-[32px] my-4" />
-						<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-							{buildLoadingItems()}
-						</div>
-					</div>
-				</PageLayout>
-			);
-	} else {
-		if (
-			isLoading ||
-			(isFetching &&
-				(items.length === 0 ||
-					(items[0] as any)?.category !== categoryMapped.category ||
-					(items[0] as any)?.subCategory !==
-						categoryMapped.subCategory))
-		) {
-			return (
-				<PageLayout>
-					<div>
-						<div className="bg-border-color w-[240px] h-[32px] my-4" />
-						<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-							{buildLoadingItems()}
-						</div>
-					</div>
-				</PageLayout>
-			);
-		}
+	if (router.query.search !== undefined) {
+		document.getElementById('searchBar')?.focus();
 	}
 
-	child = <AppList data={items}></AppList>;
-	return (
-		<PageLayout>
-			<h1 className="text-[24px] leading-[32px] lg:text-4xl mb-8 capitalize">
-				{props.title || router.query.categories}
-			</h1>
+	const handlePageChange = (pageData) => {
+		console.log("On Page change", pageData)
+		let selected = pageData.selected;
+		setPage(selected);
+		router.push('#allDappsScroll')
 
-			{router.query.subCategory && (
-				<h2 className="text-[20px] leading-[28px]  mb-8 capitalize">
-					{router.query.subCategory}
-				</h2>
-			)}
-			{child}
+	}
+	const buildLoadingItems = (count: number = 10) => {
+		const _items: any[] = [];
+		for (let i = 0; i < (count); i++) {
+			_items.push(<div key={i} className="shimmer w-full h-[160px] rounded-lg" />)
+		}
+		return _items;
+	}
 
-			{isLoading || isFetching ? (
+	let child;
+	if (router.query.categories === 'Others' || router.query.search) {
+		if ((items === undefined) || (isLoading || isFetching) && (items.length === 0))
+			return <PageLayout>
 				<div>
-					<div className="h-[35px] w-full" />
+					<div className="bg-border-color w-[240px] h-[32px] my-4" />
 					<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
-						{buildLoadingItems(4)}
+						{buildLoadingItems()}
 					</div>
 				</div>
-			) : null}
+			</PageLayout>
+	}
+	else {
+		if ((items === undefined) || (isLoading || isFetching) && ((items.length === 0) || ((dataPage - 1) !== page) || ((items[0] as any)?.category !== categoryMapped.category) || (((items[0] as any)?.subCategory !== categoryMapped.subCategory) && categoryMapped.subCategory)))
+			return <PageLayout>
+				<div>
+					<div className="bg-border-color w-[240px] h-[32px] my-4" />
+					<div className="grid gap-8 grid-cols-1 md:grid-cols-2 3xl:grid-cols-3">
+						{buildLoadingItems()}
+					</div>
+				</div>
+			</PageLayout>
+	}
+	console.log("data", data)
+	console.log("page", page)
+
+	child = (<AppList data={items}>
+	</AppList>);
+	return (
+		<PageLayout>
+			<h1 className="text-[24px] leading-[32px] lg:text-4xl mb-8 capitalize">{props.title || router.query.categories}</h1>
+
+			{router.query.subCategory && <h2 className="text-[20px] leading-[28px]  mb-8 capitalize">{router.query.subCategory}</h2>}
+			{child}
+
+			<div className='max-lg:mr-0 mr-20 my-10 justify-center flex flex-grow'>
+				<ReactPaginate
+					containerClassName="max-md:text-[13px] text-[20px] flex"
+
+					pageClassName="items-center justify-between inline-block max-sm:px-1 px-2 py-1 border border-[#212026]"
+					pageLinkClassName="inline-block max-sm:px-1 px-2 py-1 m-1"
+
+					breakClassName="row-start-auto inline-block  max-sm:px-1 px-2 py-1 max-sm:m m-1"
+					breakLinkClassName="inline-block max-sm:px-1 px-2 py-1 max-sm:m m-1"
+
+					previousClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
+					previousLinkClassName={`inline-block max-sm:px-1 px-4 py-1 m-1 `}
+
+					nextClassName={`items-center justify-between inline-block max-sm:px px-1 py-1  border border-[#212026]`}
+					nextLinkClassName={`inline-block max-sm:px-1 px-4 py-1  max-sm:m m-1 `}
+
+					activeClassName="bg-[#212026]"
+					breakLabel=".."
+					nextLabel={<div className="mt-2" >
+						<svg className={data.pageCount === page + 1 ? 'stroke-[#212026]' : 'stroke-[#E2E1E6]'} width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M1 13L7 7L1 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+
+					</div>}
+
+					onPageChange={handlePageChange}
+					pageRangeDisplayed={3}
+					forcePage={page}
+					pageCount={data.pageCount}
+					previousLabel={<div className="mt-2" >
+						<svg className={page == 0 ? 'stroke-[#212026]' : 'stroke-[#E2E1E6]'} width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M7 13L1 7L7 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+
+					</div>}
+
+					renderOnZeroPageCount={null}
+					marginPagesDisplayed={1}
+				/>
+			</div>
 		</PageLayout>
-	);
+	)
 }
 
 export default CategoriesList;

@@ -16,29 +16,38 @@ import Layout from "../components/layout";
 import { wagmiConfig } from "../features/wallet_connect";
 import { chains } from "../features/wallet_connect/config";
 import { generalSans } from "../theme";
+import Head from 'next/head';
+
 
 export default function App({
-	Component,
-	pageProps,
+    Component,
+    pageProps,
 }: AppProps<{
-	session: Session;
+    session: Session;
 }>) {
-	return (
-		<Provider store={store}>
-			<WagmiConfig config={wagmiConfig}>
-				<SessionProvider
-					refetchInterval={0}
-					session={pageProps.session}
-				>
-					<RainbowKitSiweNextAuthProvider>
-						<RainbowKitProvider chains={chains} theme={darkTheme()}>
-							<Layout className={generalSans.className}>
-								<Component {...pageProps} />
-							</Layout>
-						</RainbowKitProvider>
-					</RainbowKitSiweNextAuthProvider>
-				</SessionProvider>
-			</WagmiConfig>
-		</Provider>
-	);
+    return (
+        <>
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <Provider store={store}>
+                {/* This provides all the necssary config for wallet connections */}
+                <WagmiConfig config={wagmiConfig}>
+                    {/* Session store and rainbow kit store is used for authenticting wallet */}
+                    <SessionProvider refetchInterval={0} session={pageProps.session}>
+                        <RainbowKitSiweNextAuthProvider >
+                            {/* Rainbow kit is being used for wallet conection */}
+                            <RainbowKitProvider chains={chains} theme={darkTheme()}>
+                                <Layout className={generalSans.className}>
+                                    <Component {...pageProps} />
+
+                                </Layout>
+
+                            </RainbowKitProvider>
+                        </RainbowKitSiweNextAuthProvider>
+                    </SessionProvider>
+                </WagmiConfig>
+            </Provider>
+        </>
+    )
 }
