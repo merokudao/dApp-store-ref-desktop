@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { BASE_URL, HOST_URL } from "../../api/constants";
-import { Chat } from "@pushprotocol/uiweb";
+import { Chat, ENV } from "@pushprotocol/uiweb";
 import {
   Button,
   ClaimButton,
@@ -32,6 +32,8 @@ import { AppStrings } from "../constants";
 import { SupportChat } from "./supportchat";
 import { ethers } from "ethers";
 import { getAddress } from "viem";
+import axios from "axios";
+import * as PushAPI from "@pushprotocol/restapi";
 
 Modal.setAppElement("#__next");
 
@@ -65,7 +67,7 @@ const reviewModalStyle = {
 };
 
 function Divider(props) {
-  return <div className="h-[1px] bg-[#2D2C33]" />;
+  return <div className="h-[1px] bg-[#2D2C33] my-5" />;
 }
 
 function SocialButton(props) {
@@ -98,6 +100,53 @@ function SocialButton(props) {
       </svg>
     </div>
   );
+}
+
+async function sendWelcomeMsg(dappname: string) {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const _signer = new ethers.Wallet(
+    process.env.NEXT_PUBLIC_DAPP_OWNER_PRIVATE_KEY as string,
+    provider
+  );
+
+  const usersigner = provider.getSigner();
+  const useraddress = await usersigner.getAddress();
+  const owneraddress = _signer.address;
+
+  console.log("useraddress", useraddress);
+  console.log("owneraddress", owneraddress);
+
+  const user = await PushAPI.user.get({
+    account: `eip155:${owneraddress}`,
+    env: ENV.STAGING,
+  });
+
+  const pgpDecryptedPvtKey = await PushAPI.chat.decryptPGPKey({
+    encryptedPGPPrivateKey: user.encryptedPrivateKey,
+    signer: _signer,
+    env: ENV.STAGING,
+  });
+  try {
+    const isnew = await axios.get(
+      `https://backend-staging.epns.io/apis/v1/chat/users/eip155:${useraddress}/chat/eip155:${owneraddress}`
+    );
+
+    if (Object.keys(isnew.data).length > 0) {
+      return;
+    } else {
+      await PushAPI.chat.send({
+        messageContent: `Welcome to ${dappname}, we are glad to have you onboard!`,
+        messageType: "Text",
+        receiverAddress: `eip155:${useraddress}`,
+        signer: _signer,
+        pgpPrivateKey: pgpDecryptedPvtKey,
+        env: ENV.STAGING,
+      });
+      console.log("Message sent successfully");
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function DappDetailSection(props) {
@@ -452,7 +501,6 @@ function AppRatingList(props) {
   );
 }
 
-
 function DappList(props) {
   const router = useRouter();
   const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
@@ -556,6 +604,8 @@ function DappList(props) {
       openConnectModal();
     }
   };
+
+  sendWelcomeMsg(dApp.name);
 
   return (
     <PageLayout>
@@ -667,7 +717,8 @@ function DappList(props) {
               <DownloadButton href={downloadLink} dApp={dApp} />
             </div>
           </header>
-
+          <Divider />
+          <Divider />
           <DappDetailSection title={AppStrings.about}>
             <ExpandAbleText maxCharacters={320} maxLines={3}>
               {dApp.description}
@@ -693,8 +744,8 @@ function DappList(props) {
           )}
           <section className="z-10 absolute">
             <SupportChat
-            address = {address}
-            supportAddress='0x56AeF9d1da974d654D5719E81b365205779161aF'
+              address={address}
+              supportAddress="0x56AeF9d1da974d654D5719E81b365205779161aF"
             />
           </section>
           <DappDetailSection>
@@ -729,7 +780,6 @@ function DappList(props) {
               />
             )}
           </DappDetailSection>
-          
         </section>
       </div>
       {isReviewModalOpen && (
