@@ -5,9 +5,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useSelector } from "react-redux";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { BASE_URL, HOST_URL } from "../../api/constants";
-import { Chat } from "@pushprotocol/uiweb";
 import {
   Button,
   ClaimButton,
@@ -30,8 +29,7 @@ import { Review } from "../../features/dapp/models/review";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
 import { SupportChat } from "./supportchat";
-import { ethers } from "ethers";
-import { getAddress } from "viem";
+import { sendNotification } from "./pushNotification";
 
 Modal.setAppElement("#__next");
 
@@ -263,12 +261,33 @@ function ReviewDialog(props) {
     dappId: props.dappId,
     userAddress: address,
   } as Review);
+  const router = useRouter();
+  const currentPath = router.asPath;
+  const origin =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : "";
+
+  const currentURL = `${origin}${currentPath}`;
+  const { chain } = useNetwork();
+
   const onSubmit = (evt) => {
     console.log(result.isUpdating);
 
     postReview({ ...review, rating: review.rating ?? 0 })
       .unwrap()
       .then((_) => {
+        // Trigger notification to dapp dev/owner when a review is added using Push Protocol
+        console.log("sending notification");
+        sendNotification(
+          "0xB2aA4Fd98fdd12E0143E4A1F89ea35b966eaCebD",
+          review.dappId,
+          review.comment,
+          chain?.id,
+          currentURL
+        );
+        console.log("Notification sent successfully!");
+
         props.onRequestClose();
       })
       .catch((err) => {
@@ -452,7 +471,6 @@ function AppRatingList(props) {
   );
 }
 
-
 function DappList(props) {
   const router = useRouter();
   const [isClaimOpen, setClaimOpen] = useState<boolean>(false);
@@ -460,6 +478,7 @@ function DappList(props) {
   const app = useSelector(getApp);
   const { query } = useRouter();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
+
   useEffect(() => {
     if (isClaimOpen) {
       document.body.style.overflow = "hidden";
@@ -693,8 +712,8 @@ function DappList(props) {
           )}
           <section className="z-10 absolute">
             <SupportChat
-            address = {address}
-            supportAddress='0x56AeF9d1da974d654D5719E81b365205779161aF'
+              address={address}
+              supportAddress="0x56AeF9d1da974d654D5719E81b365205779161aF"
             />
           </section>
           <DappDetailSection>
@@ -729,7 +748,6 @@ function DappList(props) {
               />
             )}
           </DappDetailSection>
-          
         </section>
       </div>
       {isReviewModalOpen && (
