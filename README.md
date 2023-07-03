@@ -38,6 +38,29 @@ Next.js can be configured using next.config.js [Read More](https://nextjs.org/do
 
 ---
 
+### Steps to host on vercel
+-   Get Wallet Connect API key from [here](https://cloud.walletconnect.com/sign-in).
+-   Get Meroku API key by filling this [form](https://form.jotform.com/231576486954067).
+-   Go to Vercel.
+-   Select Github Repository.
+-   Proceed Ahead with default config.
+-   Let the build run and deployment complete.
+-   Go to project Settings > Environment Variables.
+-   Set the following environment variables.
+```
+NEXT_PUBLIC_WC_PROJECT_ID=<YOUR WALLET CONNECT ID GOES HERE>
+NEXT_PUBLIC_API_HOST=https://api.meroku.store/api/v1
+API_HOST=https://api.meroku.store/api/v1
+NEXTAUTH_URL=<PERMANENT URL OF YOUR VERCEL OR YOUR DOMAIN OF DEPLOYMENT GOES HERE>
+NEXT_PUBLIC_HOST_PATH=<PERMANENT URL OF YOUR VERCEL OR YOUR DOMAIN OF DEPLOYMENT GOES HERE>
+API_PATH=/
+API_VERSION=v1
+NEXTAUTH_SECRET=<ANY RANDOM SECRET WORD CAN BE USED HERE>
+NEXT_PUBLIC_MEROKU_API_KEY=<YOUR MEROKU API KEY GOES HERE>
+```
+-   Go to Deployments.
+-   Redploy your last build.
+
 ### File Structure
 
 -   /src/api/api => Redux Query Setup
