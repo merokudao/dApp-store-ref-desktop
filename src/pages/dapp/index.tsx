@@ -39,6 +39,7 @@ import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
 
 import { sendNotification } from "./pushNotification";
+import { OwnerDashboard } from "./dappownernotifs";
 
 
 Modal.setAppElement("#__next");
@@ -776,6 +777,12 @@ function DappList(props) {
               supportAddress="0x56AeF9d1da974d654D5719E81b365205779161aF"
             />
           </section>
+          <OwnerDashboard
+          dappname={dApp.name}
+          dappsite={dApp.appUrl}
+          dappowneraddress={'0x28a292f4dC182492F7E23CFda4354bff688f6ea8'}
+          />
+          <Divider/>
           <DappDetailSection>
             {/* {!!address && isOwner ?
                             <UpdateDappSection onClick={onClaimButtonClick} /> :
