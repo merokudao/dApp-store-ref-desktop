@@ -46,7 +46,7 @@ Next.js can be configured using next.config.js [Read More](https://nextjs.org/do
 -   Proceed Ahead with default config.
 -   Let the build run and deployment complete.
 -   Go to project Settings > Environment Variables.
--   Set the following environment variables.
+-   Set the following environment variables -
 ```
 NEXT_PUBLIC_WC_PROJECT_ID=<YOUR WALLET CONNECT ID GOES HERE>
 NEXT_PUBLIC_API_HOST=https://api.meroku.store/api/v1
