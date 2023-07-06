@@ -21,6 +21,7 @@ import ScrollToTopButton from "./scroll_to_top";
 import Toast from "./toast";
 import axios from "axios";
 import { useAccount } from "wagmi";
+import NotificationComponent from "./notificationbutton";
 
 function NavBar(props) {
   const app = useSelector(getApp);
@@ -60,6 +61,7 @@ function NavBar(props) {
       </div>
       <div className="flex justify-between">
         <Toast address={address} />
+        <NotificationComponent/>
         <div
           className={"justify-center"}
           data-tooltip-id="connect-wallet"
