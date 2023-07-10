@@ -5,6 +5,7 @@ const AppStrings = {
 	searchDapps: "Search dApps",
 	browsingHistory: "Browsing History",
 	connectWallet: "Connect Wallet",
+	clickEvents: "Click Events",
 	about: "About",
 	gallery: "Gallery",
 	social: "Social",
