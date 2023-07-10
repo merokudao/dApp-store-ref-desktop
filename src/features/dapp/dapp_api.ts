@@ -31,6 +31,7 @@ interface IDappDataSource {
 	getFeaturedDapps(builder: EndpointBuilder<any, any, any>);
 	getAppRating(builder: EndpointBuilder<any, any, any>);
 	getBuildDownloadUrl(builder: EndpointBuilder<any, any, any>);
+
 }
 
 export class DappDataSource implements IDappDataSource {
@@ -47,6 +48,7 @@ export class DappDataSource implements IDappDataSource {
 				getAppRating: this.getAppRating(build),
 				postReview: this.postReview(build),
 				getBuildDownloadUrl: this.getBuildDownloadUrl(build),
+
 			}),
 		});
 	}

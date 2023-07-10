@@ -7,6 +7,7 @@ const CONTEXT_NAME = 'PolygonID: dAppstore'
 const CLICK_DB_NAME = 'clicks'
 
 export interface Click {
+    dappId: string,
     wallet: string,
     url?: string,
     insertedAt?: string

@@ -28,6 +28,7 @@ import { Dapp } from "../../features/dapp/models/dapp";
 import { Review } from "../../features/dapp/models/review";
 import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
+import {Click} from "../../api/verida";
 
 Modal.setAppElement("#__next");
 
@@ -506,7 +507,8 @@ function DappList(props) {
 	const args = new URLSearchParams();
 	let viewLink;
 	const trackAppVisit = function() {
-		const click = {
+		const click: Click = {
+			dappId: dApp.dappId,
 			url: dApp.appUrl,
 			wallet: address ? address : undefined
 		}
