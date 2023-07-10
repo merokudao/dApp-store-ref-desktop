@@ -16,7 +16,7 @@ const DID_CLIENT_CONFIG = {
     callType: <Web3CallType> 'web3',
     web3Config: {
         rpcUrl: 'https://polygon-mumbai.g.alchemy.com/v2/Q4NRuRlwTNyI90dDCgiX_KT_vS_2gpbN',
-        privateKey: ''
+        privateKey: process.env.VERIDA_DID_PRIVATE_KEY,
     }
 }
 
@@ -35,7 +35,7 @@ export const getVeridaContext = async function(): Promise<IContext | undefined> 
     // create a Verida account instance that wraps the authorized Verida DID server connection
     // The `AutoAccount` instance will automatically sign any consent messages
     const account = new AutoAccount({
-        privateKey: '',
+        privateKey: `0x${process.env.VERIDA_DID_PRIVATE_KEY}`,
         environment: VERIDA_ENVIRONMENT,
         didClientConfig: DID_CLIENT_CONFIG
     })
