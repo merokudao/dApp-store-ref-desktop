@@ -505,6 +505,23 @@ function DappList(props) {
 	);
 	const args = new URLSearchParams();
 	let viewLink;
+	const trackAppVisit = function() {
+		const click = {
+			url: dApp.appUrl,
+			wallet: address ? address : undefined
+		}
+
+		console.log('clicked a link!')
+		console.log(click)
+
+		fetch(`${HOST_URL}/api/click`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(click)
+		})
+	}
 	let downloadLink;
 	if (address) {
 		args.set("userAddress", address);
@@ -603,6 +620,7 @@ function DappList(props) {
 								className="flex flex-grow justify-center"
 								target="_blank"
 								href={viewLink}
+								onClick={() => trackAppVisit() }
 							>
 								<div className="text-[12px] mx-2 lg:text-[14px] font-[500]">
 									{AppStrings.visitDapp}
