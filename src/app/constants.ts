@@ -3,7 +3,7 @@ export const App = {
 	logo: {
 		height: 42,
 		width: 115,
-		src: "/dappStoreLogo.png",
+		src: "https://uploads-ssl.webflow.com/645a621eccd7c7d1f4aa7e0d/645a767bd635e853019db61a_Logo-dark.svg",
 	},
 	menu: [
 		// {
