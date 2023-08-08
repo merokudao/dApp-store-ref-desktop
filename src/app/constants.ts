@@ -3,7 +3,7 @@ export const App = {
 	logo: {
 		height: 42,
 		width: 115,
-		src: "/slick_logo_transparent.png",
+		src: "/dappStoreLogo.png",
 	},
 	menu: [
 		// {
