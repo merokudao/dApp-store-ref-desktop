@@ -6,6 +6,7 @@ import { Dapp } from "../features/dapp/models/dapp";
 import { spaceMono } from "../theme";
 import { Card, RImage as Image, Text } from "./index";
 import { Row } from "./layout/flex";
+import { convertUrl } from "../utils";
 
 //tags on top of app card
 export function Tag(props: { children: ReactNode }) {
@@ -27,12 +28,19 @@ export function AppList(props) {
 			{(props.data?.length ?? false) ? props.data.map((app: Dapp) => <Link href={`/dapp?id=${app.dappId}`}> <Card key={app.dappId}>
 				{/* <Link href={}> */}
 				<Row className="justify-between">
-					<Image src={app.images.logo} width={64} height={64} className="rounded-lg" alt="" />
+					<Image src={convertUrl(app.images.logo)} width={64} height={64} className="rounded-lg" alt="" />
 					<Row className="items-start gap-[6px]">
 						{app.tags?.slice(0, 3).map((e) => <Tag>{e}</Tag>)}
 					</Row>
 				</Row>
-				<p className="text-[24px] leading-[32px] font-[500] my-4">{app.name}</p>
+				<p className="text-[24px] leading-[32px] font-[500] my-4 inline-flex gap-1.5 items-center">{app.name} {app?.verification && app?.verification?.icon && (
+                    <Image
+                      height={30}
+                      width={30}
+                      src={app?.verification?.icon}
+					  alt="icon"
+                    />
+                  )}</p>
 				<Text classNames='text-[16px] leading-[21px] text-[#87868C] font-[400] line-clamp-3' ellipsizeMode="tail" numberOfLines={3} maxLines={3}>{app.description.substring(0, app.description.length > 220 ? 220 : app.description.length)}</Text>
 				{/* </Link> */}
 			</Card></Link>) : <p className="text-xl">Oh No! We didnt find any dApps</p>}

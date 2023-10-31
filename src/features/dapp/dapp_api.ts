@@ -104,7 +104,8 @@ export class DappDataSource implements IDappDataSource {
 				if (currentCache.response === undefined) {
 					currentCache.response = newItems.response;
 				} else {
-					currentCache.response?.push(...newItems.response);
+					currentCache.response = newItems.response;
+					// currentCache.response?.push(...newItems.response);
 				}
 				currentCache.page = newItems.page;
 				console.log("currentCache", currentCache);

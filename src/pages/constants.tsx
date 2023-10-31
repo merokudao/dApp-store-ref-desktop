@@ -21,7 +21,7 @@ const AppStrings = {
 	ratings: "Ratings",
 	allChains: "All Chains",
 	anonymousAnalyticsTag: 'anonymous_odde',
-
+	verification: "Verification",
 }
 
 const allChains: {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { StarRating } from "../../pages/dapp";
 import { Tag } from "../app_list";
 import { Row } from "../layout/flex";
+import { convertUrl } from '../../utils'
 
 export const Card = (props) => {
 	return (
@@ -29,11 +30,19 @@ export function FeaturedCard(props) {
 			<div className="absolute inset-0 bg-gradient-to-b from-[#0000003D] to-[#000000CC]" />
 			<div className="absolute backdrop-blur-lg w-[80px] h-[80px] rounded-[8px] top-[16px] left-[16px]" />
 			<div className="absolute top-[24px] left-[24px] w-[64px] h-[64px] rounded-[8px] overflow-hidden">
-				<Image fill src={app.images.logo} alt="" />
+				<Image fill src={convertUrl(app.images.logo)} alt="" />
 			</div>
 			<div className="absolute bottom-[24px] left-[24px]">
-				<p className="text-[16px] leading-[18px] lg:text-[24px] lg:leading-[28px] font-[500] line-clamp-1 mb-[8px]">
+				<p className="text-[16px] leading-[18px] lg:text-[24px] lg:leading-[28px] font-[500] line-clamp-1 mb-[8px] inline-flex gap-1.5 items-center">
 					{app.name}
+					{app?.verification && app?.verification?.icon && (
+                    <Image
+                      height={30}
+                      width={30}
+                      src={app?.verification?.icon}
+					  alt="icon"
+                    />
+                  )}
 				</p>
 				<Row className="gap-x-[4px]">
 					{app.tags?.length ? (

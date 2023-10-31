@@ -1,3 +1,4 @@
+import { verifiedType } from '../../../components/VerificationDetails'
 export interface Dapp {
 	name: string;
 	description: string;
@@ -33,5 +34,6 @@ export interface Dapp {
 		rating: number;
 	};
 	users: [];
+	verification: { icon: string, verified: verifiedType[] }
 	minted?: boolean;
 }
