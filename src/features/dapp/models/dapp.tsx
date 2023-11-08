@@ -23,6 +23,7 @@ export interface Dapp {
 		banner: string;
 		logo: string;
 		screenshots: Array<string>;
+		mobileScreenshots: Array<string>;
 	};
 	metrics: {
 		dappId: string;

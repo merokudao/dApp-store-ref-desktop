@@ -457,6 +457,22 @@ function DappList(props) {
   const app = useSelector(getApp);
   const { query } = useRouter();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1080;
+    setIsMobile(isMobile);
+
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 1080;
+      setIsMobile(isMobile);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     if (isClaimOpen) {
       document.body.style.overflow = "hidden";
@@ -500,6 +516,7 @@ function DappList(props) {
   if (!data) return <PageLayout>Missing post!</PageLayout>;
 
   const dApp: Dapp = data.data[0];
+  const screenShots = isMobile ? (dApp?.images?.mobileScreenshots || dApp?.images?.screenshots) : (dApp?.images?.screenshots || dApp?.images?.mobileScreenshots)
 
   if (isLoading || isFetching)
     return (
@@ -614,7 +631,7 @@ function DappList(props) {
                 <p className="text-[12px] leading-[16px] md:text-[16px] md:leading-[20px] uppercase my-2">
                   {customCategory}
                 </p>
-                <p className="text-[16px] leading-[20px] md:text-[32px] md:leading-[38px] font-[600] line-clamp-1 inline-flex gap-1.5 items-center">
+                <p className="text-[16px] leading-[20px] md:text-[24px] md:leading-[28px] font-[600] line-clamp-1 inline-flex gap-1.5 items-center">
                   {dApp.name}
                   {dApp?.verification && dApp?.verification?.icon && (
                     <Image
@@ -636,7 +653,7 @@ function DappList(props) {
                 target="_blank"
                 href={viewLink}
               >
-                <div className="text-[12px] mx-2 lg:text-[14px] font-[500]">
+                <div className="text-[12px] mx-2 lg:text-[14px] whitespace-nowrap font-[500]">
                   {AppStrings.visitDapp}
                 </div>
                 <svg
@@ -704,11 +721,11 @@ function DappList(props) {
             </DappDetailSection>
 			<Divider />
 			</>)}
-          {dApp.images.screenshots?.length && (
+          {screenShots?.length && (
             <>
               <DappDetailSection title={AppStrings.gallery}>
                 <div className="grid grid-cols-3 gap-4">
-                  {dApp.images.screenshots?.map((e, idx) => (
+                  {screenShots?.map((e, idx) => (
                     <img key={idx} src={e || ""} alt="DApp Screenshot" />
                   ))}
                 </div>
