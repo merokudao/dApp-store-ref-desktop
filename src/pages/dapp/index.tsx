@@ -30,6 +30,7 @@ import { useSearchByIdQuery } from "../../features/search";
 import { AppStrings } from "../constants";
 import { convertUrl } from "../../utils";
 import VerificationDetails from "../../components/VerificationDetails";
+import { signTypedData } from "@wagmi/core";
 
 Modal.setAppElement("#__next");
 
@@ -61,6 +62,18 @@ const reviewModalStyle = {
     borderRadius: "16px",
   },
 };
+
+// The named list of all type definitions
+const types = {
+  Dapp: [
+    { name: "Wallet", type: "address" },
+    { name: "DappId", type: "string" },
+    { name: "Rating", type: "string" },
+    { name: "Review", type: "string" },
+    { name: "Time", type: "string" },
+  ],
+};
+
 
 function Divider(props) {
   return <div className="h-[1px] bg-[#2D2C33]" />;
@@ -219,20 +232,26 @@ export function StarRating(props) {
       onChange(rating);
     }
   }, [rating]);
+
+  const handleChangeRating = (ratings: number) => {
+    setHover(0);
+    setRating(ratings);
+  };
+  
   return (
     <Row
       className="gap-x-[4px]"
-      onMouseLeave={editable ? () => setRating(rating) : undefined}
+      onMouseLeave={editable ? () => handleChangeRating(rating) : undefined}
     >
       {[...Array(5)].map((_, idx) => {
         idx += 1;
         return (
           <svg
-            onClick={editable ? () => setRating(idx) : undefined}
+            onClick={editable ? () => handleChangeRating(idx) : undefined}
             onMouseEnter={editable ? () => setHover(idx) : undefined}
-            onMouseLeave={editable ? () => setRating(rating) : undefined}
+            onMouseLeave={editable ? () => handleChangeRating(rating) : undefined}
             className={`icon ${
-              idx <= (rating || hover) ? "icon-filled" : null
+              idx <= (hover || rating) ? "icon-filled" : null
             }`}
             width="24"
             height="25"
@@ -261,19 +280,33 @@ function ReviewDialog(props) {
     dappId: props.dappId,
     userAddress: address,
   } as Review);
-  const onSubmit = (evt) => {
-    console.log(result.isUpdating);
-
-    postReview({ ...review, rating: review.rating ?? 0 })
-      .unwrap()
-      .then((_) => {
-        props.onRequestClose();
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrors(err);
+  const onSubmit = async (evt) => {
+    try {
+      const message = {
+        Wallet: address,
+        DappId: props.dappId,
+        Rating: review?.rating ? `${review.rating}` : `0`,
+        Review: review?.comment ?? "None",
+        Time: new Date().toString(),
+      };
+      const sign = await signTypedData({
+        domain: {},
+        message,
+        primaryType: "Dapp",
+        types,
       });
-    console.log(result.isUpdating);
+      postReview({ ...review, rating: review.rating ?? 0, signature: sign, message: JSON.stringify(message), })
+        .unwrap()
+        .then((_) => {
+          props.onRequestClose();
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrors(err);
+        });
+    } catch (err: any) {
+      setErrors(err);
+    }
   };
 
   if (errors) {

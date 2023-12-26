@@ -186,6 +186,10 @@ export class DappDataSource implements IDappDataSource {
 			query: ({ ...body }) => {
 				return {
 					url: `${ApiEndpoints.RATING}`,
+					headers: {
+						'x-message': body?.message,
+						'x-signature': body?.signature 
+					},
 					method: "POST",
 					body: body,
 				};
