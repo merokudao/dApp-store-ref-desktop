@@ -184,14 +184,17 @@ export class DappDataSource implements IDappDataSource {
 	postReview(builder: EndpointBuilder<any, any, any>) {
 		return builder.mutation<void, any>({
 			query: ({ ...body }) => {
+				const newBody = {...body}
+				delete newBody?.signature
+				delete newBody?.message
 				return {
-					url: `${ApiEndpoints.RATING}`,
+					url: `${ApiEndpoints.POSTRATING}`,
 					headers: {
 						'x-message': body?.message,
 						'x-signature': body?.signature 
 					},
 					method: "POST",
-					body: body,
+					body: newBody,
 				};
 			},
 		});
