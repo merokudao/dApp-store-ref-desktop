@@ -19,6 +19,7 @@ export const ApiEndpoints = {
 	SEARCH_BY_PKG_ID: "dapp/queryWithPackageId",
 	REVIEWS: "reviews",
 	RATING: "dapp/rate",
+	POSTRATING: "dapp/newRate",
 	FETCH_USER: "fetchuser",
 	POST_USER: "postuser",
 	SEARCH: "dapp/search",

@@ -66,7 +66,7 @@ export function ReviewCard(props) {
 					{review.userId}
 					<span className="text-[#87868C]">
 						&#x2022;{" "}
-						{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+						{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}
 					</span>
 				</p>
 				<StarRating rating={review.rating} />
